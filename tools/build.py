@@ -1,8 +1,23 @@
-"""One-off generator for the static pages. Output is plain HTML committed to the repo."""
+"""Generator for the static site. Output is plain HTML/TXT/XML committed to the repo.
+
+Usage: python3 tools/build.py .
+"""
+import html as htmllib
+import json
+import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from service_content import SERVICE_CONTENT  # noqa: E402
+
 OUT = Path(sys.argv[1])
+
+# Production domain used for canonical URLs, schema, sitemap and llms.txt.
+SITE = "https://dentalasheville.com"
+UPDATED_ISO = "2026-10-28"
+UPDATED_TEXT = "October 2026"
+PRACTICE = "Zachary Holcombe D.M.D. General Dentistry"
 
 PHONE = "828-684-3839"
 TEL = "tel:+18286843839"
@@ -43,6 +58,88 @@ SERVICE_PAGES = {f"{slug}.html" for slug, _, _, _ in SERVICES}
 
 HOURS = [("Monday", "8:00am – 5:00pm"), ("Tuesday", "8:00am – 5:00pm"), ("Wednesday", "8:00am – 5:00pm"),
          ("Thursday", "8:00am – 5:00pm"), ("Friday", "Closed"), ("Saturday", "Closed"), ("Sunday", "Closed")]
+
+
+def abs_url(filename):
+    return f"{SITE}/" if filename == "index.html" else f"{SITE}/{filename}"
+
+
+def plain(text):
+    """Strip tags and decode entities for schema / txt output."""
+    return htmllib.unescape(re.sub(r"<[^>]+>", "", text)).strip()
+
+
+DENTIST_ID = f"{SITE}/#dentist"
+DOCTOR_ID = f"{SITE}/#dr-holcombe"
+WEBSITE_ID = f"{SITE}/#website"
+
+DENTIST = {
+    "@type": "Dentist",
+    "@id": DENTIST_ID,
+    "name": PRACTICE,
+    "url": f"{SITE}/",
+    "logo": f"{SITE}/assets/img/logo.png",
+    "image": f"{SITE}/assets/img/hero.jpg",
+    "telephone": "+1-828-684-3839",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "1944 Hendersonville Rd., Suite B-2",
+        "addressLocality": "Asheville",
+        "addressRegion": "NC",
+        "postalCode": "28803",
+        "addressCountry": "US",
+    },
+    "hasMap": MAPS,
+    "areaServed": {"@type": "City", "name": "Asheville", "containedInPlace": {"@type": "State", "name": "North Carolina"}},
+    "openingHoursSpecification": [{
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday"],
+        "opens": "08:00",
+        "closes": "17:00",
+    }],
+    "medicalSpecialty": "https://schema.org/Dentistry",
+    "isAcceptingNewPatients": True,
+    "employee": {"@id": DOCTOR_ID},
+    "sameAs": [FB],
+}
+
+DOCTOR = {
+    "@type": "Person",
+    "@id": DOCTOR_ID,
+    "name": "Zachary S. Holcombe",
+    "honorificPrefix": "Dr.",
+    "honorificSuffix": "DMD",
+    "jobTitle": "General Dentist",
+    "url": f"{SITE}/about.html#dr-holcombe",
+    "worksFor": {"@id": DENTIST_ID},
+    "alumniOf": [
+        {"@type": "CollegeOrUniversity", "name": "East Carolina University"},
+        {"@type": "CollegeOrUniversity", "name": "North Carolina State University"},
+    ],
+    "hasCredential": {
+        "@type": "EducationalOccupationalCredential",
+        "credentialCategory": "degree",
+        "name": "Doctor of Dental Medicine (DMD)",
+        "recognizedBy": {"@type": "CollegeOrUniversity", "name": "East Carolina University"},
+    },
+    "memberOf": [
+        {"@type": "Organization", "name": "American Dental Association"},
+        {"@type": "Organization", "name": "Academy of General Dentistry"},
+        {"@type": "Organization", "name": "North Carolina Dental Society"},
+        {"@type": "Organization", "name": "Buncombe County Dental Society"},
+    ],
+}
+
+WEBSITE = {
+    "@type": "WebSite",
+    "@id": WEBSITE_ID,
+    "url": f"{SITE}/",
+    "name": PRACTICE,
+    "publisher": {"@id": DENTIST_ID},
+    "inLanguage": "en-US",
+}
+
+SITEMAP = []  # (filename, priority) of every indexable page, filled by page()
 
 
 def hours_list():
@@ -118,20 +215,72 @@ def footer():
 """
 
 
-def page(filename, title, description, body, extra_head=""):
+def page(filename, title, description, body, crumbs=(), page_type="WebPage", nodes=(), webpage_extra=None,
+         priority="0.7", noindex=False):
+    """Write one page. crumbs: (name, filename) pairs after Home, used for BreadcrumbList schema."""
+    url = abs_url(filename)
+    webpage = {
+        "@type": page_type,
+        "@id": f"{url}#webpage",
+        "url": url,
+        "name": title,
+        "description": description,
+        "isPartOf": {"@id": WEBSITE_ID},
+        "publisher": {"@id": DENTIST_ID},
+        "inLanguage": "en-US",
+        "dateModified": UPDATED_ISO,
+    }
+    graph = [DENTIST, DOCTOR, WEBSITE, webpage]
+    if crumbs:
+        trail = [("Home", "index.html"), *crumbs]
+        webpage["breadcrumb"] = {"@id": f"{url}#breadcrumb"}
+        graph.append({
+            "@type": "BreadcrumbList",
+            "@id": f"{url}#breadcrumb",
+            "itemListElement": [
+                {"@type": "ListItem", "position": i, "name": plain(n), "item": abs_url(f)}
+                for i, (n, f) in enumerate(trail, 1)
+            ],
+        })
+    webpage.update(webpage_extra or {})
+    graph.extend(nodes)
+    ld = json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False, indent=1)
+    t, d = htmllib.escape(title), htmllib.escape(description)
+    if noindex:
+        seo = '<meta name="robots" content="noindex, follow">'
+    else:
+        SITEMAP.append((filename, priority))
+        seo = f"""<link rel="canonical" href="{url}">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{PRACTICE}">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="{t}">
+<meta property="og:description" content="{d}">
+<meta property="og:url" content="{url}">
+<meta property="og:image" content="{SITE}/assets/img/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{t}">
+<meta name="twitter:description" content="{d}">
+<meta name="twitter:image" content="{SITE}/assets/img/hero.jpg">"""
     html = f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{title}</title>
-<meta name="description" content="{description}">
+<title>{t}</title>
+<meta name="description" content="{d}">
+{seo}
+<meta name="theme-color" content="#0f2e40">
 <link rel="icon" href="assets/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Vollkorn:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/styles.css">
-{extra_head}</head>
+<script type="application/ld+json">
+{ld}
+</script>
+</head>
 <body>
 {header(filename)}<main id="main">
 {body}
@@ -153,7 +302,7 @@ def visit_section():
         <p><a href="{MAPS}" target="_blank" rel="noopener">Get directions &rarr;</a></p>
       </div>
       <div class="visit__col">
-        <h4>Hours of Operation</h4>
+        <h3>Hours of Operation</h3>
         {hours_list()}
       </div>
       <div class="visit__map">
@@ -210,37 +359,10 @@ def cta_band(title, text):
 
 
 # ---------------- Home ----------------
-schema = f"""<script type="application/ld+json">
-{{
-  "@context": "https://schema.org",
-  "@type": "Dentist",
-  "name": "Zachary Holcombe D.M.D. General Dentistry",
-  "url": "https://dentalasheville.com/",
-  "telephone": "+1-{PHONE}",
-  "image": "https://dentalasheville.com/assets/img/logo.png",
-  "address": {{
-    "@type": "PostalAddress",
-    "streetAddress": "1944 Hendersonville Rd., Suite B-2",
-    "addressLocality": "Asheville",
-    "addressRegion": "NC",
-    "postalCode": "28803",
-    "addressCountry": "US"
-  }},
-  "openingHoursSpecification": [{{
-    "@type": "OpeningHoursSpecification",
-    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday"],
-    "opens": "08:00",
-    "closes": "17:00"
-  }}],
-  "sameAs": ["{FB}"]
-}}
-</script>
-"""
-
 home = f"""<section class="hero">
   <div class="container">
-    <p class="hero__kicker">Your Trusted Dentist in Asheville</p>
-    <h1 class="hero__title">Quality, Patient-Centered Dental Care</h1>
+    <h1 class="hero__kicker">Your Trusted Dentist in Asheville, NC</h1>
+    <p class="hero__title">Quality, Patient-Centered Dental Care</p>
     <p class="hero__lede">Whatever dentistry you're in need of, you'll feel comfortable with our team. New smiles are always welcome!</p>
     <a class="btn" href="contact.html">Book an Appointment</a>
   </div>
@@ -328,8 +450,8 @@ home = f"""<section class="hero">
 
 {visit_section()}"""
 page("index.html", "Asheville Dentist | Zachary Holcombe D.M.D. General Dentistry",
-     "Quality, patient-centered dental care in Asheville, NC. Dr. Zachary Holcombe offers preventive, cosmetic, implant, denture, oral surgery, periodontal and root canal care. Call 828-684-3839.",
-     home, schema)
+     "Patient-centered dental care in Asheville, NC from Dr. Zachary Holcombe: checkups, cosmetic care, implants, dentures, extractions, gum care and root canals.",
+     home, priority="1.0", webpage_extra={"about": {"@id": DENTIST_ID}})
 
 # ---------------- About ----------------
 about = f"""<section class="page-hero">
@@ -345,7 +467,7 @@ about = f"""<section class="page-hero">
     <div>
       <h2>Our Practice</h2>
       <p>We strive to do everything we can to make each appointment the best experience possible. We would like to take care of you and your entire family, from children to senior adults.</p>
-      <p>Dr. Holcombe took over the practice in 2018 and is proud to continue the legacy of friendly, excellent care our patients have counted on for years.</p>
+      <p>Dr. Holcombe took over the practice in 2018 and is proud to continue the legacy of friendly, excellent care our patients have counted on for years. Our office provides everything from <a href="preventive-care.html">checkups and cleanings</a> and <a href="cosmetic-dentistry.html">cosmetic dentistry</a> to <a href="dental-implants.html">implant restorations</a>, <a href="dentures.html">dentures</a>, <a href="periodontics.html">gum disease treatment</a> and <a href="root-canals.html">root canals</a>.</p>
       <a class="btn" href="contact.html">Book an Appointment</a>
     </div>
   </div>
@@ -400,66 +522,73 @@ about = f"""<section class="page-hero">
 {cta_band("Ready to Meet Our Team?", "New smiles are always welcome. Give us a call and we’ll find a time that works for you.")}"""
 page("about.html", "About Us | Zachary Holcombe D.M.D. – Asheville Dentist",
      "Meet Dr. Zachary Holcombe and the team at our Asheville, NC dental practice — patient-centered care for children to senior adults.",
-     about)
+     about, crumbs=[("About Us", "about.html")], page_type="AboutPage", priority="0.8",
+     webpage_extra={"about": {"@id": DENTIST_ID}, "mainEntity": {"@id": DOCTOR_ID}})
 
 # ---------------- Services ----------------
-def checklist(items):
-    return '<ul class="checklist">' + "".join(f"<li>{i}</li>" for i in items) + "</ul>"
-
-
-SERVICE_BODIES = {
-    "preventive-care": (
-        "<p>One of the easiest ways to prevent the decline of your oral health is to maintain a regular schedule of having your teeth cleaned by our dental hygienist. A professional cleaning will minimize the accumulation of harmful plaque and calculus on your teeth. Your hygienist will also provide you with instruction on personalized home care.</p>"
-        "<p>By working together, we can prevent the advance of gum disease and ensure healthy teeth and a beautiful smile in the years ahead. Your doctor and hygienist can aid you in determining the treatment best suited to your specific needs.</p>"
-        + checklist(["Dental radiographs", "Oral cancer screenings", "Examinations and consultations", "Dental cleanings", "Sealants", "Fluoride application"])),
-    "cosmetic-dentistry": (
-        "<p>We understand the importance of being able to smile with confidence. A great smile is one of the best ways to make a positive impression, which is why we offer a wide variety of treatments to help give you the smile you want.</p>"
-        "<h4>Teeth Whitening</h4><p>This helps you have a brighter and whiter smile. Teeth naturally change color over time but also become discolored due to staining from coffee, tea, red wine and smoking. Whitening is not for all situations, but we would love to discuss whether it could benefit you.</p>"
-        "<h4>Tooth-Colored Fillings</h4><p>We offer resin composite fillings that blend in with your natural tooth.</p>"
-        "<h4>Veneers, Crowns and Bridges</h4><p>Veneers cover the front of your tooth to help change its shape or color. Crowns help protect a cracked or damaged tooth, restoring its strength and appearance. A bridge covers the teeth on each side of an empty space where there once was a tooth. It replaces the missing tooth, making it easier to chew.</p>"),
-    "dental-implants": (
-        "<p>Implants are titanium screws that attach to the bone where you are missing teeth. This allows for a tooth-colored crown to be secured in the missing space. With dental implants you can rediscover your confidence to eat, speak, laugh and enjoy life. Our office offers the following implant restorations:</p>"
-        "<h4>Implant Crowns and Bridges</h4><p>These are similar to a traditional crown or bridge, except the restoration sits on the implant instead of your tooth.</p>"
-        "<h4>Attachments for Dentures</h4><p>Implants can be used as attachments for traditional dentures, allowing them to “snap” into place. This helps increase the stability and retention of the denture.</p>"
-        "<h4>Fixed Hybrids</h4><p>This is a restoration that replaces all or most of the teeth in your arch. It is different from a denture in that you do not take the fixed hybrid out — it is screwed into place on the implants. Other advantages include being more stable and smaller than a traditional denture, making it a great alternative for patients who suffer from a gag reflex.</p>"),
-    "dentures": (
-        "<p>If you have lost several teeth and can’t chew and smile like you once did, we have options to help. We can replace all your teeth with a complete denture or make a partial denture to work with your existing teeth.</p>"
-        "<p>We can also incorporate implants into the denture design to help it stay in place, providing a more secure denture.</p>"),
-    "oral-surgery": (
-        "<p>Oral surgery is required for many situations, such as extracting wisdom teeth, preparing for dentures or extracting infected and non-restorable teeth. We offer extractions and alveoloplasty, which is shaping of the bone after an extraction to help your denture fit better.</p>"
-        + checklist(["Tooth extractions", "Surgical root tip extractions", "Alveoloplasty"])),
-    "periodontics": (
-        "<p>Slow but progressive, periodontal disease swells the gingiva and destroys the bone that supports your teeth. Once the bone is lost, it does not regenerate. It may be generalized, affecting all of your teeth, or localized, affecting one tooth. This disease affects both men and women of all ethnicities, from teen years through adulthood.</p>"
-        "<p>In its early stages, you will be unaware of its presence. Dental hygiene habits, medications, smoking, alcohol, diet, general health or heredity may play a role in its progression. Initial symptoms may include swollen gums that bleed when you brush and an odor to your breath. Symptoms can advance to loosening and shifting of teeth and their eventual loss. Please speak with one of our team members today to learn more.</p>"
-        + checklist(["Periodontal scaling &amp; root planing", "Periodontal surgery", "Gingival medicament placements", "Gingivoplasty"])),
-    "root-canals": (
-        "<p>A root canal is needed when decay or trauma to a tooth has irreversibly damaged the nerve. The nerve cannot heal itself, so when this happens the tooth either needs to be extracted or have a root canal. If not treated promptly, an extremely painful and dangerous infection called a dental abscess may develop.</p>"
-        "<p>During the root canal procedure we remove the damaged and infected nerve tissue, disinfect the root canal, and then refill it with a sterile material to seal the canal from bacteria. If the procedure is on a back tooth, we will normally recommend a crown to help strengthen and protect the tooth.</p>"),
-}
+SERVICE_BY_SLUG = {slug: (name, img, summary) for slug, name, img, summary in SERVICES}
 
 
 def service_aside(current):
     links = "".join(
         f'<li><a href="{slug}.html"{' aria-current="page"' if slug == current else ""}>{name}</a></li>'
         for slug, name, _, _ in SERVICES)
-    return f"""<aside class="svc-aside">
+    return f"""<aside class="svc-aside" aria-label="Services and scheduling">
   <div class="svc-aside__box">
-    <h3>Our Services</h3>
+    <p class="svc-aside__title">Our Services</p>
     <ul class="svc-list">{links}</ul>
   </div>
   <div class="svc-aside__box svc-aside__box--ink">
-    <h3>Schedule a Visit</h3>
+    <p class="svc-aside__title">Schedule a Visit</p>
     <p>Monday–Thursday<br>8:00am – 5:00pm</p>
     <a class="btn" href="{TEL}">Call {PHONE}</a>
   </div>
 </aside>"""
 
 
-for slug, name, img, summary in SERVICES:
+def doctor_box(name):
+    return f"""<section class="doctor-box" aria-labelledby="why-title">
+  <div class="doctor-box__mark">{MARK}</div>
+  <div>
+    <h2 id="why-title">Why Patients Choose Dr. Holcombe for {name}</h2>
+    <ul class="checklist checklist--single">
+      <li>Doctor of Dental Medicine (DMD) from East Carolina University; undergraduate studies at North Carolina State University</li>
+      <li>Active member of the American Dental Association, Academy of General Dentistry, North Carolina Dental Society and Buncombe County Dental Society</li>
+      <li>An established Asheville practice — our hygienist has cared for patients here since 1981 and our business manager since 1989</li>
+      <li>Patient-centered care: we explain what’s going on and why, so you can make informed decisions about your dental health</li>
+    </ul>
+    <p class="doctor-box__byline">Care provided by <a href="about.html#dr-holcombe">Dr. Zachary S. Holcombe, DMD</a>, general dentist at {PRACTICE}, {ADDR1}, {ADDR2}.</p>
+  </div>
+</section>"""
+
+
+def related_block(slugs):
+    cards = "".join(
+        f'<a class="related__card" href="{s}.html"><strong>{SERVICE_BY_SLUG[s][0]}</strong><span>{SERVICE_BY_SLUG[s][2]}</span></a>'
+        for s in slugs)
+    return f"""<section class="svc-sec" aria-labelledby="related-title">
+  <h2 id="related-title">Related Services</h2>
+  <div class="related">{cards}</div>
+  <p><a href="services.html">See all dental services &rarr;</a></p>
+</section>"""
+
+
+def service_page(slug, name, img, summary):
+    c = SERVICE_CONTENT[slug]
+    url = abs_url(f"{slug}.html")
+    lead = "".join(f'<p{" class=\"lead\"" if i == 0 else ""}>{t}</p>' for i, t in enumerate(c["lead"]))
+    steps = "".join(f"<li><h3>{t}</h3><p>{d}</p></li>" for t, d in c["steps"])
+    steps_html = f"""<section class="svc-sec"><h2>{c["steps_title"]}</h2><ol class="timeline">{steps}</ol></section>"""
+    secs = [f'<section class="svc-sec"><h2>{h}</h2>{body}</section>' for h, body in c["sections"]]
+    # The numbered "what to expect" list reads best just before the final (aftercare) section.
+    secs.insert(len(secs) - 1, steps_html)
+    faqs = "".join(
+        f'<details class="faq"><summary><h3>{q}</h3></summary><div class="faq__a"><p>{a}</p></div></details>'
+        for q, a in c["faqs"])
     content = f"""<section class="page-hero">
   <div class="container">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a> / <a href="services.html">Services</a> / <span>{name}</span></nav>
-    <h1>{name}</h1>
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a> / <a href="services.html">Services</a> / <span aria-current="page">{name}</span></nav>
+    <h1>{c["h1"]}</h1>
     <p>{summary}</p>
   </div>
 </section>
@@ -467,9 +596,17 @@ for slug, name, img, summary in SERVICES:
 <section class="section">
   <div class="container svc-layout">
     <article class="svc-main">
-      <img class="svc-main__img" src="assets/img/{img}" alt="{name} at Zachary Holcombe D.M.D." width="600" height="400">
-      {SERVICE_BODIES[slug]}
-      <div class="btn-row"><a class="btn" href="contact.html">Book an Appointment</a><a class="btn btn--dark" href="{TEL}">Call {PHONE}</a></div>
+      <img class="svc-main__img" src="assets/img/{img}" alt="{name} at {PRACTICE} in Asheville, NC" width="600" height="400">
+      {lead}
+      <div class="btn-row svc-cta"><a class="btn" href="contact.html">Book an Appointment</a><a class="btn btn--dark" href="{TEL}">Call {PHONE}</a></div>
+      {"".join(secs)}
+      {doctor_box(name)}
+      <section class="svc-sec" aria-labelledby="faq-title">
+        <h2 id="faq-title">{name}: Frequently Asked Questions</h2>
+        {faqs}
+      </section>
+      {related_block(c["related"])}
+      <p class="page-meta">Last updated {UPDATED_TEXT}. This page is for general information and doesn’t replace an exam — call us to discuss your specific needs.</p>
     </article>
     {service_aside(slug)}
   </div>
@@ -477,31 +614,85 @@ for slug, name, img, summary in SERVICES:
 
 {reviews_section()}
 
-{cta_band("Have Questions About " + name + "?", "Your doctor and hygienist will help you find the treatment best suited to your needs. Give us a call to get started.")}"""
-    page(f"{slug}.html", f"{name} in Asheville, NC | Zachary Holcombe D.M.D.",
-         f"{summary} Call 828-684-3839 to schedule with Dr. Zachary Holcombe in Asheville, NC.",
-         content)
+{cta_band("Have Questions About " + name + "?", "Your doctor and hygienist will help you find the treatment best suited to your needs. Give us a call to get started.")}
+
+{visit_section()}"""
+    pc = c["procedure"]
+    nodes = [
+        {
+            "@type": pc["type"],
+            "@id": f"{url}#procedure",
+            "name": plain(name),
+            "description": summary,
+            "bodyLocation": pc["body"],
+            "howPerformed": pc["how"],
+        },
+        {
+            "@type": "Service",
+            "@id": f"{url}#service",
+            "name": f"{plain(name)} in Asheville, NC",
+            "serviceType": plain(name),
+            "description": summary,
+            "url": url,
+            "provider": {"@id": DENTIST_ID},
+            "areaServed": DENTIST["areaServed"],
+        },
+        {
+            "@type": "FAQPage",
+            "@id": f"{url}#faq",
+            "mainEntity": [
+                {"@type": "Question", "name": plain(q), "acceptedAnswer": {"@type": "Answer", "text": plain(a)}}
+                for q, a in c["faqs"]
+            ],
+        },
+    ]
+    page(f"{slug}.html", c["title"], c["meta"], content,
+         crumbs=[("Services", "services.html"), (name, f"{slug}.html")],
+         page_type="MedicalWebPage", nodes=nodes, priority="0.9",
+         webpage_extra={
+             "about": {"@id": f"{url}#procedure"},
+             "mainEntity": {"@id": f"{url}#service"},
+             "specialty": "https://schema.org/Dentistry",
+             "audience": "https://schema.org/Patient",
+             "primaryImageOfPage": f"{SITE}/assets/img/{img}",
+         })
+
+
+for slug, name, img, summary in SERVICES:
+    service_page(slug, name, img, summary)
 
 svc_cards = "".join(
     f"""<a class="svc-card" href="{slug}.html">
-  <img src="assets/img/{img}" alt="" loading="lazy" width="600" height="400">
-  <div class="svc-card__body"><h3>{name}</h3><p>{summary}</p><span class="svc-card__more">Learn more &rarr;</span></div>
+  <img src="assets/img/{img}" alt="{name}" loading="lazy" width="600" height="400">
+  <div class="svc-card__body"><h3>{name}</h3><p>{summary}</p><span class="svc-card__more">Learn more about {name.lower()} &rarr;</span></div>
 </a>""" for slug, name, img, summary in SERVICES)
 
 services = f"""<section class="page-hero">
   <div class="container">
-    <h1>Services &amp; Procedures</h1>
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a> / <span aria-current="page">Services</span></nav>
+    <h1>Dental Services in Asheville, NC</h1>
     <p>We offer a wide range of services to help you achieve a state of oral health and give you the smile you want — all in a comfortable and friendly environment.</p>
   </div>
 </section>
 <section class="section section--mist">
-  <div class="container svc-grid">{svc_cards}</div>
+  <div class="container">
+    <h2 class="center">Our Services &amp; Procedures</h2>
+    <p class="section__intro">From routine checkups to implants, Dr. Holcombe and our team care for patients of all ages — from children to senior adults.</p>
+    <div class="svc-grid">{svc_cards}</div>
+  </div>
 </section>
 
 {cta_band("Not Sure What You Need?", "Your doctor and hygienist will help you find the treatment best suited to your needs. Give us a call to get started.")}"""
 page("services.html", "Dental Services in Asheville, NC | Zachary Holcombe D.M.D.",
      "Preventive care, cosmetic dentistry, dental implants, dentures, oral surgery, periodontics and root canals in Asheville, NC.",
-     services)
+     services, crumbs=[("Services", "services.html")], page_type="CollectionPage", priority="0.9",
+     webpage_extra={"mainEntity": {
+         "@type": "ItemList",
+         "itemListElement": [
+             {"@type": "ListItem", "position": i, "name": plain(name), "url": abs_url(f"{slug}.html")}
+             for i, (slug, name, _, _) in enumerate(SERVICES, 1)
+         ],
+     }})
 
 # ---------------- New patients / forms ----------------
 new_patients = f"""<section class="page-hero">
@@ -513,6 +704,8 @@ new_patients = f"""<section class="page-hero">
 
 <section class="section">
   <div class="container">
+    <h2 class="center">Your First Visit</h2>
+    <p class="section__intro">At your first appointment we’ll get to know you, review your health history and complete a thorough <a href="preventive-care.html">exam and cleaning</a>. Explore all of our <a href="services.html">dental services</a>.</p>
     <ol class="steps">
       <li><h3>Call Us</h3><p>Schedule your first appointment at <a href="{TEL}">{PHONE}</a>, Monday–Thursday, 8:00am–5:00pm.</p></li>
       <li><h3>Complete Your Forms</h3><p>Download the patient information form below and fill it out at home to save time when you arrive.</p></li>
@@ -535,9 +728,9 @@ new_patients = f"""<section class="page-hero">
 {reviews_section()}
 
 {visit_section()}"""
-page("new-patients.html", "New Patients & Forms | Zachary Holcombe D.M.D. – Asheville Dentist",
+page("new-patients.html", "New Patients & Forms | Asheville Dentist Dr. Holcombe",
      "New patients are always welcome. Download patient forms and schedule your first visit with Dr. Zachary Holcombe in Asheville, NC.",
-     new_patients)
+     new_patients, crumbs=[("New Patients", "new-patients.html")], priority="0.8")
 
 # ---------------- Contact ----------------
 contact = f"""<section class="page-hero">
@@ -558,8 +751,103 @@ contact = f"""<section class="page-hero">
 </section>
 
 {visit_section()}"""
-page("contact.html", "Contact & Appointments | Zachary Holcombe D.M.D. – Asheville Dentist",
+page("contact.html", "Contact Us | Zachary Holcombe D.M.D. – Asheville Dentist",
      "Call 828-684-3839 to schedule with Dr. Zachary Holcombe at 1944 Hendersonville Rd., Suite B-2, Asheville, NC 28803.",
-     contact)
+     contact, crumbs=[("Contact", "contact.html")], page_type="ContactPage", priority="0.8")
 
-print("built", sorted(p.name for p in OUT.glob("*.html")))
+# ---------------- 404 ----------------
+not_found = """<section class="page-hero">
+  <div class="container">
+    <h1>Page Not Found</h1>
+    <p>Sorry, we couldn’t find that page. It may have moved when we updated our website.</p>
+  </div>
+</section>
+<section class="section">
+  <div class="container center">
+    <p>Try one of these instead:</p>
+    <div class="btn-row" style="justify-content:center">
+      <a class="btn" href="index.html">Home</a>
+      <a class="btn" href="services.html">Services</a>
+      <a class="btn" href="contact.html">Contact Us</a>
+    </div>
+  </div>
+</section>"""
+page("404.html", "Page Not Found | Zachary Holcombe D.M.D.", "The page you were looking for could not be found.",
+     not_found, noindex=True)
+
+# ---------------- robots.txt / sitemap.xml ----------------
+(OUT / "robots.txt").write_text(f"""# {PRACTICE} — {SITE}
+User-agent: *
+Allow: /
+Disallow: /tools/
+
+Sitemap: {SITE}/sitemap.xml
+""", encoding="utf-8")
+
+urls = "".join(
+    f"  <url>\n    <loc>{abs_url(f)}</loc>\n    <lastmod>{UPDATED_ISO}</lastmod>\n    <priority>{prio}</priority>\n  </url>\n"
+    for f, prio in SITEMAP)
+(OUT / "sitemap.xml").write_text(
+    f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n',
+    encoding="utf-8")
+
+
+# ---------------- llms.txt / llms-full.txt (https://llmstxt.org) ----------------
+def md(fragment):
+    """Very small HTML -> Markdown conversion for our own generated content."""
+    t = re.sub(r'<a href="([^":]+\.html)">(.*?)</a>', lambda m: f"[{m.group(2)}]({abs_url(m.group(1))})", fragment)
+    t = re.sub(r"<h3>(.*?)</h3>", r"\n#### \1\n", t)
+    t = re.sub(r"<li>(.*?)</li>", r"- \1\n", t)
+    t = re.sub(r"</p>", "\n\n", t)
+    t = re.sub(r"<[^>]+>", "", t)
+    t = htmllib.unescape(t)
+    return re.sub(r"\n{3,}", "\n\n", t).strip()
+
+
+FACTS = f"""- Practice: {PRACTICE}
+- Dentist: Dr. Zachary S. Holcombe, DMD (East Carolina University; undergraduate at North Carolina State University). Took over the practice in 2018.
+- Memberships: American Dental Association, Academy of General Dentistry, North Carolina Dental Society, Buncombe County Dental Society
+- Address: {ADDR1}, {ADDR2}
+- Phone: {PHONE}
+- Hours: Monday–Thursday 8:00am–5:00pm; Friday–Sunday closed
+- Patients: children to senior adults; new patients welcome
+- Facebook: {FB}"""
+
+svc_lines = "\n".join(f"- [{plain(name)}]({abs_url(slug + '.html')}): {summary}" for slug, name, _, summary in SERVICES)
+(OUT / "llms.txt").write_text(f"""# {PRACTICE}
+
+> Patient-centered general dental practice in Asheville, North Carolina, led by Dr. Zachary S. Holcombe, DMD. We provide preventive care, cosmetic dentistry, dental implant restorations, dentures, oral surgery, periodontal (gum) treatment and root canals for patients of all ages.
+
+{FACTS}
+
+## Services
+
+{svc_lines}
+
+## Practice
+
+- [About Us]({abs_url('about.html')}): Dr. Holcombe's background and our team
+- [New Patients & Forms]({abs_url('new-patients.html')}): first-visit steps and downloadable patient forms
+- [Contact]({abs_url('contact.html')}): phone, address, hours and directions
+- [All Services]({abs_url('services.html')}): overview of every service
+
+## Optional
+
+- [Full text of service pages]({SITE}/llms-full.txt): complete service descriptions and FAQs in Markdown
+""", encoding="utf-8")
+
+full = [f"# {PRACTICE} — Full Service Information\n\n{FACTS}\n"]
+for slug, name, _, summary in SERVICES:
+    c = SERVICE_CONTENT[slug]
+    parts = [f"## {plain(c['h1'])}\n\nURL: {abs_url(slug + '.html')}\n\n{summary}\n"]
+    parts += [md(f"<p>{t}</p>") for t in c["lead"]]
+    for h, body in c["sections"]:
+        parts.append(f"### {plain(h)}\n\n{md(body)}")
+    parts.append(f"### {plain(c['steps_title'])}\n\n" + "\n".join(
+        f"{i}. **{plain(t)}** — {md(d)}" for i, (t, d) in enumerate(c["steps"], 1)))
+    parts.append("### Frequently Asked Questions\n\n" + "\n\n".join(f"**{plain(q)}**\n{md(a)}" for q, a in c["faqs"]))
+    full.append("\n\n".join(parts))
+(OUT / "llms-full.txt").write_text("\n\n---\n\n".join(full) + "\n", encoding="utf-8")
+
+print("built", sorted(p.name for p in OUT.glob("*.html")), "+ robots.txt, sitemap.xml, llms.txt, llms-full.txt")
+

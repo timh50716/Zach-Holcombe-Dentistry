@@ -1,0 +1,33 @@
+# Zachary Holcombe D.M.D. General Dentistry
+
+> Patient-centered general dental practice in Asheville, North Carolina, led by Dr. Zachary S. Holcombe, DMD. We provide preventive care, cosmetic dentistry, dental implant restorations, dentures, oral surgery, periodontal (gum) treatment and root canals for patients of all ages.
+
+- Practice: Zachary Holcombe D.M.D. General Dentistry
+- Dentist: Dr. Zachary S. Holcombe, DMD (East Carolina University; undergraduate at North Carolina State University). Took over the practice in 2018.
+- Memberships: American Dental Association, Academy of General Dentistry, North Carolina Dental Society, Buncombe County Dental Society
+- Address: 1944 Hendersonville Rd., Suite B-2, Asheville, NC 28803
+- Phone: 828-684-3839
+- Hours: Monday–Thursday 8:00am–5:00pm; Friday–Sunday closed
+- Patients: children to senior adults; new patients welcome
+- Facebook: https://www.facebook.com/dentalasheville/
+
+## Services
+
+- [Diagnostic & Preventative Care](https://dentalasheville.com/preventive-care.html): Regular exams and professional cleanings to keep your teeth healthy and stop gum disease before it starts.
+- [Cosmetic Dentistry](https://dentalasheville.com/cosmetic-dentistry.html): Teeth whitening, tooth-colored fillings, veneers, crowns and bridges to help you smile with confidence.
+- [Dental Implants](https://dentalasheville.com/dental-implants.html): Implant crowns, bridges, denture attachments and fixed hybrids to replace missing teeth.
+- [Complete & Partial Dentures](https://dentalasheville.com/dentures.html): Complete and partial dentures, including implant-supported options, so you can chew and smile again.
+- [Oral Surgery](https://dentalasheville.com/oral-surgery.html): Tooth extractions, surgical root tip extractions and alveoloplasty, performed in our office.
+- [Periodontics](https://dentalasheville.com/periodontics.html): Scaling and root planing, periodontal surgery and other treatments for gum disease.
+- [Root Canals](https://dentalasheville.com/root-canals.html): Remove damaged nerve tissue, relieve pain and save your natural tooth.
+
+## Practice
+
+- [About Us](https://dentalasheville.com/about.html): Dr. Holcombe's background and our team
+- [New Patients & Forms](https://dentalasheville.com/new-patients.html): first-visit steps and downloadable patient forms
+- [Contact](https://dentalasheville.com/contact.html): phone, address, hours and directions
+- [All Services](https://dentalasheville.com/services.html): overview of every service
+
+## Optional
+
+- [Full text of service pages](https://dentalasheville.com/llms-full.txt): complete service descriptions and FAQs in Markdown

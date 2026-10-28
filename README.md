@@ -23,7 +23,35 @@ All colors and fonts are CSS variables at the top of `assets/css/styles.css`.
 | `contact.html` | Phone, address, hours, map |
 
 All text, reviews, photos, the logo and the PDF forms come from the current
-dentalasheville.com site.
+dentalasheville.com site. Service pages add general patient-education content (in
+`tools/service_content.py`) that Dr. Holcombe should review before launch.
+
+## SEO built in
+
+- **Service pages** (built from `tools/service_content.py`): one H1 with the service and
+  "Asheville, NC", then H2 sections for what the service is, treatments offered (H3 each), who it
+  helps, a numbered "what to expect" process, aftercare, a "Why patients choose Dr. Holcombe" box,
+  an FAQ, and related services. Each page is about 1,100–1,300 words, with about 20 internal links
+  using descriptive anchor text.
+- **E-E-A-T**: Dr. Holcombe's degree, schools and four professional memberships appear on every
+  service page and in `Person` schema. The team's long service, real patient reviews, a visible
+  "last updated" date, a general-information disclaimer, and the practice name, address and phone
+  on every page.
+- **Schema (JSON-LD `@graph`)** on every page: `Dentist`, `Person` (Dr. Holcombe), `WebSite`, a
+  page node and a `BreadcrumbList`. Service pages also get `MedicalWebPage`, a `MedicalProcedure`
+  subtype, `Service` and `FAQPage`. The services overview is a `CollectionPage` with an `ItemList`.
+- **Every page**: canonical URL, meta description, Open Graph and Twitter tags, a visible
+  breadcrumb, and one H1 with no skipped heading levels.
+- **`robots.txt`, `sitemap.xml`, `llms.txt` and `llms-full.txt`** are generated. `llms.txt` follows
+  the llmstxt.org format for AI assistants; `llms-full.txt` holds the full service text in Markdown.
+- **`404.html`** (noindex) and **301 redirects** in `netlify.toml` from the old WordPress URLs
+  (`/about-us/`, `/services/`, `/forms/`, `/contact-us/`, the old PDF links) so existing rankings and
+  bookmarks carry over. `/tools/` and `README.md` return 404 on the live site.
+
+Canonical URLs, schema and the sitemap all use `https://dentalasheville.com` (the `SITE` constant
+in `tools/build.py`), so the Netlify preview address won't compete with the real domain. After the
+domain points at Netlify, submit `https://dentalasheville.com/sitemap.xml` in Google Search
+Console. When content changes, update `UPDATED_ISO` / `UPDATED_TEXT` in `tools/build.py`.
 
 ## Editing
 
@@ -52,6 +80,18 @@ Any static host works (GitHub Pages, Netlify, Cloudflare Pages, or SiteGround fi
 For GitHub Pages: Settings → Pages → deploy from this branch, root folder.
 
 ## Items to confirm with the practice before launch
+
+- **Review the service page content** in `tools/service_content.py`. Practice facts come from the
+  old site; the rest is conservative, general patient education written for this site.
+- **Implant placement**: the old site says the office offers implant *restorations*. The implant
+  page doesn't say who places the implant ("We'll explain every step of placement during your
+  consultation"). Update it if Dr. Holcombe places implants himself or refers to a surgeon.
+- **Wisdom teeth**: the oral surgery page says Dr. Holcombe will decide whether wisdom teeth are
+  removed in the office or referred to an oral surgeon. Confirm this matches how he works.
+- **Medical review line**: if Dr. Holcombe reviews and approves the service pages, we can add a
+  visible "Reviewed by Dr. Zachary Holcombe, DMD" line and `reviewedBy` / `lastReviewed` schema.
+  That's a strong E-E-A-T signal, but only add it once he has actually reviewed the pages.
+- **A real photo of Dr. Holcombe** for the about page and the service-page doctor box.
 
 - **"Since 1981" stat**: based on the hygienist joining the practice in April 1981. Confirm
   the practice's actual founding year.

@@ -4,7 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Asheville Dentist | Zachary Holcombe D.M.D. General Dentistry</title>
-<meta name="description" content="Quality, patient-centered dental care in Asheville, NC. Dr. Zachary Holcombe offers preventive, cosmetic, implant, denture, oral surgery, periodontal and root canal care. Call 828-684-3839.">
+<meta name="description" content="Patient-centered dental care in Asheville, NC from Dr. Zachary Holcombe: checkups, cosmetic care, implants, dentures, extractions, gum care and root canals.">
+<link rel="canonical" href="https://dentalasheville.com/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Zachary Holcombe D.M.D. General Dentistry">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Asheville Dentist | Zachary Holcombe D.M.D. General Dentistry">
+<meta property="og:description" content="Patient-centered dental care in Asheville, NC from Dr. Zachary Holcombe: checkups, cosmetic care, implants, dentures, extractions, gum care and root canals.">
+<meta property="og:url" content="https://dentalasheville.com/">
+<meta property="og:image" content="https://dentalasheville.com/assets/img/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Asheville Dentist | Zachary Holcombe D.M.D. General Dentistry">
+<meta name="twitter:description" content="Patient-centered dental care in Asheville, NC from Dr. Zachary Holcombe: checkups, cosmetic care, implants, dentures, extractions, gum care and root canals.">
+<meta name="twitter:image" content="https://dentalasheville.com/assets/img/hero.jpg">
+<meta name="theme-color" content="#0f2e40">
 <link rel="icon" href="assets/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,27 +26,133 @@
 <link rel="stylesheet" href="assets/css/styles.css">
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "Dentist",
-  "name": "Zachary Holcombe D.M.D. General Dentistry",
-  "url": "https://dentalasheville.com/",
-  "telephone": "+1-828-684-3839",
-  "image": "https://dentalasheville.com/assets/img/logo.png",
-  "address": {
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Dentist",
+   "@id": "https://dentalasheville.com/#dentist",
+   "name": "Zachary Holcombe D.M.D. General Dentistry",
+   "url": "https://dentalasheville.com/",
+   "logo": "https://dentalasheville.com/assets/img/logo.png",
+   "image": "https://dentalasheville.com/assets/img/hero.jpg",
+   "telephone": "+1-828-684-3839",
+   "address": {
     "@type": "PostalAddress",
     "streetAddress": "1944 Hendersonville Rd., Suite B-2",
     "addressLocality": "Asheville",
     "addressRegion": "NC",
     "postalCode": "28803",
     "addressCountry": "US"
+   },
+   "hasMap": "https://www.google.com/maps/search/?api=1&query=1944+Hendersonville+Rd+Suite+B-2+Asheville+NC+28803",
+   "areaServed": {
+    "@type": "City",
+    "name": "Asheville",
+    "containedInPlace": {
+     "@type": "State",
+     "name": "North Carolina"
+    }
+   },
+   "openingHoursSpecification": [
+    {
+     "@type": "OpeningHoursSpecification",
+     "dayOfWeek": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday"
+     ],
+     "opens": "08:00",
+     "closes": "17:00"
+    }
+   ],
+   "medicalSpecialty": "https://schema.org/Dentistry",
+   "isAcceptingNewPatients": true,
+   "employee": {
+    "@id": "https://dentalasheville.com/#dr-holcombe"
+   },
+   "sameAs": [
+    "https://www.facebook.com/dentalasheville/"
+   ]
   },
-  "openingHoursSpecification": [{
-    "@type": "OpeningHoursSpecification",
-    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday"],
-    "opens": "08:00",
-    "closes": "17:00"
-  }],
-  "sameAs": ["https://www.facebook.com/dentalasheville/"]
+  {
+   "@type": "Person",
+   "@id": "https://dentalasheville.com/#dr-holcombe",
+   "name": "Zachary S. Holcombe",
+   "honorificPrefix": "Dr.",
+   "honorificSuffix": "DMD",
+   "jobTitle": "General Dentist",
+   "url": "https://dentalasheville.com/about.html#dr-holcombe",
+   "worksFor": {
+    "@id": "https://dentalasheville.com/#dentist"
+   },
+   "alumniOf": [
+    {
+     "@type": "CollegeOrUniversity",
+     "name": "East Carolina University"
+    },
+    {
+     "@type": "CollegeOrUniversity",
+     "name": "North Carolina State University"
+    }
+   ],
+   "hasCredential": {
+    "@type": "EducationalOccupationalCredential",
+    "credentialCategory": "degree",
+    "name": "Doctor of Dental Medicine (DMD)",
+    "recognizedBy": {
+     "@type": "CollegeOrUniversity",
+     "name": "East Carolina University"
+    }
+   },
+   "memberOf": [
+    {
+     "@type": "Organization",
+     "name": "American Dental Association"
+    },
+    {
+     "@type": "Organization",
+     "name": "Academy of General Dentistry"
+    },
+    {
+     "@type": "Organization",
+     "name": "North Carolina Dental Society"
+    },
+    {
+     "@type": "Organization",
+     "name": "Buncombe County Dental Society"
+    }
+   ]
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://dentalasheville.com/#website",
+   "url": "https://dentalasheville.com/",
+   "name": "Zachary Holcombe D.M.D. General Dentistry",
+   "publisher": {
+    "@id": "https://dentalasheville.com/#dentist"
+   },
+   "inLanguage": "en-US"
+  },
+  {
+   "@type": "WebPage",
+   "@id": "https://dentalasheville.com/#webpage",
+   "url": "https://dentalasheville.com/",
+   "name": "Asheville Dentist | Zachary Holcombe D.M.D. General Dentistry",
+   "description": "Patient-centered dental care in Asheville, NC from Dr. Zachary Holcombe: checkups, cosmetic care, implants, dentures, extractions, gum care and root canals.",
+   "isPartOf": {
+    "@id": "https://dentalasheville.com/#website"
+   },
+   "publisher": {
+    "@id": "https://dentalasheville.com/#dentist"
+   },
+   "inLanguage": "en-US",
+   "dateModified": "2026-10-28",
+   "about": {
+    "@id": "https://dentalasheville.com/#dentist"
+   }
+  }
+ ]
 }
 </script>
 </head>
@@ -73,8 +193,8 @@
 <main id="main">
 <section class="hero">
   <div class="container">
-    <p class="hero__kicker">Your Trusted Dentist in Asheville</p>
-    <h1 class="hero__title">Quality, Patient-Centered Dental Care</h1>
+    <h1 class="hero__kicker">Your Trusted Dentist in Asheville, NC</h1>
+    <p class="hero__title">Quality, Patient-Centered Dental Care</p>
     <p class="hero__lede">Whatever dentistry you're in need of, you'll feel comfortable with our team. New smiles are always welcome!</p>
     <a class="btn" href="contact.html">Book an Appointment</a>
   </div>
@@ -181,7 +301,7 @@
         <p><a href="https://www.google.com/maps/search/?api=1&query=1944+Hendersonville+Rd+Suite+B-2+Asheville+NC+28803" target="_blank" rel="noopener">Get directions &rarr;</a></p>
       </div>
       <div class="visit__col">
-        <h4>Hours of Operation</h4>
+        <h3>Hours of Operation</h3>
         <ul class="hours"><li><span>Monday</span><span>8:00am – 5:00pm</span></li><li><span>Tuesday</span><span>8:00am – 5:00pm</span></li><li><span>Wednesday</span><span>8:00am – 5:00pm</span></li><li><span>Thursday</span><span>8:00am – 5:00pm</span></li><li><span>Friday</span><span>Closed</span></li><li><span>Saturday</span><span>Closed</span></li><li><span>Sunday</span><span>Closed</span></li></ul>
       </div>
       <div class="visit__map">
