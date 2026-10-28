@@ -22,15 +22,24 @@ MARK = ('<svg viewBox="0 0 120 50" aria-hidden="true"><path d="M2 46 L40 10 L58 
         '<path d="M2 46 L40 10 L70 46 Z" fill="#2f8fd8"/></svg>')
 SUNBURST = ('<svg class="review__mark" viewBox="0 0 120 50" aria-hidden="true"><path d="M10 46 L46 18 L62 32 L80 12 L110 46 Z" fill="#c99a3d"/></svg>')
 
+# (page slug, name, photo, one-line summary used on cards and in meta descriptions)
 SERVICES = [
-    ("preventive", "Diagnostic & Preventative Care", "diagnostic.jpg"),
-    ("cosmetic", "Cosmetic Dentistry", "cosmetic.jpg"),
-    ("implants", "Dental Implants", "implants.jpg"),
-    ("dentures", "Complete & Partial Dentures", "dentures.jpg"),
-    ("oral-surgery", "Oral Surgery", "oral.jpg"),
-    ("periodontics", "Periodontics", "periodontics.jpg"),
-    ("root-canals", "Root Canals", "rootcanal.jpg"),
+    ("preventive-care", "Diagnostic & Preventative Care", "diagnostic.jpg",
+     "Regular exams and professional cleanings to keep your teeth healthy and stop gum disease before it starts."),
+    ("cosmetic-dentistry", "Cosmetic Dentistry", "cosmetic.jpg",
+     "Teeth whitening, tooth-colored fillings, veneers, crowns and bridges to help you smile with confidence."),
+    ("dental-implants", "Dental Implants", "implants.jpg",
+     "Implant crowns, bridges, denture attachments and fixed hybrids to replace missing teeth."),
+    ("dentures", "Complete & Partial Dentures", "dentures.jpg",
+     "Complete and partial dentures, including implant-supported options, so you can chew and smile again."),
+    ("oral-surgery", "Oral Surgery", "oral.jpg",
+     "Tooth extractions, surgical root tip extractions and alveoloplasty, performed in our office."),
+    ("periodontics", "Periodontics", "periodontics.jpg",
+     "Scaling and root planing, periodontal surgery and other treatments for gum disease."),
+    ("root-canals", "Root Canals", "rootcanal.jpg",
+     "Remove damaged nerve tissue, relieve pain and save your natural tooth."),
 ]
+SERVICE_PAGES = {f"{slug}.html" for slug, _, _, _ in SERVICES}
 
 HOURS = [("Monday", "8:00am – 5:00pm"), ("Tuesday", "8:00am – 5:00pm"), ("Wednesday", "8:00am – 5:00pm"),
          ("Thursday", "8:00am – 5:00pm"), ("Friday", "Closed"), ("Saturday", "Closed"), ("Sunday", "Closed")]
@@ -41,12 +50,13 @@ def hours_list():
 
 
 def nav_link(href, label, page):
-    cur = ' aria-current="page"' if href == page else ""
+    active = href == page or (href == "services.html" and page in SERVICE_PAGES)
+    cur = ' aria-current="page"' if active else ""
     return f'<a href="{href}"{cur}>{label}</a>'
 
 
 def header(page):
-    svc = "".join(f'<li><a href="services.html#{sid}">{name}</a></li>' for sid, name, _ in SERVICES)
+    svc = "".join(f'<li><a href="{slug}.html">{name}</a></li>' for slug, name, _, _ in SERVICES)
     return f"""<a class="skip-link" href="#main">Skip to content</a>
 <div class="topbar">
   <div class="container">
@@ -227,7 +237,6 @@ schema = f"""<script type="application/ld+json">
 </script>
 """
 
-tile_imgs = {sid: img for sid, _, img in SERVICES}
 home = f"""<section class="hero">
   <div class="container">
     <p class="hero__kicker">Your Trusted Dentist in Asheville</p>
@@ -291,13 +300,13 @@ home = f"""<section class="hero">
     <h2 class="center">Our Services</h2>
     <p class="section__intro">A wide range of services to help you achieve oral health and the smile you want, all in a comfortable and friendly environment.</p>
     <div class="tiles">
-      <a class="tile tile--lg" href="services.html#cosmetic" style="background-image:url(assets/img/cosmetic.jpg)"><span class="tile__label">Cosmetic Dentistry</span></a>
-      <a class="tile" href="services.html#preventive" style="background-image:url(assets/img/diagnostic.jpg)"><span class="tile__label">Preventive Care</span></a>
-      <a class="tile" href="services.html#implants" style="background-image:url(assets/img/implants.jpg)"><span class="tile__label">Dental Implants</span></a>
-      <a class="tile" href="services.html#dentures" style="background-image:url(assets/img/dentures.jpg)"><span class="tile__label">Dentures</span></a>
-      <a class="tile" href="services.html#root-canals" style="background-image:url(assets/img/rootcanal.jpg)"><span class="tile__label">Root Canals</span></a>
-      <a class="tile" href="services.html#oral-surgery" style="background-image:url(assets/img/oral.jpg)"><span class="tile__label">Oral Surgery</span></a>
-      <a class="tile" href="services.html#periodontics" style="background-image:url(assets/img/periodontics.jpg)"><span class="tile__label">Periodontics</span></a>
+      <a class="tile tile--lg" href="cosmetic-dentistry.html" style="background-image:url(assets/img/cosmetic.jpg)"><span class="tile__label">Cosmetic Dentistry</span></a>
+      <a class="tile" href="preventive-care.html" style="background-image:url(assets/img/diagnostic.jpg)"><span class="tile__label">Preventive Care</span></a>
+      <a class="tile" href="dental-implants.html" style="background-image:url(assets/img/implants.jpg)"><span class="tile__label">Dental Implants</span></a>
+      <a class="tile" href="dentures.html" style="background-image:url(assets/img/dentures.jpg)"><span class="tile__label">Dentures</span></a>
+      <a class="tile" href="root-canals.html" style="background-image:url(assets/img/rootcanal.jpg)"><span class="tile__label">Root Canals</span></a>
+      <a class="tile" href="oral-surgery.html" style="background-image:url(assets/img/oral.jpg)"><span class="tile__label">Oral Surgery</span></a>
+      <a class="tile" href="periodontics.html" style="background-image:url(assets/img/periodontics.jpg)"><span class="tile__label">Periodontics</span></a>
       <a class="tile tile--wide" href="services.html"><span class="tile__label">View All Services &rarr;</span></a>
     </div>
   </div>
@@ -394,49 +403,90 @@ page("about.html", "About Us | Zachary Holcombe D.M.D. – Asheville Dentist",
      about)
 
 # ---------------- Services ----------------
-svc_index = "".join(f'<a href="#{sid}">{name}</a>' for sid, name, _ in SERVICES)
-
-
-def svc(sid, name, img, body):
-    return f"""<article class="service" id="{sid}">
-  <img src="assets/img/{img}" alt="{name}" loading="lazy">
-  <div><h2>{name}</h2>{body}</div>
-</article>"""
-
-
 def checklist(items):
     return '<ul class="checklist">' + "".join(f"<li>{i}</li>" for i in items) + "</ul>"
 
 
-services_body = [
-    svc("preventive", "Diagnostic & Preventative Care", "diagnostic.jpg",
+SERVICE_BODIES = {
+    "preventive-care": (
         "<p>One of the easiest ways to prevent the decline of your oral health is to maintain a regular schedule of having your teeth cleaned by our dental hygienist. A professional cleaning will minimize the accumulation of harmful plaque and calculus on your teeth. Your hygienist will also provide you with instruction on personalized home care.</p>"
         "<p>By working together, we can prevent the advance of gum disease and ensure healthy teeth and a beautiful smile in the years ahead. Your doctor and hygienist can aid you in determining the treatment best suited to your specific needs.</p>"
         + checklist(["Dental radiographs", "Oral cancer screenings", "Examinations and consultations", "Dental cleanings", "Sealants", "Fluoride application"])),
-    svc("cosmetic", "Cosmetic Dentistry", "cosmetic.jpg",
+    "cosmetic-dentistry": (
         "<p>We understand the importance of being able to smile with confidence. A great smile is one of the best ways to make a positive impression, which is why we offer a wide variety of treatments to help give you the smile you want.</p>"
         "<h4>Teeth Whitening</h4><p>This helps you have a brighter and whiter smile. Teeth naturally change color over time but also become discolored due to staining from coffee, tea, red wine and smoking. Whitening is not for all situations, but we would love to discuss whether it could benefit you.</p>"
         "<h4>Tooth-Colored Fillings</h4><p>We offer resin composite fillings that blend in with your natural tooth.</p>"
         "<h4>Veneers, Crowns and Bridges</h4><p>Veneers cover the front of your tooth to help change its shape or color. Crowns help protect a cracked or damaged tooth, restoring its strength and appearance. A bridge covers the teeth on each side of an empty space where there once was a tooth. It replaces the missing tooth, making it easier to chew.</p>"),
-    svc("implants", "Dental Implants", "implants.jpg",
+    "dental-implants": (
         "<p>Implants are titanium screws that attach to the bone where you are missing teeth. This allows for a tooth-colored crown to be secured in the missing space. With dental implants you can rediscover your confidence to eat, speak, laugh and enjoy life. Our office offers the following implant restorations:</p>"
         "<h4>Implant Crowns and Bridges</h4><p>These are similar to a traditional crown or bridge, except the restoration sits on the implant instead of your tooth.</p>"
         "<h4>Attachments for Dentures</h4><p>Implants can be used as attachments for traditional dentures, allowing them to “snap” into place. This helps increase the stability and retention of the denture.</p>"
         "<h4>Fixed Hybrids</h4><p>This is a restoration that replaces all or most of the teeth in your arch. It is different from a denture in that you do not take the fixed hybrid out — it is screwed into place on the implants. Other advantages include being more stable and smaller than a traditional denture, making it a great alternative for patients who suffer from a gag reflex.</p>"),
-    svc("dentures", "Complete & Partial Dentures", "dentures.jpg",
+    "dentures": (
         "<p>If you have lost several teeth and can’t chew and smile like you once did, we have options to help. We can replace all your teeth with a complete denture or make a partial denture to work with your existing teeth.</p>"
         "<p>We can also incorporate implants into the denture design to help it stay in place, providing a more secure denture.</p>"),
-    svc("oral-surgery", "Oral Surgery", "oral.jpg",
+    "oral-surgery": (
         "<p>Oral surgery is required for many situations, such as extracting wisdom teeth, preparing for dentures or extracting infected and non-restorable teeth. We offer extractions and alveoloplasty, which is shaping of the bone after an extraction to help your denture fit better.</p>"
         + checklist(["Tooth extractions", "Surgical root tip extractions", "Alveoloplasty"])),
-    svc("periodontics", "Periodontics", "periodontics.jpg",
+    "periodontics": (
         "<p>Slow but progressive, periodontal disease swells the gingiva and destroys the bone that supports your teeth. Once the bone is lost, it does not regenerate. It may be generalized, affecting all of your teeth, or localized, affecting one tooth. This disease affects both men and women of all ethnicities, from teen years through adulthood.</p>"
         "<p>In its early stages, you will be unaware of its presence. Dental hygiene habits, medications, smoking, alcohol, diet, general health or heredity may play a role in its progression. Initial symptoms may include swollen gums that bleed when you brush and an odor to your breath. Symptoms can advance to loosening and shifting of teeth and their eventual loss. Please speak with one of our team members today to learn more.</p>"
         + checklist(["Periodontal scaling &amp; root planing", "Periodontal surgery", "Gingival medicament placements", "Gingivoplasty"])),
-    svc("root-canals", "Root Canals", "rootcanal.jpg",
+    "root-canals": (
         "<p>A root canal is needed when decay or trauma to a tooth has irreversibly damaged the nerve. The nerve cannot heal itself, so when this happens the tooth either needs to be extracted or have a root canal. If not treated promptly, an extremely painful and dangerous infection called a dental abscess may develop.</p>"
         "<p>During the root canal procedure we remove the damaged and infected nerve tissue, disinfect the root canal, and then refill it with a sterile material to seal the canal from bacteria. If the procedure is on a back tooth, we will normally recommend a crown to help strengthen and protect the tooth.</p>"),
-]
+}
+
+
+def service_aside(current):
+    links = "".join(
+        f'<li><a href="{slug}.html"{' aria-current="page"' if slug == current else ""}>{name}</a></li>'
+        for slug, name, _, _ in SERVICES)
+    return f"""<aside class="svc-aside">
+  <div class="svc-aside__box">
+    <h3>Our Services</h3>
+    <ul class="svc-list">{links}</ul>
+  </div>
+  <div class="svc-aside__box svc-aside__box--ink">
+    <h3>Schedule a Visit</h3>
+    <p>Monday–Thursday<br>8:00am – 5:00pm</p>
+    <a class="btn" href="{TEL}">Call {PHONE}</a>
+  </div>
+</aside>"""
+
+
+for slug, name, img, summary in SERVICES:
+    content = f"""<section class="page-hero">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a> / <a href="services.html">Services</a> / <span>{name}</span></nav>
+    <h1>{name}</h1>
+    <p>{summary}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container svc-layout">
+    <article class="svc-main">
+      <img class="svc-main__img" src="assets/img/{img}" alt="{name} at Zachary Holcombe D.M.D." width="600" height="400">
+      {SERVICE_BODIES[slug]}
+      <div class="btn-row"><a class="btn" href="contact.html">Book an Appointment</a><a class="btn btn--dark" href="{TEL}">Call {PHONE}</a></div>
+    </article>
+    {service_aside(slug)}
+  </div>
+</section>
+
+{reviews_section()}
+
+{cta_band("Have Questions About " + name + "?", "Your doctor and hygienist will help you find the treatment best suited to your needs. Give us a call to get started.")}"""
+    page(f"{slug}.html", f"{name} in Asheville, NC | Zachary Holcombe D.M.D.",
+         f"{summary} Call 828-684-3839 to schedule with Dr. Zachary Holcombe in Asheville, NC.",
+         content)
+
+svc_cards = "".join(
+    f"""<a class="svc-card" href="{slug}.html">
+  <img src="assets/img/{img}" alt="" loading="lazy" width="600" height="400">
+  <div class="svc-card__body"><h3>{name}</h3><p>{summary}</p><span class="svc-card__more">Learn more &rarr;</span></div>
+</a>""" for slug, name, img, summary in SERVICES)
 
 services = f"""<section class="page-hero">
   <div class="container">
@@ -444,13 +494,8 @@ services = f"""<section class="page-hero">
     <p>We offer a wide range of services to help you achieve a state of oral health and give you the smile you want — all in a comfortable and friendly environment.</p>
   </div>
 </section>
-<section class="section--mist" style="padding:28px 0">
-  <div class="container service-index">{svc_index}</div>
-</section>
-<section>
-  <div class="container">
-    {"".join(services_body)}
-  </div>
+<section class="section section--mist">
+  <div class="container svc-grid">{svc_cards}</div>
 </section>
 
 {cta_band("Not Sure What You Need?", "Your doctor and hygienist will help you find the treatment best suited to your needs. Give us a call to get started.")}"""
