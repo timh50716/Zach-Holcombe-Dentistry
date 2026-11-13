@@ -83,9 +83,17 @@ For GitHub Pages: Settings → Pages → deploy from this branch, root folder.
 
 - **Review the service page content** in `tools/service_content.py`. Practice facts come from the
   old site; the rest is conservative, general patient education written for this site.
-- **Implant placement**: the old site says the office offers implant *restorations*. The implant
-  page doesn't say who places the implant ("We'll explain every step of placement during your
-  consultation"). Update it if Dr. Holcombe places implants himself or refers to a surgeon.
+- **Implant placement**: the onboarding form lists *implant restorations* only, so the implant
+  page says a surgical specialist places the implant post and the office helps coordinate care.
+  Confirm that wording.
+- **Practice name / branding**: the form says "Dental Asheville" but describes the practice as
+  "Holcombe Family Dentistry", and asks us to recommend. The site currently uses
+  "Zachary Holcombe D.M.D. General Dentistry" (the `PRACTICE` constant in `tools/build.py`).
+  Whatever is chosen must match the Google Business Profile name exactly.
+- **Appointment request form** (`contact.html#request`) uses Netlify Forms. In Netlify, open
+  **Forms → Enable form detection**, redeploy, then add an email notification under
+  **Forms → Form notifications** so requests reach the office. The form asks patients not to
+  include detailed medical information.
 - **Wisdom teeth**: the oral surgery page says Dr. Holcombe will decide whether wisdom teeth are
   removed in the office or referred to an oral surgeon. Confirm this matches how he works.
 - **Medical review line**: if Dr. Holcombe reviews and approves the service pages, we can add a

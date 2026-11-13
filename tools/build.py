@@ -20,6 +20,8 @@ UPDATED_TEXT = "October 2026"
 PRACTICE = "Zachary Holcombe D.M.D. General Dentistry"
 
 PHONE = "828-684-3839"
+EMAIL = "office@dentalasheville.com"
+REQUEST = "contact.html#request"
 TEL = "tel:+18286843839"
 ADDR1 = "1944 Hendersonville Rd., Suite B-2"
 ADDR2 = "Asheville, NC 28803"
@@ -37,22 +39,30 @@ MARK = ('<svg viewBox="0 0 120 50" aria-hidden="true"><path d="M2 46 L40 10 L58 
         '<path d="M2 46 L40 10 L70 46 Z" fill="#2f8fd8"/></svg>')
 SUNBURST = ('<svg class="review__mark" viewBox="0 0 120 50" aria-hidden="true"><path d="M10 46 L46 18 L62 32 L80 12 L110 46 Z" fill="#c99a3d"/></svg>')
 
-# (page slug, name, photo, one-line summary used on cards and in meta descriptions)
+# (page slug, name, photo or None, one-line summary used on cards and in meta descriptions)
 SERVICES = [
     ("preventive-care", "Diagnostic & Preventative Care", "diagnostic.jpg",
-     "Regular exams and professional cleanings to keep your teeth healthy and stop gum disease before it starts."),
+     "Regular exams, X-rays and professional cleanings to keep your teeth healthy and stop gum disease before it starts."),
+    ("childrens-dentistry", "Children’s Dentistry", None,
+     "Gentle checkups, cleanings, fluoride and sealants that help kids build healthy habits for life."),
+    ("crowns-bridges", "Crowns, Bridges & Fillings", None,
+     "Natural-looking crowns, bridges and tooth-colored fillings that restore strength and function."),
     ("cosmetic-dentistry", "Cosmetic Dentistry", "cosmetic.jpg",
-     "Teeth whitening, tooth-colored fillings, veneers, crowns and bridges to help you smile with confidence."),
-    ("dental-implants", "Dental Implants", "implants.jpg",
-     "Implant crowns, bridges, denture attachments and fixed hybrids to replace missing teeth."),
+     "Teeth whitening, veneers and tooth-colored restorations to help you smile with confidence."),
+    ("emergency-dentistry", "Emergency Dentistry", None,
+     "Toothache, broken tooth or lost crown? Call us and we’ll see you as quickly as possible."),
+    ("dental-implants", "Implant Restorations", "implants.jpg",
+     "Implant crowns, bridges, snap-in dentures and fixed hybrids to replace missing teeth."),
     ("dentures", "Complete & Partial Dentures", "dentures.jpg",
      "Complete and partial dentures, including implant-supported options, so you can chew and smile again."),
-    ("oral-surgery", "Oral Surgery", "oral.jpg",
-     "Tooth extractions, surgical root tip extractions and alveoloplasty, performed in our office."),
-    ("periodontics", "Periodontics", "periodontics.jpg",
-     "Scaling and root planing, periodontal surgery and other treatments for gum disease."),
     ("root-canals", "Root Canals", "rootcanal.jpg",
-     "Remove damaged nerve tissue, relieve pain and save your natural tooth."),
+     "Relieve tooth pain, remove infection and save your natural tooth."),
+    ("oral-surgery", "Tooth Extractions", "oral.jpg",
+     "Gentle tooth extractions, surgical root tip extractions and alveoloplasty."),
+    ("periodontics", "Gum Disease Treatment", "periodontics.jpg",
+     "Scaling and root planing and other periodontal treatments to protect your gums and bone."),
+    ("tmj-night-guards", "TMJ Treatment & Night Guards", None,
+     "Relief for jaw pain and custom night guards that protect your teeth from grinding."),
 ]
 SERVICE_PAGES = {f"{slug}.html" for slug, _, _, _ in SERVICES}
 
@@ -80,7 +90,10 @@ DENTIST = {
     "url": f"{SITE}/",
     "logo": f"{SITE}/assets/img/logo.png",
     "image": f"{SITE}/assets/img/hero.jpg",
+    "alternateName": "Dental Asheville",
     "telephone": "+1-828-684-3839",
+    "email": EMAIL,
+    "paymentAccepted": "Dental insurance (we file all plans; out-of-network), CareCredit, Cherry",
     "address": {
         "@type": "PostalAddress",
         "streetAddress": "1944 Hendersonville Rd., Suite B-2",
@@ -100,6 +113,7 @@ DENTIST = {
     "medicalSpecialty": "https://schema.org/Dentistry",
     "isAcceptingNewPatients": True,
     "employee": {"@id": DOCTOR_ID},
+    "knowsAbout": [plain(name) for _, name, _, _ in SERVICES],
     "sameAs": [FB],
 }
 
@@ -179,12 +193,12 @@ def header(page):
           </ul>
         </li>
         <li class="has-sub">{nav_link("services.html", "Services", page)}
-          <ul class="sub">{svc}</ul>
+          <ul class="sub sub--wide">{svc}</ul>
         </li>
         <li>{nav_link("new-patients.html", "New Patients", page)}</li>
         <li>{nav_link("contact.html", "Contact", page)}</li>
       </ul>
-      <a class="btn" href="contact.html">Book an Appointment</a>
+      <a class="btn" href="{REQUEST}">Request an Appointment</a>
     </nav>
   </div>
 </header>
@@ -195,7 +209,7 @@ def footer():
     return f"""<footer class="site-footer">
   <div class="container">
     <a class="footer-logo" href="index.html"><img src="assets/img/logo.png" alt="Zachary Holcombe D.M.D. General Dentistry" width="242" height="81"></a>
-    <p>{ADDR1}, {ADDR2} &nbsp;|&nbsp; <a href="{TEL}" style="color:#fff">{PHONE}</a></p>
+    <p>{ADDR1}, {ADDR2} &nbsp;|&nbsp; <a href="{TEL}" style="color:#fff">{PHONE}</a> &nbsp;|&nbsp; <a href="mailto:{EMAIL}" style="color:#fff">{EMAIL}</a></p>
     <ul class="footer-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About Us</a></li>
@@ -209,7 +223,7 @@ def footer():
 </footer>
 <nav class="action-bar" aria-label="Quick actions">
   <a href="{TEL}">{ICON_PHONE}Call</a>
-  <a href="contact.html">{ICON_CAL}Schedule</a>
+  <a href="{REQUEST}">{ICON_CAL}Request</a>
   <a href="{MAPS}" target="_blank" rel="noopener">{ICON_PIN}Find Us</a>
 </nav>
 <script src="assets/js/main.js"></script>
@@ -299,7 +313,7 @@ def visit_section():
     <div class="visit">
       <div class="visit__col">
         <p><strong>Zachary Holcombe D.M.D.</strong><br>{ADDR1}<br>{ADDR2}</p>
-        <p><a href="{TEL}">{PHONE}</a></p>
+        <p><a href="{TEL}">{PHONE}</a><br><a href="mailto:{EMAIL}">{EMAIL}</a></p>
         <p><a href="{MAPS}" target="_blank" rel="noopener">Get directions &rarr;</a></p>
       </div>
       <div class="visit__col">
@@ -352,8 +366,8 @@ def cta_band(title, text):
     <h2>{title}</h2>
     <p>{text}</p>
     <div class="btn-row" style="justify-content:center">
-      <a class="btn" href="{TEL}">Call {PHONE}</a>
-      <a class="btn btn--dark" href="new-patients.html" style="border:1px solid rgba(255,255,255,.4)">Patient Forms</a>
+      <a class="btn" href="{REQUEST}">Request an Appointment</a>
+      <a class="btn btn--dark" href="{TEL}" style="border:1px solid rgba(255,255,255,.4)">Call {PHONE}</a>
     </div>
   </div>
 </section>"""
@@ -364,16 +378,16 @@ home = f"""<section class="hero">
   <div class="container">
     <h1 class="hero__kicker">Your Trusted Dentist in Asheville, NC</h1>
     <p class="hero__title">Quality, Patient-Centered Dental Care</p>
-    <p class="hero__lede">Whatever dentistry you're in need of, you'll feel comfortable with our team. New smiles are always welcome!</p>
-    <a class="btn" href="contact.html">Book an Appointment</a>
+    <p class="hero__lede">Personalized, comfortable dental care for the whole family — from the same dentist every visit. New patients are always welcome!</p>
+    <a class="btn" href="{REQUEST}">Request an Appointment</a>
   </div>
 </section>
 
 <section class="why" aria-label="Why choose us">
   <div class="why__title"><h2>Why Choose Us?</h2></div>
   <div class="why__stats">
-    <div class="stat"><div class="stat__num">Since 1981</div><div class="stat__label">Caring for Asheville</div></div>
-    <div class="stat"><div class="stat__num">7</div><div class="stat__label">Areas of care, one office</div></div>
+    <div class="stat"><div class="stat__num">Family-Owned</div><div class="stat__label">Small, private practice</div></div>
+    <div class="stat"><div class="stat__num">Same Dentist</div><div class="stat__label">Every visit</div></div>
     <div class="stat"><div class="stat__num">All Ages</div><div class="stat__label">Children to seniors</div></div>
   </div>
 </section>
@@ -383,10 +397,10 @@ home = f"""<section class="hero">
     <div class="split__media"><figure class="portrait"><img src="assets/img/dr-holcombe.jpg" srcset="assets/img/dr-holcombe-sm.jpg 480w, assets/img/dr-holcombe.jpg 800w" sizes="(max-width: 860px) 90vw, 460px" alt="Dr. Zachary Holcombe, DMD, general dentist in Asheville, NC" width="800" height="1000" loading="lazy"><figcaption>Dr. Zachary S. Holcombe, DMD</figcaption></figure></div>
     <div>
       <h2>Welcome to Our Practice</h2>
-      <p>Being patient-centered means that your positive experience, in every detail, is our primary concern. Our entire team cares about getting to know you and building a relationship with you beyond simply fixing your teeth.</p>
-      <p>Dr. Holcombe took over the practice in 2018, carrying forward the legacy of care that Dr. Miller and our long-time team built over decades. We would love to take care of you and your entire family, from children to senior adults.</p>
+      <p>We believe great dental care starts with getting to know our patients. Our practice is focused on providing personalized, comfortable care for the whole family in a welcoming environment. We take the time to listen, answer questions and build lasting relationships with our patients while helping them maintain healthy, confident smiles for years to come.</p>
+      <p>Dr. Holcombe took ownership of the practice in 2018, continuing the legacy of care built by Dr. Glenn Miller. As a small, family-owned practice, you’ll see the same dentist at every visit.</p>
       <div class="btn-row">
-        <a class="btn" href="contact.html">Book an Appointment</a>
+        <a class="btn" href="{REQUEST}">Request an Appointment</a>
         <a class="btn" href="about.html#dr-holcombe">Meet Dr. Holcombe</a>
       </div>
     </div>
@@ -395,25 +409,25 @@ home = f"""<section class="hero">
 
 <section class="band">
   <div class="container">
-    <h2>Questions About Insurance?</h2>
-    <p>Our front office will help you gather the insurance information you need and understand your benefits before treatment begins.</p>
+    <h2>Insurance &amp; Financing Made Simple</h2>
+    <p>We file all dental insurance claims for you. We’re an out-of-network provider for every plan, and many patients still use their benefits with us. Flexible financing is available through CareCredit and Cherry.</p>
     <ul class="band__points">
-      <li>Help with insurance information</li>
-      <li>Clear explanations before treatment</li>
-      <li>Quick appointment scheduling</li>
+      <li>We file all insurance for you</li>
+      <li>Financing with CareCredit</li>
+      <li>Financing with Cherry</li>
     </ul>
-    <a class="btn" href="{TEL}">Call {PHONE}</a>
+    <a class="btn" href="new-patients.html#insurance">Insurance &amp; Financing Details</a>
   </div>
 </section>
 
 <section class="section">
   <div class="container">
     <h2 class="center">New Patients Welcome</h2>
-    <p class="section__intro"><strong>New to our practice? We’d love to meet you.</strong><br>Getting started is simple — give us a call, fill out your forms ahead of time, and we’ll take it from there.</p>
+    <p class="section__intro"><strong>New to our practice? We’d love to meet you.</strong><br>Your first visit includes an exam, X-rays and a cleaning, so we can get a complete picture of your dental health.</p>
     <div class="cards">
-      <div class="card"><div class="card__head">Call to Schedule</div><p>Reach our front office Monday–Thursday, 8:00am–5:00pm.</p><a class="btn" href="{TEL}">{PHONE}</a></div>
-      <div class="card"><div class="card__head">Forms Ready to Go</div><p>Save time at your first visit by downloading and completing your patient information form at home.</p><a class="btn" href="new-patients.html">Patient Forms</a></div>
-      <div class="card"><div class="card__head">Easy to Find</div><p>We’re on Hendersonville Road in Suite B-2, Asheville, NC 28803.</p><a class="btn" href="{MAPS}" target="_blank" rel="noopener">Get Directions</a></div>
+      <div class="card"><div class="card__head">New Patient Special</div><p class="card__price">$225</p><p>Adult comprehensive exam for new patients.</p><a class="btn" href="{REQUEST}">Request an Appointment</a></div>
+      <div class="card"><div class="card__head">Dental Emergency?</div><p>Toothache, broken tooth or lost crown? New and current patients are welcome — call and we’ll see you as quickly as possible.</p><a class="btn" href="emergency-dentistry.html">Emergency Care</a></div>
+      <div class="card"><div class="card__head">Forms Ready to Go</div><p>Save time at your first visit by downloading and completing your patient information form at home.</p><a class="btn" href="new-patients.html#forms">Patient Forms</a></div>
     </div>
   </div>
 </section>
@@ -424,12 +438,12 @@ home = f"""<section class="hero">
     <p class="section__intro">A wide range of services to help you achieve oral health and the smile you want, all in a comfortable and friendly environment.</p>
     <div class="tiles">
       <a class="tile tile--lg" href="cosmetic-dentistry.html" style="background-image:url(assets/img/cosmetic.jpg)"><span class="tile__label">Cosmetic Dentistry</span></a>
-      <a class="tile" href="preventive-care.html" style="background-image:url(assets/img/diagnostic.jpg)"><span class="tile__label">Preventive Care</span></a>
-      <a class="tile" href="dental-implants.html" style="background-image:url(assets/img/implants.jpg)"><span class="tile__label">Dental Implants</span></a>
+      <a class="tile" href="preventive-care.html" style="background-image:url(assets/img/diagnostic.jpg)"><span class="tile__label">Cleanings &amp; Checkups</span></a>
+      <a class="tile tile--plain" href="crowns-bridges.html"><span class="tile__label">Crowns &amp; Bridges</span></a>
+      <a class="tile tile--plain" href="childrens-dentistry.html"><span class="tile__label">Children’s Dentistry</span></a>
+      <a class="tile tile--plain" href="emergency-dentistry.html"><span class="tile__label">Emergency Dentistry</span></a>
+      <a class="tile" href="dental-implants.html" style="background-image:url(assets/img/implants.jpg)"><span class="tile__label">Implant Restorations</span></a>
       <a class="tile" href="dentures.html" style="background-image:url(assets/img/dentures.jpg)"><span class="tile__label">Dentures</span></a>
-      <a class="tile" href="root-canals.html" style="background-image:url(assets/img/rootcanal.jpg)"><span class="tile__label">Root Canals</span></a>
-      <a class="tile" href="oral-surgery.html" style="background-image:url(assets/img/oral.jpg)"><span class="tile__label">Oral Surgery</span></a>
-      <a class="tile" href="periodontics.html" style="background-image:url(assets/img/periodontics.jpg)"><span class="tile__label">Periodontics</span></a>
       <a class="tile tile--wide" href="services.html"><span class="tile__label">View All Services &rarr;</span></a>
     </div>
   </div>
@@ -440,7 +454,7 @@ home = f"""<section class="hero">
     <div class="split__media"><img src="assets/img/diagnostic.jpg" alt="Dental hygienist providing a professional cleaning" loading="lazy" width="600" height="400"></div>
     <div>
       <h2>A Dental Office Where You Feel Like Family</h2>
-      <p>We strive to do everything we can to make each appointment the best experience possible. Many of our patients have trusted this practice for decades, and our team takes the time to get to know every patient who walks through our door.</p>
+      <p>We strive to make each appointment the best experience possible in a comfortable, family-friendly atmosphere. Many of our patients have trusted this practice for decades, and as a small private practice, our team takes the time to get to know every patient who walks through our door.</p>
       <p>We take the time to make sure you have a clear understanding of what is going on and why, so you can be an active decision maker in your dental health.</p>
       <a class="btn" href="about.html">Learn More</a>
     </div>
@@ -451,7 +465,7 @@ home = f"""<section class="hero">
 
 {visit_section()}"""
 page("index.html", "Asheville Dentist | Zachary Holcombe D.M.D. General Dentistry",
-     "Patient-centered dental care in Asheville, NC from Dr. Zachary Holcombe: checkups, cosmetic care, implants, dentures, extractions, gum care and root canals.",
+     "Family dentist in Asheville, NC. Dr. Zachary Holcombe offers cleanings, crowns, cosmetic and emergency dentistry and children’s care. New patients welcome.",
      home, priority="1.0", webpage_extra={"about": {"@id": DENTIST_ID}})
 
 # ---------------- About ----------------
@@ -487,9 +501,9 @@ about = f"""<section class="page-hero">
     <div class="split__media"><div class="mark-card">{MARK}<span>Patient-centered since day one</span></div></div>
     <div>
       <h2>Our Practice</h2>
-      <p>We strive to do everything we can to make each appointment the best experience possible. We would like to take care of you and your entire family, from children to senior adults.</p>
-      <p>Dr. Holcombe took over the practice in 2018 and is proud to continue the legacy of friendly, excellent care our patients have counted on for years. Our office provides everything from <a href="preventive-care.html">checkups and cleanings</a> and <a href="cosmetic-dentistry.html">cosmetic dentistry</a> to <a href="dental-implants.html">implant restorations</a>, <a href="dentures.html">dentures</a>, <a href="periodontics.html">gum disease treatment</a> and <a href="root-canals.html">root canals</a>.</p>
-      <a class="btn" href="contact.html">Book an Appointment</a>
+      <p>We believe great dental care starts with getting to know our patients. Our practice is focused on providing personalized, comfortable care for the whole family in a welcoming environment. We take the time to listen, answer questions and build lasting relationships with our patients while helping them maintain healthy, confident smiles for years to come.</p>
+      <p>Dr. Holcombe took ownership of the practice in 2018, continuing the legacy of care built by Dr. Glenn Miller. As a small, family-owned practice, you’ll see the same dentist every visit. Our office provides everything from <a href="preventive-care.html">checkups and cleanings</a> and <a href="cosmetic-dentistry.html">cosmetic dentistry</a> to <a href="crowns-bridges.html">crowns and bridges</a>, <a href="dental-implants.html">implant restorations</a>, <a href="dentures.html">dentures</a>, <a href="root-canals.html">root canals</a>, <a href="childrens-dentistry.html">children’s dentistry</a> and <a href="emergency-dentistry.html">emergency care</a>.</p>
+      <a class="btn" href="{REQUEST}">Request an Appointment</a>
     </div>
   </div>
 </section>
@@ -499,8 +513,10 @@ about = f"""<section class="page-hero">
     <div class="split__media"><figure class="portrait"><img src="assets/img/dr-holcombe.jpg" srcset="assets/img/dr-holcombe-sm.jpg 480w, assets/img/dr-holcombe.jpg 800w" sizes="(max-width: 860px) 90vw, 460px" alt="Portrait of Dr. Zachary S. Holcombe, DMD" width="800" height="1000" loading="lazy"><figcaption>Dr. Zachary S. Holcombe, DMD</figcaption></figure></div>
     <div>
       <h2>Meet Dr. Holcombe</h2>
-      <p>Dr. Holcombe is a native of Greenville, NC who attended North Carolina State University for undergraduate studies before earning his DMD from East Carolina University. He is married to his wife Amy and they have one child. When not practicing dentistry he enjoys spending time outdoors with his friends and family.</p>
-      <p>Dr. Holcombe enjoys working with his patients and is thankful for his practice that he took over in 2018. He is an active member of:</p>
+      <p>Dr. Holcombe is a Greenville, North Carolina, native who earned his undergraduate degree from North Carolina State University before receiving his Doctor of Dental Medicine degree from East Carolina University.</p>
+      <p>He has been serving patients in his practice since taking ownership in 2018 and is grateful for the opportunity to build lasting relationships with his patients and their families. He enjoys getting to know each patient and helping them feel comfortable and confident in their dental care.</p>
+      <p>Outside of the office, Dr. Holcombe enjoys spending time with his wife, Amy, and their three sons, Griffin, Turner and Hayes. When he’s not at the practice, you can find him gardening, woodworking, coaching his sons’ sports teams, or enjoying time with friends and family.</p>
+      <p>Dr. Holcombe is an active member of:</p>
       <ul class="affil">
         <li>American Dental Association</li>
         <li>Academy of General Dentistry</li>
@@ -521,7 +537,7 @@ about = f"""<section class="page-hero">
 
 {reviews_section()}
 
-{cta_band("Ready to Meet Our Team?", "New smiles are always welcome. Give us a call and we’ll find a time that works for you.")}"""
+{cta_band("Ready to Meet Our Team?", "New patients are always welcome. Request an appointment and we’ll find a time that works for you.")}"""
 page("about.html", "About Us | Zachary Holcombe D.M.D. – Asheville Dentist",
      "Meet Dr. Zachary Holcombe and the team at our Asheville, NC dental practice — patient-centered care for children to senior adults.",
      about, crumbs=[("About Us", "about.html")], page_type="AboutPage", priority="0.8",
@@ -543,7 +559,13 @@ def service_aside(current):
   <div class="svc-aside__box svc-aside__box--ink">
     <p class="svc-aside__title">Schedule a Visit</p>
     <p>Monday–Thursday<br>8:00am – 5:00pm</p>
-    <a class="btn" href="{TEL}">Call {PHONE}</a>
+    <a class="btn" href="{REQUEST}">Request an Appointment</a>
+    <p class="svc-aside__or">or call <a href="{TEL}">{PHONE}</a></p>
+  </div>
+  <div class="svc-aside__box">
+    <p class="svc-aside__title">Insurance &amp; Financing</p>
+    <p>We file all insurance for you. Financing available through CareCredit and Cherry.</p>
+    <p><a href="new-patients.html#insurance">Learn more &rarr;</a></p>
   </div>
 </aside>"""
 
@@ -556,8 +578,8 @@ def doctor_box(name):
     <ul class="checklist checklist--single">
       <li>Doctor of Dental Medicine (DMD) from East Carolina University; undergraduate studies at North Carolina State University</li>
       <li>Active member of the American Dental Association, Academy of General Dentistry, North Carolina Dental Society and Buncombe County Dental Society</li>
-      <li>An established Asheville practice that families have trusted for decades, led by Dr. Holcombe since 2018</li>
-      <li>Patient-centered care: we explain what’s going on and why, so you can make informed decisions about your dental health</li>
+      <li>A small, family-owned practice where you see the same dentist every visit, led by Dr. Holcombe since 2018</li>
+      <li>Personal care and long-term relationships: we take the time to listen, answer questions and explain your options</li>
     </ul>
     <p class="doctor-box__byline">Care provided by <a href="about.html#dr-holcombe">Dr. Zachary S. Holcombe, DMD</a>, general dentist at {PRACTICE}, {ADDR1}, {ADDR2}.</p>
   </div>
@@ -598,9 +620,9 @@ def service_page(slug, name, img, summary):
 <section class="section">
   <div class="container svc-layout">
     <article class="svc-main">
-      <img class="svc-main__img" src="assets/img/{img}" alt="{name} at {PRACTICE} in Asheville, NC" width="600" height="400">
+      {f'<img class="svc-main__img" src="assets/img/{img}" alt="{name} at {PRACTICE} in Asheville, NC" width="600" height="400">' if img else ''}
       {lead}
-      <div class="btn-row svc-cta"><a class="btn" href="contact.html">Book an Appointment</a><a class="btn btn--dark" href="{TEL}">Call {PHONE}</a></div>
+      <div class="btn-row svc-cta"><a class="btn" href="{REQUEST}">Request an Appointment</a><a class="btn btn--dark" href="{TEL}">Call {PHONE}</a></div>
       {"".join(secs)}
       {doctor_box(name)}
       <section class="svc-sec" aria-labelledby="faq-title">
@@ -616,7 +638,7 @@ def service_page(slug, name, img, summary):
 
 {reviews_section()}
 
-{cta_band("Have Questions About " + name + "?", "Your doctor and hygienist will help you find the treatment best suited to your needs. Give us a call to get started.")}
+{cta_band("Have Questions About " + name + "?", "Dr. Holcombe will help you find the treatment best suited to your needs. Request an appointment or give us a call to get started.")}
 
 {visit_section()}"""
     pc = c["procedure"]
@@ -656,7 +678,7 @@ def service_page(slug, name, img, summary):
              "mainEntity": {"@id": f"{url}#service"},
              "specialty": "https://schema.org/Dentistry",
              "audience": "https://schema.org/Patient",
-             "primaryImageOfPage": f"{SITE}/assets/img/{img}",
+             **({"primaryImageOfPage": f"{SITE}/assets/img/{img}"} if img else {}),
          })
 
 
@@ -665,7 +687,7 @@ for slug, name, img, summary in SERVICES:
 
 svc_cards = "".join(
     f"""<a class="svc-card" href="{slug}.html">
-  <img src="assets/img/{img}" alt="{name}" loading="lazy" width="600" height="400">
+  {f'<img src="assets/img/{img}" alt="{name}" loading="lazy" width="600" height="400">' if img else f'<div class="svc-card__art">{MARK}</div>'}
   <div class="svc-card__body"><h3>{name}</h3><p>{summary}</p><span class="svc-card__more">Learn more about {name.lower()} &rarr;</span></div>
 </a>""" for slug, name, img, summary in SERVICES)
 
@@ -679,14 +701,14 @@ services = f"""<section class="page-hero">
 <section class="section section--mist">
   <div class="container">
     <h2 class="center">Our Services &amp; Procedures</h2>
-    <p class="section__intro">From routine checkups to implants, Dr. Holcombe and our team care for patients of all ages — from children to senior adults.</p>
+    <p class="section__intro">From routine checkups and children’s dentistry to crowns, implant restorations and emergency care, Dr. Holcombe and our team care for patients of all ages.</p>
     <div class="svc-grid">{svc_cards}</div>
   </div>
 </section>
 
-{cta_band("Not Sure What You Need?", "Your doctor and hygienist will help you find the treatment best suited to your needs. Give us a call to get started.")}"""
+{cta_band("Not Sure What You Need?", "Dr. Holcombe will help you find the treatment best suited to your needs. Request an appointment or give us a call to get started.")}"""
 page("services.html", "Dental Services in Asheville, NC | Zachary Holcombe D.M.D.",
-     "Preventive care, cosmetic dentistry, dental implants, dentures, oral surgery, periodontics and root canals in Asheville, NC.",
+     "Cleanings, children’s dentistry, crowns, cosmetic and emergency dentistry, implant restorations, dentures, root canals and TMJ care in Asheville, NC.",
      services, crumbs=[("Services", "services.html")], page_type="CollectionPage", priority="0.9",
      webpage_extra={"mainEntity": {
          "@type": "ItemList",
@@ -707,9 +729,14 @@ new_patients = f"""<section class="page-hero">
 <section class="section">
   <div class="container">
     <h2 class="center">Your First Visit</h2>
-    <p class="section__intro">At your first appointment we’ll get to know you, review your health history and complete a thorough <a href="preventive-care.html">exam and cleaning</a>. Explore all of our <a href="services.html">dental services</a>.</p>
+    <p class="section__intro">Your first visit includes a comprehensive <a href="preventive-care.html">exam, X-rays and a cleaning</a>. We’ll get to know you, review your health history and answer your questions. Explore all of our <a href="services.html">dental services</a>.</p>
+    <div class="special">
+      <p class="special__label">New Patient Special</p>
+      <p class="special__price">$225</p>
+      <p>Adult comprehensive exam for new patients. Call or request an appointment to schedule.</p>
+    </div>
     <ol class="steps">
-      <li><h3>Call Us</h3><p>Schedule your first appointment at <a href="{TEL}">{PHONE}</a>, Monday–Thursday, 8:00am–5:00pm.</p></li>
+      <li><h3>Request an Appointment</h3><p><a href="{REQUEST}">Request an appointment online</a> or call <a href="{TEL}">{PHONE}</a>, Monday–Thursday, 8:00am–5:00pm.</p></li>
       <li><h3>Complete Your Forms</h3><p>Download the patient information form below and fill it out at home to save time when you arrive.</p></li>
       <li><h3>Visit Our Office</h3><p>Find us at {ADDR1}, {ADDR2}. We look forward to getting to know you!</p></li>
     </ol>
@@ -727,18 +754,38 @@ new_patients = f"""<section class="page-hero">
   </div>
 </section>
 
+<section class="section" id="insurance" style="scroll-margin-top:110px">
+  <div class="container">
+    <h2 class="center">Insurance &amp; Financing</h2>
+    <p class="section__intro">We want cost to be one less thing to worry about.</p>
+    <div class="cards cards--two">
+      <div class="card"><div class="card__head">Dental Insurance</div><p>We file all dental insurance claims for you. We’re an out-of-network provider for every insurance plan, and many patients with dental benefits still choose to see us. Call our office with your plan information and we’ll be glad to help you understand your coverage.</p></div>
+      <div class="card"><div class="card__head">Financing</div><p>Flexible payment options are available through <strong>CareCredit</strong> and <strong>Cherry</strong>, so you can get the care you need now and pay over time.</p></div>
+    </div>
+  </div>
+</section>
+
 {reviews_section()}
 
 {visit_section()}"""
 page("new-patients.html", "New Patients & Forms | Asheville Dentist Dr. Holcombe",
-     "New patients are always welcome. Download patient forms and schedule your first visit with Dr. Zachary Holcombe in Asheville, NC.",
-     new_patients, crumbs=[("New Patients", "new-patients.html")], priority="0.8")
+     "New patients welcome: $225 adult comprehensive exam. We file all insurance and offer CareCredit and Cherry financing. Dr. Zachary Holcombe, Asheville, NC.",
+     new_patients, crumbs=[("New Patients", "new-patients.html")], priority="0.8",
+     nodes=[{
+         "@type": "Offer",
+         "@id": f"{abs_url('new-patients.html')}#new-patient-special",
+         "name": "New Patient Special: Adult Comprehensive Exam",
+         "price": "225",
+         "priceCurrency": "USD",
+         "offeredBy": {"@id": DENTIST_ID},
+         "url": abs_url("new-patients.html"),
+     }])
 
 # ---------------- Contact ----------------
 contact = f"""<section class="page-hero">
   <div class="container">
-    <h1>Contact Us</h1>
-    <p>Give us a call to make an appointment — we’ll be glad to help.</p>
+    <h1>Request an Appointment</h1>
+    <p>Send us a request below or give us a call — we’ll be glad to help.</p>
   </div>
 </section>
 
@@ -746,16 +793,58 @@ contact = f"""<section class="page-hero">
   <div class="container">
     <div class="cards">
       <div class="card"><div class="card__head">Call</div><p>The fastest way to schedule or ask a question.</p><a class="btn" href="{TEL}">{PHONE}</a></div>
+      <div class="card"><div class="card__head">Email</div><p>For general questions. For urgent needs, please call.</p><a class="btn" href="mailto:{EMAIL}">Email Us</a></div>
       <div class="card"><div class="card__head">Visit</div><p>{ADDR1}<br>{ADDR2}</p><a class="btn" href="{MAPS}" target="_blank" rel="noopener">Get Directions</a></div>
-      <div class="card"><div class="card__head">Hours</div><p>Monday–Thursday<br>8:00am – 5:00pm<br>Friday–Sunday Closed</p></div>
     </div>
   </div>
 </section>
 
+<section class="section section--mist" id="request" style="scroll-margin-top:110px">
+  <div class="container">
+    <h2 class="center">Appointment Request</h2>
+    <p class="section__intro">Tell us a little about what you need and when you’re available, and our office will call you to confirm a time. This is a request — your appointment isn’t booked until we confirm it with you. For a dental emergency, please call <a href="{TEL}">{PHONE}</a>.</p>
+    <form class="request-form" name="appointment-request" method="POST" action="/thank-you.html" data-netlify="true" netlify-honeypot="company">
+      <input type="hidden" name="form-name" value="appointment-request">
+      <p class="hp"><label>Leave this empty <input name="company" tabindex="-1" autocomplete="off"></label></p>
+      <div class="form-grid">
+        <label>First and last name *<input name="name" autocomplete="name" required></label>
+        <label>Phone *<input name="phone" type="tel" autocomplete="tel" required></label>
+        <label>Email<input name="email" type="email" autocomplete="email"></label>
+        <label>I am a…<select name="patient-type"><option>New patient</option><option>Current patient</option></select></label>
+        <label>Reason for visit<select name="reason">
+          <option>Checkup &amp; cleaning</option><option>Toothache or emergency</option><option>Crown, bridge or filling</option>
+          <option>Cosmetic dentistry</option><option>Child’s visit</option><option>Dentures or implant restoration</option><option>Other</option>
+        </select></label>
+        <label>Preferred days &amp; times<input name="availability" placeholder="e.g. Tuesday or Wednesday mornings"></label>
+      </div>
+      <label>Anything else we should know?<textarea name="message" rows="4" placeholder="Please don’t include detailed medical information."></textarea></label>
+      <button class="btn" type="submit">Send Request</button>
+    </form>
+  </div>
+</section>
+
 {visit_section()}"""
-page("contact.html", "Contact Us | Zachary Holcombe D.M.D. – Asheville Dentist",
-     "Call 828-684-3839 to schedule with Dr. Zachary Holcombe at 1944 Hendersonville Rd., Suite B-2, Asheville, NC 28803.",
+page("contact.html", "Request an Appointment | Asheville Dentist Dr. Holcombe",
+     "Request an appointment with Dr. Zachary Holcombe online or call 828-684-3839. 1944 Hendersonville Rd., Suite B-2, Asheville, NC 28803.",
      contact, crumbs=[("Contact", "contact.html")], page_type="ContactPage", priority="0.8")
+
+# ---------------- Thank you (form confirmation) ----------------
+thanks = f"""<section class="page-hero">
+  <div class="container">
+    <h1>Thank You!</h1>
+    <p>We’ve received your appointment request. Our office will call you to confirm a time.</p>
+  </div>
+</section>
+<section class="section">
+  <div class="container center">
+    <p>Our office is open Monday–Thursday, 8:00am–5:00pm. If you need to reach us sooner, please call <a href="{TEL}">{PHONE}</a>.</p>
+    <div class="btn-row" style="justify-content:center">
+      <a class="btn" href="new-patients.html#forms">Patient Forms</a>
+      <a class="btn" href="index.html">Back to Home</a>
+    </div>
+  </div>
+</section>"""
+page("thank-you.html", "Thank You | Zachary Holcombe D.M.D.", "Your appointment request has been received.", thanks, noindex=True)
 
 # ---------------- 404 ----------------
 not_found = """<section class="page-hero">
@@ -810,15 +899,22 @@ FACTS = f"""- Practice: {PRACTICE}
 - Dentist: Dr. Zachary S. Holcombe, DMD (East Carolina University; undergraduate at North Carolina State University). Took over the practice in 2018.
 - Memberships: American Dental Association, Academy of General Dentistry, North Carolina Dental Society, Buncombe County Dental Society
 - Address: {ADDR1}, {ADDR2}
+- Previous dentist: Dr. Glenn Miller, DDS (Dr. Holcombe took ownership in 2018)
 - Phone: {PHONE}
+- Email: {EMAIL}
 - Hours: Monday–Thursday 8:00am–5:00pm; Friday–Sunday closed
-- Patients: children to senior adults; new patients welcome
+- Patients: families, children to senior adults; new patients and emergency patients welcome
+- Scheduling: call the office or request an appointment online at {abs_url('contact.html')}
+- New patient special: $225 adult comprehensive exam; the first visit includes an exam, X-rays and a cleaning
+- Insurance: files all dental insurance; out-of-network with all plans
+- Financing: CareCredit and Cherry
+- What sets the practice apart: small, private, family-owned; same dentist every visit; long-term patient relationships; comfortable atmosphere
 - Facebook: {FB}"""
 
 svc_lines = "\n".join(f"- [{plain(name)}]({abs_url(slug + '.html')}): {summary}" for slug, name, _, summary in SERVICES)
 (OUT / "llms.txt").write_text(f"""# {PRACTICE}
 
-> Patient-centered general dental practice in Asheville, North Carolina, led by Dr. Zachary S. Holcombe, DMD. We provide preventive care, cosmetic dentistry, dental implant restorations, dentures, oral surgery, periodontal (gum) treatment and root canals for patients of all ages.
+> Small, family-owned general dental practice in Asheville, North Carolina, led by Dr. Zachary S. Holcombe, DMD. We provide preventive care, children's dentistry, crowns and bridges, cosmetic and emergency dentistry, implant restorations, dentures, root canals, extractions, gum disease treatment, and TMJ treatment and night guards for patients of all ages.
 
 {FACTS}
 
@@ -830,7 +926,8 @@ svc_lines = "\n".join(f"- [{plain(name)}]({abs_url(slug + '.html')}): {summary}"
 
 - [About Us]({abs_url('about.html')}): Dr. Holcombe's background and our team
 - [New Patients & Forms]({abs_url('new-patients.html')}): first-visit steps and downloadable patient forms
-- [Contact]({abs_url('contact.html')}): phone, address, hours and directions
+- [Request an Appointment]({abs_url('contact.html')}): online appointment request, phone, email, address, hours and directions
+- [Insurance & Financing]({abs_url('new-patients.html')}#insurance): insurance filing and CareCredit / Cherry financing
 - [All Services]({abs_url('services.html')}): overview of every service
 
 ## Optional

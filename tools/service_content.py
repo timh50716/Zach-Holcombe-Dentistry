@@ -70,7 +70,7 @@ SERVICE_CONTENT = {
             ("What happens during an oral cancer screening?", "Dr. Holcombe looks at and gently feels the tissues of your mouth, tongue and throat for lumps, patches or sores. It takes only a few minutes and is part of your routine exam."),
             ("Do you see children?", "Yes. We would like to take care of your entire family, from children to senior adults."),
         ],
-        related=["periodontics", "cosmetic-dentistry", "root-canals"],
+        related=["childrens-dentistry", "periodontics", "crowns-bridges"],
         procedure=dict(type="DiagnosticProcedure", body="Teeth and gums",
                        how="Routine dental examination, professional cleaning, radiographs as needed, oral cancer screening, sealants and fluoride application."),
     ),
@@ -89,8 +89,7 @@ SERVICE_CONTENT = {
                 ("Teeth Whitening", "Whitening helps you have a brighter, whiter smile. Teeth naturally change color over time and also become discolored from coffee, tea, red wine and smoking. Whitening is not for every situation, but we would love to discuss whether it could benefit you."),
                 ("Tooth-Colored Fillings", "We offer resin composite fillings that blend in with your natural tooth, so repairs from cavities or small chips are hard to notice."),
                 ("Veneers", "Veneers cover the front surface of a tooth to change its shape or color. They can improve teeth that are stained, chipped, worn or slightly uneven."),
-                ("Crowns", f"A crown covers and protects a cracked, damaged or heavily filled tooth, restoring its strength and appearance. Crowns are also commonly recommended after a {link('root-canals', 'root canal')} on a back tooth."),
-                ("Bridges", f"A bridge spans the gap where a tooth is missing, anchored to the teeth on each side. It replaces the missing tooth and makes chewing easier. A bridge can also be supported by {link('dental-implants', 'dental implants')} instead of natural teeth."),
+                ("Crowns and Bridges", f"Natural-looking crowns restore cracked, worn or discolored teeth, and bridges fill the gap left by a missing tooth. Learn more about {link('crowns-bridges', 'dental crowns and bridges')}."),
             ])),
             ("Is Cosmetic Dentistry Right for You?",
              "<p>You may benefit from a cosmetic consultation if you have:</p>" + bullets([
@@ -122,19 +121,19 @@ SERVICE_CONTENT = {
             ("Can you replace my old silver fillings with tooth-colored ones?", "Often, yes. Dr. Holcombe will check your existing fillings and let you know whether replacing them with tooth-colored composite makes sense."),
             ("How long do crowns and bridges last?", "With good home care and regular checkups, crowns and bridges can last many years. How long depends on your bite, habits and oral hygiene."),
         ],
-        related=["dental-implants", "preventive-care", "root-canals"],
+        related=["crowns-bridges", "dental-implants", "preventive-care"],
         procedure=dict(type="TherapeuticProcedure", body="Teeth",
                        how="Teeth whitening, tooth-colored composite fillings, veneers, crowns and bridges."),
     ),
 
     # ------------------------------------------------------------------
     "dental-implants": dict(
-        h1="Dental Implants in Asheville, NC",
-        title="Dental Implants in Asheville, NC | Dr. Zachary Holcombe",
-        meta="Replace missing teeth with implant crowns, bridges, implant-retained dentures and fixed hybrids from Dr. Zachary Holcombe in Asheville, NC.",
+        h1="Dental Implant Restorations in Asheville, NC",
+        title="Dental Implant Restorations in Asheville, NC | Dr. Holcombe",
+        meta="Implant crowns, bridges, snap-in dentures and fixed hybrids from Dr. Zachary Holcombe in Asheville, NC. Replace missing teeth with confidence.",
         lead=[
             "With dental implants you can rediscover your confidence to eat, speak, laugh and enjoy life. Implants are titanium screws that attach to the bone where you are missing teeth, allowing a natural-looking, tooth-colored restoration to be secured in the space.",
-            "Our office offers a range of implant restorations — from a single crown to a full arch of teeth — and Dr. Holcombe will help you understand which option fits your mouth, goals and budget.",
+            "Dr. Holcombe provides implant restorations — the custom teeth that attach to your implants, from a single crown to a full arch. The implant post itself is placed by a surgical specialist, and we’ll help coordinate your care from your first consultation to your finished smile.",
         ],
         sections=[
             ("What Is a Dental Implant?",
@@ -160,21 +159,21 @@ SERVICE_CONTENT = {
         steps_title="The Dental Implant Process",
         steps=[
             ("Consultation", "Dr. Holcombe examines your mouth, reviews X-rays and discusses your options and timeline."),
-            ("Implant placement", "The implant is placed in the jawbone. We’ll explain every step of placement during your consultation."),
+            ("Implant placement", "The implant post is placed in the jawbone by a surgical specialist. We’ll help coordinate this step and explain what to expect."),
             ("Healing", "Over the following months, the bone bonds with the implant to create a solid foundation."),
-            ("Your new teeth", "Your custom crown, bridge, denture attachment or fixed hybrid is attached to the implant."),
+            ("Your new teeth", "Dr. Holcombe designs and attaches your custom crown, bridge, denture attachment or fixed hybrid."),
             ("Ongoing care", "Routine checkups and cleanings help your implant last."),
         ],
         faqs=[
             ("How long do dental implants last?", "With good home care and regular checkups, implants can last for many years. The crown or other restoration on top may eventually need to be replaced due to normal wear."),
-            ("Does getting an implant hurt?", "The area is numbed for the procedure, and many patients find the discomfort afterward manageable. We’ll explain what to expect and how to stay comfortable during healing."),
+            ("Does Dr. Holcombe place the implant?", "Dr. Holcombe focuses on implant restorations — the crowns, bridges and dentures that attach to your implants. The implant post is placed by a surgical specialist, and our office helps coordinate your care so the process is as smooth as possible."),
             ("Should I choose an implant or a bridge?", "Both replace missing teeth. An implant stands on its own and doesn’t require reshaping neighboring teeth, while a traditional bridge is anchored to the teeth on either side. Dr. Holcombe will help you weigh the pros and cons for your situation."),
             ("Can implants help my loose denture?", f"Yes. A few implants can serve as attachments that let your denture snap securely into place, or support a fixed hybrid that stays in. Learn more about our {link('dentures', 'denture options')}."),
             ("Do I need one implant for every missing tooth?", "Not necessarily. Implant bridges and fixed hybrids can replace several teeth using fewer implants."),
         ],
-        related=["dentures", "cosmetic-dentistry", "oral-surgery"],
-        procedure=dict(type="SurgicalProcedure", body="Jawbone and teeth",
-                       how="A titanium implant is placed in the jawbone and, after healing, restored with a crown, bridge, denture attachment or fixed hybrid."),
+        related=["dentures", "crowns-bridges", "oral-surgery"],
+        procedure=dict(type="TherapeuticProcedure", body="Jawbone and teeth",
+                       how="After a specialist places a titanium implant in the jawbone and it heals, Dr. Holcombe restores it with a crown, bridge, denture attachment or fixed hybrid."),
     ),
 
     # ------------------------------------------------------------------
@@ -251,7 +250,7 @@ SERVICE_CONTENT = {
                  "Wisdom teeth that are causing problems",
                  "Preparing the mouth for dentures",
              ]) +
-             f"<p>Whenever possible, we try to save your natural tooth — for example with a {link('root-canals', 'root canal')} and crown. If an extraction is the best choice, we’ll talk about replacing the tooth with an {link('dental-implants', 'implant')}, a {link('cosmetic-dentistry', 'bridge')} or a {link('dentures', 'denture')}.</p>"
+             f"<p>Whenever possible, we try to save your natural tooth — for example with a {link('root-canals', 'root canal')} and crown. If an extraction is the best choice, we’ll talk about replacing the tooth with an {link('dental-implants', 'implant')}, a {link('crowns-bridges', 'bridge')} or a {link('dentures', 'denture')}.</p>"
              "<p>Dr. Holcombe will evaluate your wisdom teeth and let you know whether they can be removed in our office or whether a referral to an oral surgeon is the better choice.</p>"),
             ("Recovering After an Extraction", bullets([
                 "Bite gently on gauze to help a blood clot form.",
@@ -275,7 +274,7 @@ SERVICE_CONTENT = {
             ("Does a tooth extraction hurt?", "The area is fully numbed, so you should feel pressure but not sharp pain during the procedure. Some soreness afterward is normal and usually improves over a few days."),
             ("How long does it take to recover from an extraction?", "Most people feel much better within a few days after a simple extraction. Surgical extractions can take a little longer. Following your aftercare instructions helps you heal well."),
             ("What is a dry socket?", "A dry socket happens when the blood clot in the extraction site is dislodged too early, exposing the bone. It can be quite painful. Avoiding straws, smoking and forceful spitting for the first few days lowers the risk. Call us if you think you have one."),
-            ("Should I replace a tooth that was extracted?", f"Usually, yes. A gap can let neighboring teeth shift and make chewing harder. Options include {link('dental-implants', 'implants')}, {link('cosmetic-dentistry', 'bridges')} and {link('dentures', 'partial dentures')}."),
+            ("Should I replace a tooth that was extracted?", f"Usually, yes. A gap can let neighboring teeth shift and make chewing harder. Options include {link('dental-implants', 'implants')}, {link('crowns-bridges', 'bridges')} and {link('dentures', 'partial dentures')}."),
             ("What is alveoloplasty?", "Alveoloplasty is the smoothing and reshaping of the jawbone, typically after extractions, so a denture fits better and more comfortably."),
         ],
         related=["dentures", "dental-implants", "root-canals"],
@@ -368,17 +367,225 @@ SERVICE_CONTENT = {
             ("Numbing", "Local anesthetic keeps you comfortable."),
             ("Cleaning the canal", "The damaged and infected nerve tissue is removed and the canal is disinfected."),
             ("Sealing", "The canal is filled with a sterile material to seal it from bacteria."),
-            ("Protecting the tooth", f"For back teeth, we normally recommend a {link('cosmetic-dentistry', 'crown')} to strengthen and protect the tooth."),
+            ("Protecting the tooth", f"For back teeth, we normally recommend a {link('crowns-bridges', 'crown')} to strengthen and protect the tooth."),
         ],
         faqs=[
             ("Is a root canal painful?", "Root canal treatment is done with local anesthetic, and its purpose is to relieve the pain caused by an infected or damaged nerve. Most patients feel some tenderness for a few days afterward."),
-            ("Is it better to have a root canal or pull the tooth?", f"When a tooth can be saved, keeping it is usually best for chewing and for preventing neighboring teeth from shifting. If extraction is the better choice, we’ll discuss {link('dental-implants', 'implants')}, {link('cosmetic-dentistry', 'bridges')} and {link('dentures', 'partial dentures')} to replace it."),
+            ("Is it better to have a root canal or pull the tooth?", f"When a tooth can be saved, keeping it is usually best for chewing and for preventing neighboring teeth from shifting. If extraction is the better choice, we’ll discuss {link('dental-implants', 'implants')}, {link('crowns-bridges', 'bridges')} and {link('dentures', 'partial dentures')} to replace it."),
             ("Will I need a crown after a root canal?", "For back teeth, we normally recommend a crown, because a tooth that has had a root canal can become brittle and is more likely to crack."),
             ("What happens if I wait?", "The infection won’t heal on its own. Waiting can lead to a dental abscess, more pain and a greater chance of losing the tooth."),
             ("How long will a tooth with a root canal last?", "With a proper final restoration, good home care and regular checkups, a tooth that has had a root canal can last for many years."),
         ],
-        related=["cosmetic-dentistry", "oral-surgery", "dental-implants"],
+        related=["crowns-bridges", "emergency-dentistry", "oral-surgery"],
         procedure=dict(type="TherapeuticProcedure", body="Tooth pulp and root canal",
                        how="Under local anesthesia, damaged or infected nerve tissue is removed, the canal is disinfected and sealed with a sterile filling, and the tooth is usually protected with a crown."),
     ),
 }
+
+
+# Services added from the practice's onboarding form (October 2026).
+SERVICE_CONTENT.update({
+    # ------------------------------------------------------------------
+    "crowns-bridges": dict(
+        h1="Dental Crowns, Bridges &amp; Fillings in Asheville, NC",
+        title="Dental Crowns & Bridges in Asheville, NC | Dr. Holcombe",
+        meta="Natural-looking dental crowns, bridges and tooth-colored fillings from Dr. Zachary Holcombe in Asheville, NC. We file all insurance. Call 828-684-3839.",
+        lead=[
+            "When a tooth is cracked, worn, badly decayed or missing, restorative dentistry brings back its strength, function and appearance. Dr. Holcombe provides crowns, bridges and tooth-colored fillings designed to blend in with your natural smile.",
+            "Because you see the same dentist at every visit, Dr. Holcombe gets to know your teeth over time — so he can catch small problems early and recommend the simplest repair that will last.",
+        ],
+        sections=[
+            ("Restorative Treatments We Offer", h3_list([
+                ("Dental Crowns", f"A crown is a custom cap that covers the entire visible part of a tooth. It protects a cracked, weakened or heavily filled tooth, restores its shape and improves its appearance. Crowns are also used to protect a tooth after a {link('root-canals', 'root canal')} and to restore {link('dental-implants', 'dental implants')}."),
+                ("Dental Bridges", "A bridge replaces one or more missing teeth by anchoring a replacement tooth to the teeth on each side of the gap. It restores your bite, helps you chew comfortably and keeps neighboring teeth from drifting."),
+                ("Tooth-Colored Fillings", "Resin composite fillings repair cavities and small chips while matching the natural color of your tooth, so they’re hard to notice."),
+            ])),
+            ("When Do You Need a Crown?",
+             bullets([
+                 "A large cavity that is too big for a filling",
+                 "A cracked, broken or badly worn tooth",
+                 "A tooth that has had a root canal, especially a back tooth",
+                 "A large, old filling that is breaking down",
+                 "A discolored or misshapen tooth you’d like to improve",
+                 "Restoring a dental implant",
+             ]) +
+             f"<p>If a tooth is missing, a bridge, an {link('dental-implants', 'implant restoration')} or a {link('dentures', 'partial denture')} can fill the space. Dr. Holcombe will explain the pros and cons of each.</p>"),
+            ("Caring for Crowns and Bridges", bullets([
+                "Brush twice a day and clean between your teeth daily — including under a bridge with floss threaders or a water flosser.",
+                "Avoid chewing ice, hard candy and other hard objects.",
+                f"If you grind or clench your teeth, ask about a {link('tmj-night-guards', 'custom night guard')} to protect your restorations.",
+                f"Keep up with {link('preventive-care', 'regular checkups and cleanings')} so we can check the fit and the health of the tooth underneath.",
+            ])),
+        ],
+        steps_title="Getting a Dental Crown",
+        steps=[
+            ("Exam &amp; X-rays", "Dr. Holcombe evaluates the tooth and explains your options."),
+            ("Preparing the tooth", "The tooth is numbed and gently shaped so the crown fits securely."),
+            ("Impressions &amp; temporary", "We record the shape of your tooth and protect it with a temporary crown while your custom crown is made."),
+            ("Final crown", "Your permanent crown is checked for fit, bite and color, then cemented in place."),
+        ],
+        faqs=[
+            ("How long does a dental crown last?", "With good home care and regular checkups, a crown can last many years. How long depends on your bite, habits such as grinding, and how well the tooth and gums are cared for."),
+            ("Does getting a crown hurt?", "The tooth is numbed before it’s prepared, so most patients feel pressure rather than pain. It’s normal for the tooth to feel a little sensitive for a few days afterward."),
+            ("Should I get a filling or a crown?", "Small and medium cavities can usually be repaired with a filling. When a large part of the tooth is damaged or the tooth is cracked, a crown protects it better and helps prevent it from breaking."),
+            ("How do I care for a temporary crown?", "Chew on the other side when you can, avoid sticky and hard foods, and slide floss out to the side rather than pulling it up. Call us if your temporary comes loose."),
+            ("Will insurance cover my crown?", f"Many dental plans cover part of the cost of crowns and bridges. We file all insurance for you, and we offer financing through CareCredit and Cherry. See our {link('new-patients', 'insurance and financing information')}."),
+        ],
+        related=["root-canals", "dental-implants", "cosmetic-dentistry"],
+        procedure=dict(type="TherapeuticProcedure", body="Teeth",
+                       how="The tooth is numbed and shaped, impressions are taken, a temporary crown is placed, and a custom crown or bridge is cemented at a follow-up visit. Cavities are repaired with tooth-colored composite fillings."),
+    ),
+
+    # ------------------------------------------------------------------
+    "emergency-dentistry": dict(
+        h1="Emergency Dentist in Asheville, NC",
+        title="Emergency Dentist in Asheville, NC | Dr. Zachary Holcombe",
+        meta="Toothache, broken tooth or lost crown? Call Dr. Zachary Holcombe in Asheville, NC at 828-684-3839. We’ll see you as quickly as possible.",
+        lead=[
+            "A toothache, a broken tooth or a lost crown can’t always wait for your next checkup. If you have a dental emergency, call our office at 828-684-3839 and we’ll do our best to see you as quickly as possible.",
+            "We welcome both current and new patients with urgent dental needs. When you call, let us know what happened and how you’re feeling so we can help you right away.",
+        ],
+        sections=[
+            ("Common Dental Emergencies We Treat", bullets([
+                "Severe or throbbing toothache",
+                "Chipped, cracked or broken tooth",
+                "Knocked-out or loosened tooth",
+                "Lost filling or crown",
+                "Swelling or a painful bump on the gum",
+                "Broken denture",
+                "Injury to the teeth or mouth",
+            ])),
+            ("What to Do Until You Can See Us", h3_list([
+                ("Toothache", "Rinse with warm water and gently floss to remove anything caught between your teeth. A cold compress on the outside of your cheek can ease discomfort. Don’t put aspirin directly on your gums."),
+                ("Chipped or Broken Tooth", "Save any pieces, rinse your mouth with warm water and apply a cold compress to reduce swelling. Call us right away."),
+                ("Knocked-Out Tooth", "Pick the tooth up by the crown (the part you chew with), not the root. If it’s dirty, rinse it briefly without scrubbing. If you can, gently place it back in its socket; otherwise keep it in milk. Call us immediately — the sooner it’s treated, the better the chance of saving it."),
+                ("Lost Filling or Crown", "Keep the crown if you have it and bring it with you. Avoid chewing on that side until we can see you."),
+                ("Swelling or Infection", f"Swelling can be a sign of an infection that needs prompt treatment, often with a {link('root-canals', 'root canal')} or an {link('oral-surgery', 'extraction')}. Call us as soon as possible."),
+            ])),
+            ("When to Go to the Emergency Room",
+             "<p>Go to the nearest emergency room or call 911 if you have swelling that affects your breathing or swallowing, bleeding that won’t stop, a possible broken jaw, or a serious injury to your head or face. If our office is closed and you have severe swelling or a fever, don’t wait — seek emergency medical care.</p>"),
+            ("Preventing Dental Emergencies", bullets([
+                f"Keep up with {link('preventive-care', 'regular checkups')} so small problems are found before they become painful.",
+                f"Wear a mouthguard for sports, and ask about a {link('tmj-night-guards', 'night guard')} if you grind your teeth.",
+                "Don’t chew ice, hard candy or pens, or use your teeth to open packages.",
+                f"Fix cracked teeth and worn fillings early — a {link('crowns-bridges', 'crown')} can protect a weak tooth before it breaks.",
+            ])),
+        ],
+        steps_title="What Happens When You Call",
+        steps=[
+            ("Call us", "Call 828-684-3839 and tell us what happened."),
+            ("Get advice", "We’ll let you know what to do right away and when we can see you."),
+            ("Exam &amp; X-rays", "Dr. Holcombe finds the cause of the problem."),
+            ("Relief", "We relieve your pain and treat the problem, or stabilize it and plan the next step."),
+        ],
+        faqs=[
+            ("Do you see emergency patients who aren’t current patients?", "Yes. New patients with urgent dental problems are welcome. Call our office and we’ll do our best to see you as quickly as possible."),
+            ("What are your hours for emergencies?", "Our office is open Monday through Thursday, 8:00am to 5:00pm. Call as early in the day as you can. If we’re closed and you have severe swelling, trouble breathing or swallowing, or uncontrolled bleeding, go to the nearest emergency room."),
+            ("Is a toothache an emergency?", "A toothache that is severe, lasts more than a day or two, or comes with swelling or fever should be checked as soon as possible. It can be a sign of infection."),
+            ("What should I do with a knocked-out tooth?", "Handle it by the crown, not the root, rinse it briefly if it’s dirty, and try to place it back in the socket or keep it in milk. Call us right away — time matters."),
+            ("My crown came off. Is that an emergency?", f"It’s not usually dangerous, but the tooth underneath can be sensitive and may break. Keep the crown and call us so we can recement or replace it. Learn more about {link('crowns-bridges', 'crowns')}."),
+        ],
+        related=["root-canals", "oral-surgery", "crowns-bridges"],
+        procedure=dict(type="TherapeuticProcedure", body="Teeth and mouth",
+                       how="Urgent evaluation with an exam and X-rays, followed by treatment to relieve pain and address the cause, such as recementing a crown, repairing a broken tooth, root canal treatment or extraction."),
+    ),
+
+    # ------------------------------------------------------------------
+    "tmj-night-guards": dict(
+        h1="TMJ Treatment &amp; Night Guards in Asheville, NC",
+        title="TMJ Treatment & Night Guards in Asheville, NC | Dr. Holcombe",
+        meta="Jaw pain, headaches or teeth grinding? Dr. Zachary Holcombe offers TMJ treatment and custom night guards in Asheville, NC. Call 828-684-3839.",
+        lead=[
+            "Jaw pain, morning headaches and worn or chipped teeth are often signs of clenching or grinding (bruxism) or a problem with the temporomandibular joint (TMJ) — the joint that connects your jaw to your skull.",
+            "Dr. Holcombe can evaluate your symptoms and recommend conservative treatment, including a custom-fitted night guard that protects your teeth and helps ease the strain on your jaw.",
+        ],
+        sections=[
+            ("Signs of TMJ Problems or Teeth Grinding", bullets([
+                "Jaw pain, soreness or tiredness, especially in the morning",
+                "Headaches or earaches without another clear cause",
+                "Clicking, popping or grating sounds when you open your mouth",
+                "Difficulty opening your mouth fully, or a jaw that feels stuck",
+                "Teeth that look flat, worn, chipped or cracked",
+                "Sensitive teeth or broken fillings",
+                "A partner who hears you grinding at night",
+            ])),
+            ("TMJ &amp; Grinding Treatments We Offer", h3_list([
+                ("Custom Night Guards", "A night guard is a thin, comfortable appliance made from impressions of your teeth. Worn while you sleep, it cushions your teeth from grinding and clenching forces and helps protect your jaw muscles and joints."),
+                ("TMJ Evaluation", "Dr. Holcombe examines your jaw joints, muscles and bite and talks with you about your symptoms and habits to find the most likely cause."),
+                ("Conservative TMJ Treatment", "Many TMJ symptoms improve with simple, non-surgical care — such as a custom oral appliance, adjustments to your bite where needed, and changes to daily habits."),
+                ("Repairing Worn Teeth", f"Teeth damaged by years of grinding can be rebuilt with {link('crowns-bridges', 'crowns or fillings')} once the grinding is under control."),
+            ])),
+            ("Easing Jaw Pain at Home", bullets([
+                "Eat softer foods and cut food into small pieces while your jaw is sore.",
+                "Avoid chewing gum and very chewy or hard foods.",
+                "Use a warm compress or ice pack on the sore side, whichever feels better.",
+                "Notice daytime clenching and remind yourself: lips together, teeth apart.",
+                "Wear your night guard every night and bring it to your checkups.",
+            ])),
+        ],
+        steps_title="Getting a Custom Night Guard",
+        steps=[
+            ("Evaluation", "Dr. Holcombe checks your teeth, jaw and bite and talks about your symptoms."),
+            ("Impressions", "We take impressions of your teeth for a precise, comfortable fit."),
+            ("Fitting", "We fit your night guard and make any adjustments it needs."),
+            ("Follow-up", "We check your night guard, your teeth and your symptoms at future visits."),
+        ],
+        faqs=[
+            ("Is a custom night guard better than a store-bought one?", "A custom night guard is made from impressions of your teeth, so it fits more precisely, tends to be more comfortable and stays in place better than a boil-and-bite guard. A better fit makes it easier to wear every night."),
+            ("What causes teeth grinding?", "Grinding and clenching can be linked to stress, sleep habits, an uneven bite and other factors. Many people don’t know they do it until a dentist notices wear on their teeth or a partner hears it at night."),
+            ("Can TMJ problems go away on their own?", "Some jaw pain improves with rest and simple self-care. If symptoms last more than a couple of weeks, keep coming back, or make it hard to eat or open your mouth, schedule an evaluation."),
+            ("How do I clean my night guard?", "Rinse it after each use, brush it gently with a soft toothbrush and cool water, let it dry and keep it in its case. Avoid hot water, which can warp it."),
+            ("Will a night guard protect my crowns and fillings?", f"Yes. A night guard helps protect natural teeth as well as {link('crowns-bridges', 'crowns, bridges and fillings')} from the heavy forces of grinding."),
+        ],
+        related=["crowns-bridges", "preventive-care", "emergency-dentistry"],
+        procedure=dict(type="TherapeuticProcedure", body="Temporomandibular joint, jaw muscles and teeth",
+                       how="Evaluation of the jaw joints, muscles and bite, followed by conservative treatment such as a custom-fitted night guard made from impressions of the teeth."),
+    ),
+
+    # ------------------------------------------------------------------
+    "childrens-dentistry": dict(
+        h1="Children’s Dentistry in Asheville, NC",
+        title="Children’s Dentist in Asheville, NC | Family Dentistry",
+        meta="Gentle checkups, cleanings, fluoride and sealants for kids at our family dental practice in Asheville, NC. The whole family can see Dr. Holcombe.",
+        lead=[
+            "Healthy smiles start early. As a family practice, we love caring for children and helping them build good habits — and a comfortable relationship with the dentist — that last a lifetime.",
+            "Parents and kids can see the same dentist, which makes scheduling easier and helps your child feel at home in our office.",
+        ],
+        sections=[
+            ("Dental Care for Kids", h3_list([
+                ("Checkups and Cleanings", f"Gentle exams and cleanings help keep your child’s teeth healthy and let us spot problems early. Learn more about {link('preventive-care', 'preventive care')}."),
+                ("Fluoride Treatments", "Professional fluoride strengthens enamel and helps protect growing teeth from cavities."),
+                ("Dental Sealants", "Thin, tooth-colored coatings on the chewing surfaces of back teeth help keep food and bacteria out of deep grooves where cavities often start."),
+                ("Tooth-Colored Fillings", f"If a cavity does develop, we repair it with {link('crowns-bridges', 'tooth-colored fillings')} that blend in naturally."),
+                ("Guidance for Parents", "We’ll share tips on brushing, flossing, snacks and habits like thumb-sucking, tailored to your child’s age."),
+            ])),
+            ("When Should My Child First See the Dentist?",
+             "<p>The American Dental Association recommends a child’s first dental visit within six months of the first tooth appearing, and no later than the first birthday. Early visits are short and relaxed — they help your child get used to the dental office and give us a chance to answer your questions.</p>"),
+            ("Healthy Habits at Home", bullets([
+                "Brush twice a day with a fluoride toothpaste — a smear the size of a grain of rice for children under 3, and a pea-sized amount for ages 3 to 6.",
+                "Help your child brush until they can do it well on their own.",
+                "Start flossing once teeth touch each other.",
+                "Limit sugary drinks and snacks, and avoid putting a baby to bed with a bottle of milk or juice.",
+                "Have kids wear a mouthguard for sports.",
+            ])),
+        ],
+        steps_title="Your Child’s Visit",
+        steps=[
+            ("A warm welcome", "We introduce your child to our team and the dental chair at their own pace."),
+            ("Gentle cleaning", "We clean and polish your child’s teeth."),
+            ("Exam", "Dr. Holcombe checks teeth, gums and development, with X-rays when needed."),
+            ("Protection", "Fluoride or sealants may be recommended to prevent cavities."),
+            ("Tips for home", "We share age-appropriate advice and answer your questions."),
+        ],
+        faqs=[
+            ("At what age should my child see a dentist?", "By their first birthday, or within six months of the first tooth coming in. Early visits help prevent problems and make dental visits feel normal."),
+            ("Are baby teeth really important?", "Yes. Baby teeth help children chew, speak and smile, and they hold space for the permanent teeth. Cavities in baby teeth can cause pain and infection."),
+            ("Can my whole family see Dr. Holcombe?", "Yes. We care for patients of all ages — from young children to senior adults — so the whole family can come to one office."),
+            ("Are dental X-rays safe for children?", "Dental X-rays use a very low dose of radiation, and we take them only when needed for your child’s care."),
+            ("How can I help my child feel comfortable at the dentist?", "Keep your words positive and simple, avoid sharing your own dental worries, and schedule visits at a time of day when your child is usually rested. Our team will take it slow."),
+        ],
+        related=["preventive-care", "emergency-dentistry", "crowns-bridges"],
+        procedure=dict(type="DiagnosticProcedure", body="Teeth and gums",
+                       how="Age-appropriate exams, cleanings, fluoride treatments, sealants and tooth-colored fillings for children."),
+    ),
+})
