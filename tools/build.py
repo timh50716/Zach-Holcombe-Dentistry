@@ -259,14 +259,14 @@ def header(page):
     <nav class="nav" id="site-nav" aria-label="Main">
       <ul class="nav__list">
         <li>{nav_link("index.html", "Home", page)}</li>
-        <li class="has-sub">{nav_link("about.html", "About Us", page)}
+        <li class="has-sub">{nav_link("about.html", "About Us", page)}<button class="sub-toggle" type="button" aria-expanded="false" aria-label="Show About pages"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5z"/></svg></button>
           <ul class="sub">
             <li><a href="about.html#dr-holcombe">Meet Dr. Holcombe</a></li>
             <li><a href="about.html#team">Our Team</a></li>
             <li><a href="faq.html">FAQs</a></li>
           </ul>
         </li>
-        <li class="has-sub">{nav_link("services.html", "Services", page)}
+        <li class="has-sub">{nav_link("services.html", "Services", page)}<button class="sub-toggle" type="button" aria-expanded="false" aria-label="Show Services pages"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5z"/></svg></button>
           <ul class="sub sub--wide">{svc}</ul>
         </li>
         <li>{nav_link("new-patients.html", "New Patients", page)}</li>

@@ -3,9 +3,30 @@
   var toggle = document.querySelector('.nav-toggle');
   var nav = document.getElementById('site-nav');
   if (toggle && nav) {
+    // Fit the open mobile menu between the header and the fixed bottom action bar,
+    // so it scrolls on its own and its last item is never hidden.
+    var actionBar = document.querySelector('.action-bar');
+    var fitMenu = function () {
+      if (!nav.classList.contains('is-open')) return;
+      var bar = actionBar && getComputedStyle(actionBar).display !== 'none' ? actionBar.offsetHeight : 0;
+      nav.style.maxHeight = (window.innerHeight - bar - nav.getBoundingClientRect().top) + 'px';
+    };
     toggle.addEventListener('click', function () {
       var open = nav.classList.toggle('is-open');
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) { fitMenu(); } else { nav.style.maxHeight = ''; }
+    });
+    window.addEventListener('resize', fitMenu);
+    window.addEventListener('scroll', fitMenu, { passive: true });
+
+    // Mobile: tap the arrow to expand About / Services sub-pages.
+    Array.prototype.forEach.call(nav.querySelectorAll('.sub-toggle'), function (btn) {
+      btn.addEventListener('click', function () {
+        var item = btn.parentNode;
+        var open = item.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        btn.setAttribute('aria-label', btn.getAttribute('aria-label').replace(open ? 'Show' : 'Hide', open ? 'Hide' : 'Show'));
+      });
     });
   }
 
