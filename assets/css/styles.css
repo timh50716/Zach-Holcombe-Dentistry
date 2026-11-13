@@ -372,6 +372,9 @@ p { margin: 0 0 1.1em; }
 .footer-links a { color: var(--white); text-decoration: none; }
 .footer-links a:hover { color: var(--gold-1); }
 .site-footer small { display: block; color: #9fb4bd; }
+.site-footer .credit { margin-top: 8px; font-size: .8rem; }
+.site-footer .credit a { color: var(--white); }
+.site-footer .credit a:hover { color: var(--btn-1); }
 
 /* ---------- Mobile sticky action bar ---------- */
 .action-bar { display: none; }
