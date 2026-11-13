@@ -48,10 +48,21 @@ dentalasheville.com site. Service pages add general patient-education content (i
   (`/about-us/`, `/services/`, `/forms/`, `/contact-us/`, the old PDF links) so existing rankings and
   bookmarks carry over. `/tools/` and `README.md` return 404 on the live site.
 
-Canonical URLs, schema and the sitemap all use `https://dentalasheville.com` (the `SITE` constant
-in `tools/build.py`), so the Netlify preview address won't compete with the real domain. After the
-domain points at Netlify, submit `https://dentalasheville.com/sitemap.xml` in Google Search
-Console. When content changes, update `UPDATED_ISO` / `UPDATED_TEXT` in `tools/build.py`.
+Canonical URLs, schema, the sitemap, `robots.txt` and the llms files all use
+`https://zacharysholcombe.com`, the primary domain on Netlify (`www.` redirects to it). This is the
+`SITE` constant in `tools/build.py`. Submit `https://zacharysholcombe.com/sitemap.xml` in Google
+Search Console. When content changes, update `UPDATED_ISO` / `UPDATED_TEXT` in `tools/build.py`.
+
+Also built in: a general FAQ page (`faq.html`, with `FAQPage` schema) and a six-question FAQ section
+on the home page; visible breadcrumbs on every inner page; service links in the footer; `geo`,
+`areaServed` and a service `OfferCatalog` in the `Dentist` schema; an image sitemap; and square
+favicons (`favicon.ico`, `assets/img/favicon.svg`, `assets/img/apple-touch-icon.png`) for search
+results and phone home screens.
+
+**Old domain:** `netlify.toml` 301-redirects `dentalasheville.com` and `www.dentalasheville.com`
+to the matching pages on `zacharysholcombe.com`. These rules only take effect once the practice
+regains control of dentalasheville.com (currently held by Avid New Media) and adds it to this
+Netlify site as a domain alias.
 
 ## Home page video
 

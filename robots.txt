@@ -1,6 +1,6 @@
-# Zachary Holcombe D.M.D. General Dentistry — https://dentalasheville.com
+# Zachary Holcombe D.M.D. General Dentistry — https://zacharysholcombe.com
 User-agent: *
 Allow: /
 Disallow: /tools/
 
-Sitemap: https://dentalasheville.com/sitemap.xml
+Sitemap: https://zacharysholcombe.com/sitemap.xml

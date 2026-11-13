@@ -490,3 +490,14 @@ p { margin: 0 0 1.1em; }
   .cards--two, .form-grid { grid-template-columns: 1fr; }
   .request-form { padding: 24px; }
 }
+
+/* ---------- FAQs, footer service links, local intro ---------- */
+.faq-wrap { max-width: 860px; }
+.faq-wrap .faq h3 { margin: 0; font-family: var(--sans); font-size: 1.05rem; font-weight: 700; color: var(--ink); }
+.faq-more { margin-top: 32px; }
+.footer-links--services { max-width: 900px; margin: 0 auto 22px; font-size: .85rem; }
+.footer-links--services a { color: #c9d8de; }
+.visit__intro { max-width: 720px; margin: -6px 0 28px; color: var(--muted); }
+.page-hero .breadcrumb { margin-bottom: 14px; }
+.faq-group { font-size: clamp(1.5rem, 2.6vw, 1.9rem); margin: 36px 0 6px; }
+.faq-group:first-child { margin-top: 0; }

@@ -20,6 +20,69 @@
   status = 404
   force = true
 
+# Old domain -> new domain. Takes effect once dentalasheville.com (and www) is added to this
+# Netlify site as a domain alias. Old WordPress paths go to their new pages; everything else
+# keeps its path. Must stay above the path-only rules below.
+[[redirects]]
+  from = "https://dentalasheville.com/about-us/*"
+  to = "https://zacharysholcombe.com/about.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://dentalasheville.com/services/*"
+  to = "https://zacharysholcombe.com/services.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://dentalasheville.com/forms/*"
+  to = "https://zacharysholcombe.com/new-patients.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://dentalasheville.com/contact-us/*"
+  to = "https://zacharysholcombe.com/contact.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://dentalasheville.com/*"
+  to = "https://zacharysholcombe.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.dentalasheville.com/about-us/*"
+  to = "https://zacharysholcombe.com/about.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.dentalasheville.com/services/*"
+  to = "https://zacharysholcombe.com/services.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.dentalasheville.com/forms/*"
+  to = "https://zacharysholcombe.com/new-patients.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.dentalasheville.com/contact-us/*"
+  to = "https://zacharysholcombe.com/contact.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.dentalasheville.com/*"
+  to = "https://zacharysholcombe.com/:splat"
+  status = 301
+  force = true
+
 # Old WordPress URLs from dentalasheville.com -> new pages (keeps search rankings and bookmarks).
 [[redirects]]
   from = "/about-us/*"

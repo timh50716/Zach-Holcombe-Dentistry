@@ -11,7 +11,7 @@
 - Email: office@dentalasheville.com
 - Hours: Monday–Thursday 8:00am–5:00pm; Friday–Sunday closed
 - Patients: families, children to senior adults; new patients and emergency patients welcome
-- Scheduling: call the office or request an appointment online at https://dentalasheville.com/contact.html
+- Scheduling: call the office or request an appointment online at https://zacharysholcombe.com/contact.html
 - New patient special: $225 adult comprehensive exam; the first visit includes an exam, X-rays and a cleaning
 - Insurance: files all dental insurance; out-of-network with all plans
 - Financing: CareCredit and Cherry
@@ -20,26 +20,27 @@
 
 ## Services
 
-- [Diagnostic & Preventative Care](https://dentalasheville.com/preventive-care.html): Regular exams, X-rays and professional cleanings to keep your teeth healthy and stop gum disease before it starts.
-- [Children’s Dentistry](https://dentalasheville.com/childrens-dentistry.html): Gentle checkups, cleanings, fluoride and sealants that help kids build healthy habits for life.
-- [Crowns, Bridges & Fillings](https://dentalasheville.com/crowns-bridges.html): Natural-looking crowns, bridges and tooth-colored fillings that restore strength and function.
-- [Cosmetic Dentistry](https://dentalasheville.com/cosmetic-dentistry.html): Teeth whitening, veneers and tooth-colored restorations to help you smile with confidence.
-- [Emergency Dentistry](https://dentalasheville.com/emergency-dentistry.html): Toothache, broken tooth or lost crown? Call us and we’ll see you as quickly as possible.
-- [Implant Restorations](https://dentalasheville.com/dental-implants.html): Implant crowns, bridges, snap-in dentures and fixed hybrids to replace missing teeth.
-- [Complete & Partial Dentures](https://dentalasheville.com/dentures.html): Complete and partial dentures, including implant-supported options, so you can chew and smile again.
-- [Root Canals](https://dentalasheville.com/root-canals.html): Relieve tooth pain, remove infection and save your natural tooth.
-- [Tooth Extractions](https://dentalasheville.com/oral-surgery.html): Gentle tooth extractions, surgical root tip extractions and alveoloplasty.
-- [Gum Disease Treatment](https://dentalasheville.com/periodontics.html): Scaling and root planing and other periodontal treatments to protect your gums and bone.
-- [TMJ Treatment & Night Guards](https://dentalasheville.com/tmj-night-guards.html): Relief for jaw pain and custom night guards that protect your teeth from grinding.
+- [Diagnostic & Preventative Care](https://zacharysholcombe.com/preventive-care.html): Regular exams, X-rays and professional cleanings to keep your teeth healthy and stop gum disease before it starts.
+- [Children’s Dentistry](https://zacharysholcombe.com/childrens-dentistry.html): Gentle checkups, cleanings, fluoride and sealants that help kids build healthy habits for life.
+- [Crowns, Bridges & Fillings](https://zacharysholcombe.com/crowns-bridges.html): Natural-looking crowns, bridges and tooth-colored fillings that restore strength and function.
+- [Cosmetic Dentistry](https://zacharysholcombe.com/cosmetic-dentistry.html): Teeth whitening, veneers and tooth-colored restorations to help you smile with confidence.
+- [Emergency Dentistry](https://zacharysholcombe.com/emergency-dentistry.html): Toothache, broken tooth or lost crown? Call us and we’ll see you as quickly as possible.
+- [Implant Restorations](https://zacharysholcombe.com/dental-implants.html): Implant crowns, bridges, snap-in dentures and fixed hybrids to replace missing teeth.
+- [Complete & Partial Dentures](https://zacharysholcombe.com/dentures.html): Complete and partial dentures, including implant-supported options, so you can chew and smile again.
+- [Root Canals](https://zacharysholcombe.com/root-canals.html): Relieve tooth pain, remove infection and save your natural tooth.
+- [Tooth Extractions](https://zacharysholcombe.com/oral-surgery.html): Gentle tooth extractions, surgical root tip extractions and alveoloplasty.
+- [Gum Disease Treatment](https://zacharysholcombe.com/periodontics.html): Scaling and root planing and other periodontal treatments to protect your gums and bone.
+- [TMJ Treatment & Night Guards](https://zacharysholcombe.com/tmj-night-guards.html): Relief for jaw pain and custom night guards that protect your teeth from grinding.
 
 ## Practice
 
-- [About Us](https://dentalasheville.com/about.html): Dr. Holcombe's background and our team
-- [New Patients & Forms](https://dentalasheville.com/new-patients.html): first-visit steps and downloadable patient forms
-- [Request an Appointment](https://dentalasheville.com/contact.html): online appointment request, phone, email, address, hours and directions
-- [Insurance & Financing](https://dentalasheville.com/new-patients.html#insurance): insurance filing and CareCredit / Cherry financing
-- [All Services](https://dentalasheville.com/services.html): overview of every service
+- [About Us](https://zacharysholcombe.com/about.html): Dr. Holcombe's background and our team
+- [New Patients & Forms](https://zacharysholcombe.com/new-patients.html): first-visit steps and downloadable patient forms
+- [Request an Appointment](https://zacharysholcombe.com/contact.html): online appointment request, phone, email, address, hours and directions
+- [Insurance & Financing](https://zacharysholcombe.com/new-patients.html#insurance): insurance filing and CareCredit / Cherry financing
+- [All Services](https://zacharysholcombe.com/services.html): overview of every service
+- [FAQs](https://zacharysholcombe.com/faq.html): new patients, insurance, financing, emergencies, children and scheduling
 
 ## Optional
 
-- [Full text of service pages](https://dentalasheville.com/llms-full.txt): complete service descriptions and FAQs in Markdown
+- [Full text of service pages](https://zacharysholcombe.com/llms-full.txt): complete service descriptions and FAQs in Markdown

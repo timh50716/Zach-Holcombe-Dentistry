@@ -14,9 +14,9 @@ from service_content import SERVICE_CONTENT  # noqa: E402
 OUT = Path(sys.argv[1])
 
 # Production domain used for canonical URLs, schema, sitemap and llms.txt.
-SITE = "https://dentalasheville.com"
-UPDATED_ISO = "2026-10-28"
-UPDATED_TEXT = "October 2026"
+SITE = "https://zacharysholcombe.com"  # primary domain on Netlify (www redirects here)
+UPDATED_ISO = "2026-11-13"
+UPDATED_TEXT = "November 2026"
 PRACTICE = "Zachary Holcombe D.M.D. General Dentistry"
 
 PHONE = "828-684-3839"
@@ -108,7 +108,16 @@ DENTIST = {
         "addressCountry": "US",
     },
     "hasMap": MAPS,
-    "areaServed": {"@type": "City", "name": "Asheville", "containedInPlace": {"@type": "State", "name": "North Carolina"}},
+    # Map pin from the Google Business Profile embed.
+    "geo": {"@type": "GeoCoordinates", "latitude": 35.492182, "longitude": -82.522123},
+    "areaServed": [
+        {"@type": "City", "name": "Asheville", "containedInPlace": {"@type": "State", "name": "North Carolina"}},
+        {"@type": "Place", "name": "South Asheville"},
+        {"@type": "Place", "name": "Skyland"},
+        {"@type": "Place", "name": "Arden"},
+        {"@type": "Place", "name": "Fletcher"},
+        {"@type": "Place", "name": "Biltmore Forest"},
+    ],
     "openingHoursSpecification": [{
         "@type": "OpeningHoursSpecification",
         "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday"],
@@ -119,6 +128,14 @@ DENTIST = {
     "isAcceptingNewPatients": True,
     "employee": {"@id": DOCTOR_ID},
     "knowsAbout": [plain(name) for _, name, _, _ in SERVICES],
+    "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Dental services",
+        "itemListElement": [
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": plain(name), "url": f"{SITE}/{slug}.html"}}
+            for slug, name, _, _ in SERVICES
+        ],
+    },
     "sameAs": [FB, MAPS],
 }
 
@@ -171,6 +188,48 @@ def asset_version(path):
     return hashlib.sha1((OUT / path).read_bytes()).hexdigest()[:8]
 
 
+# General practice FAQs. FAQPage schema is emitted on faq.html only; the home page shows the first few.
+GENERAL_FAQS = [
+    ("Is Dr. Holcombe accepting new patients?",
+     "Yes. New patients of all ages are always welcome. <a href=\"contact.html#request\">Request an appointment online</a> or call 828-684-3839."),
+    ("What happens at my first visit?",
+     "Your first visit includes a comprehensive exam, X-rays and a cleaning, so Dr. Holcombe can get a complete picture of your dental health. For new adult patients, the comprehensive exam is $225. See our <a href=\"new-patients.html\">new patient information</a>."),
+    ("Do you accept dental insurance?",
+     "We file all dental insurance claims for you. We are an out-of-network provider for every insurance plan, and many patients with dental benefits still choose to see us. Call our office with your plan information and we’ll help you understand your coverage. <a href=\"new-patients.html#insurance\">Learn more about insurance</a>."),
+    ("Do you offer financing or payment plans?",
+     "Yes. Flexible financing is available through CareCredit and Cherry, so you can get the care you need now and pay over time."),
+    ("Do you see dental emergencies?",
+     "Yes. If you have a toothache, a broken tooth or a lost crown, call 828-684-3839 and we’ll do our best to see you as quickly as possible. New patients with urgent needs are welcome. Learn more about <a href=\"emergency-dentistry.html\">emergency dentistry</a>."),
+    ("Do you see children?",
+     "Yes. We’re a family practice and care for patients of all ages, from young children to senior adults. Learn more about <a href=\"childrens-dentistry.html\">children’s dentistry</a>."),
+    ("Will I see the same dentist at every visit?",
+     "Yes. We’re a small, family-owned practice, so you’ll see Dr. Holcombe at every visit and he’ll get to know you and your smile over time."),
+    ("What are your office hours?",
+     "We’re open Monday through Thursday, 8:00am to 5:00pm. The office is closed Friday through Sunday."),
+    ("Where is your office?",
+     "We’re at 1944 Hendersonville Rd., Suite B-2, Asheville, NC 28803, in South Asheville. <a href=\"contact.html#visit\">Get directions and see the map</a>."),
+    ("How do I schedule an appointment?",
+     "Call our office at 828-684-3839 or <a href=\"contact.html#request\">send an appointment request online</a>. Online requests aren’t confirmed until our office calls you to set a time."),
+    ("Does Dr. Holcombe place dental implants?",
+     "Dr. Holcombe provides <a href=\"dental-implants.html\">implant restorations</a> — the crowns, bridges and dentures that attach to implants. The implant post is placed by a surgical specialist, and our office helps coordinate your care."),
+    ("What dental services do you offer?",
+     "We offer <a href=\"preventive-care.html\">cleanings and checkups</a>, <a href=\"childrens-dentistry.html\">children’s dentistry</a>, <a href=\"crowns-bridges.html\">crowns, bridges and fillings</a>, <a href=\"cosmetic-dentistry.html\">cosmetic dentistry</a>, <a href=\"emergency-dentistry.html\">emergency care</a>, <a href=\"dental-implants.html\">implant restorations</a>, <a href=\"dentures.html\">dentures</a>, <a href=\"root-canals.html\">root canals</a>, <a href=\"oral-surgery.html\">tooth extractions</a>, <a href=\"periodontics.html\">gum disease treatment</a> and <a href=\"tmj-night-guards.html\">TMJ treatment and night guards</a>."),
+]
+
+
+def faq_items(faqs):
+    return "".join(
+        f'<details class="faq"><summary><h3>{q}</h3></summary><div class="faq__a"><p>{a}</p></div></details>'
+        for q, a in faqs)
+
+
+def crumb(*trail):
+    """Visible breadcrumb: crumb(("Services", "services.html"), ("Current", None))."""
+    links = [f'<a href="index.html">Home</a>'] + [
+        f'<a href="{href}">{name}</a>' if href else f'<span aria-current="page">{name}</span>' for name, href in trail]
+    return f'<nav class="breadcrumb" aria-label="Breadcrumb">{" / ".join(links)}</nav>'
+
+
 def hours_list():
     return '<ul class="hours">' + "".join(f"<li><span>{d}</span><span>{h}</span></li>" for d, h in HOURS) + "</ul>"
 
@@ -204,6 +263,7 @@ def header(page):
           <ul class="sub">
             <li><a href="about.html#dr-holcombe">Meet Dr. Holcombe</a></li>
             <li><a href="about.html#team">Our Team</a></li>
+            <li><a href="faq.html">FAQs</a></li>
           </ul>
         </li>
         <li class="has-sub">{nav_link("services.html", "Services", page)}
@@ -229,9 +289,12 @@ def footer():
       <li><a href="about.html">About Us</a></li>
       <li><a href="services.html">Services</a></li>
       <li><a href="new-patients.html">New Patients</a></li>
-      <li><a href="contact.html">Contact Us</a></li>
+      <li><a href="new-patients.html#insurance">Insurance &amp; Financing</a></li>
+      <li><a href="faq.html">FAQs</a></li>
+      <li><a href="contact.html">Request an Appointment</a></li>
       <li><a href="{FB}" target="_blank" rel="noopener">Facebook</a></li>
     </ul>
+    <ul class="footer-links footer-links--services" aria-label="Dental services">{"".join(f'<li><a href="{slug}.html">{name}</a></li>' for slug, name, _, _ in SERVICES)}</ul>
     <small>&copy; <span id="year">2026</span> Zachary Holcombe D.M.D. General Dentistry. All rights reserved.</small>
     <small class="credit">Website designed &amp; built by <a href="https://avlmediasolutions.com/" target="_blank" rel="noopener">AVL Media Solutions</a></small>
   </div>
@@ -302,7 +365,10 @@ def page(filename, title, description, body, crumbs=(), page_type="WebPage", nod
 <meta name="description" content="{d}">
 {seo}
 <meta name="theme-color" content="#0f2e40">
-<link rel="icon" href="assets/img/logo.png">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+{'<link rel="preload" as="image" href="assets/video/hero-poster.jpg">' if filename == "index.html" else ""}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Vollkorn:wght@400;500;600&display=swap" rel="stylesheet">
@@ -325,6 +391,7 @@ def visit_section():
     return f"""<section class="section" id="visit">
   <div class="container">
     <h2>Visit Us</h2>
+    <p class="visit__intro">Conveniently located on Hendersonville Road in South Asheville, a short drive from Skyland, Arden, Fletcher and Biltmore Forest.</p>
     <div class="visit">
       <div class="visit__col">
         <p><strong>Zachary Holcombe D.M.D.</strong><br>{ADDR1}<br>{ADDR2}</p>
@@ -486,6 +553,15 @@ home = f"""<section class="hero">
   </div>
 </section>
 
+<section class="section section--mist" aria-labelledby="home-faq-title">
+  <div class="container faq-wrap">
+    <h2 id="home-faq-title" class="center">Frequently Asked Questions</h2>
+    <p class="section__intro">Quick answers about new patient visits, insurance, emergencies and more.</p>
+    {faq_items(GENERAL_FAQS[:6])}
+    <p class="center faq-more"><a class="btn" href="faq.html">See All FAQs</a></p>
+  </div>
+</section>
+
 {reviews_section()}
 
 {visit_section()}"""
@@ -516,6 +592,7 @@ def team_cards():
 
 about = f"""<section class="page-hero">
   <div class="container">
+    {crumb(("About Us", None))}
     <h1>About Us</h1>
     <p>Our entire team cares about getting to know you and building a relationship with you beyond simply fixing your teeth.</p>
   </div>
@@ -684,7 +761,7 @@ def service_page(slug, name, img, summary):
             "description": summary,
             "url": url,
             "provider": {"@id": DENTIST_ID},
-            "areaServed": DENTIST["areaServed"],
+            "areaServed": DENTIST["areaServed"][0],
         },
         {
             "@type": "FAQPage",
@@ -746,6 +823,7 @@ page("services.html", "Dental Services in Asheville, NC | Zachary Holcombe D.M.D
 # ---------------- New patients / forms ----------------
 new_patients = f"""<section class="page-hero">
   <div class="container">
+    {crumb(("New Patients", None))}
     <h1>New Patients</h1>
     <p>New smiles are always welcome! Here’s how to get ready for your first visit.</p>
   </div>
@@ -771,7 +849,7 @@ new_patients = f"""<section class="page-hero">
 <section class="section section--mist" id="forms">
   <div class="container">
     <h2 class="center">Patient Forms</h2>
-    <p class="section__intro">Download, print and complete these forms before your visit.</p>
+    <p class="section__intro">Download, print and complete these forms before your visit. Have questions? See our <a href="faq.html">frequently asked questions</a>.</p>
     <div class="downloads">
       <a class="download" href="assets/forms/patient-information-form.pdf" target="_blank" rel="noopener">{ICON_DOC}<span><strong>Patient Information Form</strong>PDF download</span></a>
       <a class="download" href="assets/forms/authorization-release-of-information.pdf" target="_blank" rel="noopener">{ICON_DOC}<span><strong>Authorization Release of Information</strong>PDF download</span></a>
@@ -809,6 +887,7 @@ page("new-patients.html", "New Patients & Forms | Asheville Dentist Dr. Holcombe
 # ---------------- Contact ----------------
 contact = f"""<section class="page-hero">
   <div class="container">
+    {crumb(("Request an Appointment", None))}
     <h1>Request an Appointment</h1>
     <p>Send us a request below or give us a call — we’ll be glad to help.</p>
   </div>
@@ -851,7 +930,44 @@ contact = f"""<section class="page-hero">
 {visit_section()}"""
 page("contact.html", "Request an Appointment | Asheville Dentist Dr. Holcombe",
      "Request an appointment with Dr. Zachary Holcombe online or call 828-684-3839. 1944 Hendersonville Rd., Suite B-2, Asheville, NC 28803.",
-     contact, crumbs=[("Contact", "contact.html")], page_type="ContactPage", priority="0.8")
+     contact, crumbs=[("Request an Appointment", "contact.html")], page_type="ContactPage", priority="0.8")
+
+# ---------------- FAQ ----------------
+FAQ_GROUPS = [
+    ("New Patients &amp; Scheduling", [0, 1, 9, 7, 8]),
+    ("Insurance &amp; Financing", [2, 3]),
+    ("Our Care &amp; Services", [4, 5, 6, 10, 11]),
+]
+assert sorted(i for _, idx in FAQ_GROUPS for i in idx) == list(range(len(GENERAL_FAQS)))
+faq_page = f"""<section class="page-hero">
+  <div class="container">
+    {crumb(("FAQs", None))}
+    <h1>Frequently Asked Questions</h1>
+    <p>Answers to common questions about new patient visits, insurance, financing, emergencies and our services.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container faq-wrap">
+    {"".join(f'<h2 class="faq-group">{title}</h2>' + faq_items([GENERAL_FAQS[i] for i in idx]) for title, idx in FAQ_GROUPS)}
+    <p class="page-meta">Have a question about a specific treatment? Each of our <a href="services.html">service pages</a> has its own FAQ section.</p>
+  </div>
+</section>
+
+{cta_band("Still Have Questions?", "Our team is happy to help. Request an appointment or give us a call.")}
+
+{visit_section()}"""
+page("faq.html", "Dental FAQs | Asheville Dentist Dr. Zachary Holcombe",
+     "Answers about new patient visits, insurance, CareCredit and Cherry financing, emergencies and children’s dentistry at our Asheville, NC dental office.",
+     faq_page, crumbs=[("FAQs", "faq.html")], priority="0.8",
+     nodes=[{
+         "@type": "FAQPage",
+         "@id": f"{abs_url('faq.html')}#faq",
+         "mainEntity": [
+             {"@type": "Question", "name": plain(q), "acceptedAnswer": {"@type": "Answer", "text": plain(a)}}
+             for q, a in GENERAL_FAQS
+         ],
+     }])
 
 # ---------------- Thank you (form confirmation) ----------------
 thanks = f"""<section class="page-hero">
@@ -900,11 +1016,21 @@ Disallow: /tools/
 Sitemap: {SITE}/sitemap.xml
 """, encoding="utf-8")
 
+def page_images(filename):
+    """Local images actually shown on a page, for the image sitemap."""
+    html = (OUT / filename).read_text(encoding="utf-8")
+    found = re.findall(r'(?:src="|url\()(assets/(?:img|video)/[^")?]+\.(?:jpg|png))', html)
+    return list(dict.fromkeys(found))
+
+
 urls = "".join(
-    f"  <url>\n    <loc>{abs_url(f)}</loc>\n    <lastmod>{UPDATED_ISO}</lastmod>\n    <priority>{prio}</priority>\n  </url>\n"
+    f"  <url>\n    <loc>{abs_url(f)}</loc>\n    <lastmod>{UPDATED_ISO}</lastmod>\n    <priority>{prio}</priority>\n"
+    + "".join(f"    <image:image><image:loc>{SITE}/{img}</image:loc></image:image>\n" for img in page_images(f))
+    + "  </url>\n"
     for f, prio in SITEMAP)
 (OUT / "sitemap.xml").write_text(
-    f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n',
+    '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"'
+    f' xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n{urls}</urlset>\n',
     encoding="utf-8")
 
 
@@ -954,6 +1080,7 @@ svc_lines = "\n".join(f"- [{plain(name)}]({abs_url(slug + '.html')}): {summary}"
 - [Request an Appointment]({abs_url('contact.html')}): online appointment request, phone, email, address, hours and directions
 - [Insurance & Financing]({abs_url('new-patients.html')}#insurance): insurance filing and CareCredit / Cherry financing
 - [All Services]({abs_url('services.html')}): overview of every service
+- [FAQs]({abs_url('faq.html')}): new patients, insurance, financing, emergencies, children and scheduling
 
 ## Optional
 
@@ -971,6 +1098,8 @@ for slug, name, _, summary in SERVICES:
         f"{i}. **{plain(t)}** — {md(d)}" for i, (t, d) in enumerate(c["steps"], 1)))
     parts.append("### Frequently Asked Questions\n\n" + "\n\n".join(f"**{plain(q)}**\n{md(a)}" for q, a in c["faqs"]))
     full.append("\n\n".join(parts))
+full.append("## Frequently Asked Questions (General)\n\nURL: " + abs_url("faq.html") + "\n\n" + "\n\n".join(
+    f"**{plain(q)}**\n{md(a)}" for q, a in GENERAL_FAQS))
 (OUT / "llms-full.txt").write_text("\n\n---\n\n".join(full) + "\n", encoding="utf-8")
 
 print("built", sorted(p.name for p in OUT.glob("*.html")), "+ robots.txt, sitemap.xml, llms.txt, llms-full.txt")
