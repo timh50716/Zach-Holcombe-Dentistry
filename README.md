@@ -91,7 +91,6 @@ For GitHub Pages: Settings → Pages → deploy from this branch, root folder.
 - **Medical review line**: if Dr. Holcombe reviews and approves the service pages, we can add a
   visible "Reviewed by Dr. Zachary Holcombe, DMD" line and `reviewedBy` / `lastReviewed` schema.
   That's a strong E-E-A-T signal, but only add it once he has actually reviewed the pages.
-- **A real photo of Dr. Holcombe** for the about page and the service-page doctor box.
 
 - **"Since 1981" stat**: based on the hygienist joining the practice in April 1981. Confirm
   the practice's actual founding year.
@@ -101,8 +100,8 @@ For GitHub Pages: Settings → Pages → deploy from this branch, root folder.
 - **Specials, new-patient offers and financing**: the target site advertises these; none are
   listed for this practice, so none are shown.
 - **Photos**: the current site only has stock images (small service photos at 300×200).
-  Real photos of Dr. Holcombe, the team and the office would improve the hero, the
-  "Meet Dr. Holcombe" section and the team cards. Logo-mark placeholders hold those spots now.
+  Dr. Holcombe's headshot is in place (home, About, every service page and the `Person`
+  schema). Photos of the team and the office would improve the hero and the team cards.
 - **Online booking / contact form**: "Book an Appointment" goes to the Contact page, which
   directs patients to call. Wire up an online scheduler or form service if the practice has one.
 - **Email, Google Business and Instagram links**: none were found. Add them if they exist.

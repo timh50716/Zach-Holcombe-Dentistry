@@ -110,6 +110,7 @@ DOCTOR = {
     "honorificPrefix": "Dr.",
     "honorificSuffix": "DMD",
     "jobTitle": "General Dentist",
+    "image": f"{SITE}/assets/img/dr-holcombe.jpg",
     "url": f"{SITE}/about.html#dr-holcombe",
     "worksFor": {"@id": DENTIST_ID},
     "alumniOf": [
@@ -379,7 +380,7 @@ home = f"""<section class="hero">
 
 <section class="section">
   <div class="container split">
-    <div class="split__media"><div class="mark-card">{MARK}<span>Zachary Holcombe D.M.D.</span>General Dentistry</div></div>
+    <div class="split__media"><figure class="portrait"><img src="assets/img/dr-holcombe.jpg" srcset="assets/img/dr-holcombe-sm.jpg 480w, assets/img/dr-holcombe.jpg 800w" sizes="(max-width: 860px) 90vw, 460px" alt="Dr. Zachary Holcombe, DMD, general dentist in Asheville, NC" width="800" height="1000" loading="lazy"><figcaption>Dr. Zachary S. Holcombe, DMD</figcaption></figure></div>
     <div>
       <h2>Welcome to Our Practice</h2>
       <p>Being patient-centered means that your positive experience, in every detail, is our primary concern. Our entire team cares about getting to know you and building a relationship with you beyond simply fixing your teeth.</p>
@@ -475,7 +476,7 @@ about = f"""<section class="page-hero">
 
 <section class="section section--mist" id="dr-holcombe" style="scroll-margin-top:110px">
   <div class="container split split--reverse">
-    <div class="split__media"><div class="mark-card">{MARK}<span>Zachary S. Holcombe, D.M.D.</span></div></div>
+    <div class="split__media"><figure class="portrait"><img src="assets/img/dr-holcombe.jpg" srcset="assets/img/dr-holcombe-sm.jpg 480w, assets/img/dr-holcombe.jpg 800w" sizes="(max-width: 860px) 90vw, 460px" alt="Portrait of Dr. Zachary S. Holcombe, DMD" width="800" height="1000" loading="lazy"><figcaption>Dr. Zachary S. Holcombe, DMD</figcaption></figure></div>
     <div>
       <h2>Meet Dr. Holcombe</h2>
       <p>Dr. Holcombe is a native of Greenville, NC who attended North Carolina State University for undergraduate studies before earning his DMD from East Carolina University. He is married to his wife Amy and they have one child. When not practicing dentistry he enjoys spending time outdoors with his friends and family.</p>
@@ -548,7 +549,7 @@ def service_aside(current):
 
 def doctor_box(name):
     return f"""<section class="doctor-box" aria-labelledby="why-title">
-  <div class="doctor-box__mark">{MARK}</div>
+  <img class="doctor-box__photo" src="assets/img/dr-holcombe-square.jpg" alt="Dr. Zachary S. Holcombe, DMD" width="320" height="320" loading="lazy">
   <div>
     <h2 id="why-title">Why Patients Choose Dr. Holcombe for {name}</h2>
     <ul class="checklist checklist--single">
