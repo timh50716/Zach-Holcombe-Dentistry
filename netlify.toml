@@ -3,10 +3,9 @@
   publish = "."
   command = ""
 
-[[headers]]
-  for = "/assets/*"
-  [headers.values]
-    Cache-Control = "public, max-age=604800"
+# No long-lived cache rule for /assets/*: Netlify's default (revalidate with ETag on every
+# request) means updated images and video show up right away. CSS/JS URLs also carry a
+# content hash (?v=...) added by tools/build.py.
 
 # Keep build tooling and docs off the public site.
 [[redirects]]

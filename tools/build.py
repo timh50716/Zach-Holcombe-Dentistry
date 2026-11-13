@@ -52,7 +52,7 @@ SERVICES = [
      "Gentle checkups, cleanings, fluoride and sealants that help kids build healthy habits for life."),
     ("crowns-bridges", "Crowns, Bridges & Fillings", None,
      "Natural-looking crowns, bridges and tooth-colored fillings that restore strength and function."),
-    ("cosmetic-dentistry", "Cosmetic Dentistry", "cosmetic.jpg",
+    ("cosmetic-dentistry", "Cosmetic Dentistry", "cosmetic-hd.jpg",
      "Teeth whitening, veneers and tooth-colored restorations to help you smile with confidence."),
     ("emergency-dentistry", "Emergency Dentistry", None,
      "Toothache, broken tooth or lost crown? Call us and we’ll see you as quickly as possible."),
@@ -165,6 +165,12 @@ PREFERRED_SOURCE_SCRIPT = '<script async src="https://news.google.com/swg/js/v1/
 SITEMAP = []  # (filename, priority) of every indexable page, filled by page()
 
 
+def asset_version(path):
+    """Short content hash appended to CSS/JS URLs so browsers fetch a fresh copy after every change."""
+    import hashlib
+    return hashlib.sha1((OUT / path).read_bytes()).hexdigest()[:8]
+
+
 def hours_list():
     return '<ul class="hours">' + "".join(f"<li><span>{d}</span><span>{h}</span></li>" for d, h in HOURS) + "</ul>"
 
@@ -235,7 +241,7 @@ def footer():
   <a href="{REQUEST}">{ICON_CAL}Request</a>
   <a href="{MAPS}" target="_blank" rel="noopener">{ICON_PIN}Find Us</a>
 </nav>
-<script src="assets/js/main.js"></script>
+<script src="assets/js/main.js?v={asset_version('assets/js/main.js')}"></script>
 """
 
 
@@ -300,7 +306,7 @@ def page(filename, title, description, body, crumbs=(), page_type="WebPage", nod
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Vollkorn:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/styles.css">
+<link rel="stylesheet" href="assets/css/styles.css?v={asset_version('assets/css/styles.css')}">
 {PREFERRED_SOURCE_SCRIPT if "google-add-preferred-source-btn" in body else ""}<script type="application/ld+json">
 {ld}
 </script>
@@ -456,7 +462,7 @@ home = f"""<section class="hero">
     <h2 class="center">Our Services</h2>
     <p class="section__intro">A wide range of services to help you achieve oral health and the smile you want, all in a comfortable and friendly environment.</p>
     <div class="tiles">
-      <a class="tile tile--lg" href="cosmetic-dentistry.html" style="background-image:url(assets/img/cosmetic.jpg)"><span class="tile__label">Cosmetic Dentistry</span></a>
+      <a class="tile tile--lg" href="cosmetic-dentistry.html" style="background-image:url(assets/img/cosmetic-hd.jpg)"><span class="tile__label">Cosmetic Dentistry</span></a>
       <a class="tile" href="preventive-care.html" style="background-image:url(assets/img/diagnostic.jpg)"><span class="tile__label">Cleanings &amp; Checkups</span></a>
       <a class="tile tile--plain" href="crowns-bridges.html"><span class="tile__label">Crowns &amp; Bridges</span></a>
       <a class="tile tile--plain" href="childrens-dentistry.html"><span class="tile__label">Children’s Dentistry</span></a>
