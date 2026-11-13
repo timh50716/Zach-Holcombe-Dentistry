@@ -440,7 +440,7 @@ home = f"""<section class="hero">
     <div class="split__media"><img src="assets/img/diagnostic.jpg" alt="Dental hygienist providing a professional cleaning" loading="lazy" width="600" height="400"></div>
     <div>
       <h2>A Dental Office Where You Feel Like Family</h2>
-      <p>We strive to do everything we can to make each appointment the best experience possible. Many of our patients have trusted this practice for decades — our business manager has been here since 1989 and our hygienist since 1981.</p>
+      <p>We strive to do everything we can to make each appointment the best experience possible. Many of our patients have trusted this practice for decades, and our team takes the time to get to know every patient who walks through our door.</p>
       <p>We take the time to make sure you have a clear understanding of what is going on and why, so you can be an active decision maker in your dental health.</p>
       <a class="btn" href="about.html">Learn More</a>
     </div>
@@ -455,6 +455,26 @@ page("index.html", "Asheville Dentist | Zachary Holcombe D.M.D. General Dentistr
      home, priority="1.0", webpage_extra={"about": {"@id": DENTIST_ID}})
 
 # ---------------- About ----------------
+# (first name shown, photo file in assets/img, role or "" if not known yet, bio html or "")
+TEAM = [
+    ("Marija Mintz", "team-marija.jpg", "Dental Assistant",
+     "<p>Marija joined our practice in 2016. She was born and raised in Macedonia where she attended dental school. She graduated from AB-Tech’s Dental Assisting program in 2006 and has been a dental assistant ever since. Being able to interact, educate, and comfort patients is the most rewarding experience to her. Marija has two boys and enjoys spending time with family and friends, cooking, traveling and outdoor activities — especially when it is warm!</p>"),
+    ("Kelly", "team-kelly.jpg", "", ""),
+    ("Tonia", "team-tonia.jpg", "", ""),
+]
+
+
+def team_cards():
+    return "".join(
+        f"""
+      <article class="member">
+        <img class="member__photo" src="assets/img/{img}" alt="{name}{', ' + role if role else ''} at {PRACTICE}" width="480" height="600" loading="lazy">
+        <div class="member__body">
+          <h3>{name}</h3>{f'<div class="member__role">{role}</div>' if role else ''}{bio}
+        </div>
+      </article>""" for name, img, role, bio in TEAM)
+
+
 about = f"""<section class="page-hero">
   <div class="container">
     <h1>About Us</h1>
@@ -495,26 +515,7 @@ about = f"""<section class="page-hero">
   <div class="container">
     <h2 class="center">Our Team</h2>
     <p class="section__intro">Friendly, experienced and dedicated to making you feel at home.</p>
-    <div class="team">
-      <article class="member">
-        <h3>Cathy Matheson</h3>
-        <div class="member__role">Business Manager &amp; Appointments Secretary</div>
-        <span class="member__since">With the practice since 1989</span>
-        <p>Cathy has worked at the practice since 1989 as the Business Manager. She is married with 2 grown sons and 3 granddaughters. She enjoys her job and the patients in the practice.</p>
-      </article>
-      <article class="member">
-        <h3>Betty Abshire</h3>
-        <div class="member__role">Registered Dental Hygienist</div>
-        <span class="member__since">With the practice since 1981</span>
-        <p>Betty graduated from the dental hygiene program at Asheville-Buncombe Technical Community College in 1980. She has been working at the practice since April 1981 and enjoys both her work and the patients! Betty has 2 children, Corey and Amy.</p>
-      </article>
-      <article class="member">
-        <h3>Marija Mintz</h3>
-        <div class="member__role">Dental Assistant</div>
-        <span class="member__since">With the practice since 2016</span>
-        <p>Marija was born and raised in Macedonia where she attended dental school. She graduated from AB-Tech’s Dental Assisting program in 2006 and has been a dental assistant ever since. Being able to interact, educate, and comfort patients is the most rewarding experience to her. Marija has two boys and enjoys spending time with family and friends, cooking, traveling and outdoor activities — especially when it is warm!</p>
-      </article>
-    </div>
+    <div class="team">{team_cards()}</div>
   </div>
 </section>
 
@@ -555,7 +556,7 @@ def doctor_box(name):
     <ul class="checklist checklist--single">
       <li>Doctor of Dental Medicine (DMD) from East Carolina University; undergraduate studies at North Carolina State University</li>
       <li>Active member of the American Dental Association, Academy of General Dentistry, North Carolina Dental Society and Buncombe County Dental Society</li>
-      <li>An established Asheville practice — our hygienist has cared for patients here since 1981 and our business manager since 1989</li>
+      <li>An established Asheville practice that families have trusted for decades, led by Dr. Holcombe since 2018</li>
       <li>Patient-centered care: we explain what’s going on and why, so you can make informed decisions about your dental health</li>
     </ul>
     <p class="doctor-box__byline">Care provided by <a href="about.html#dr-holcombe">Dr. Zachary S. Holcombe, DMD</a>, general dentist at {PRACTICE}, {ADDR1}, {ADDR2}.</p>

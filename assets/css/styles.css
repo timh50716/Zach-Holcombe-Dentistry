@@ -315,8 +315,11 @@ p { margin: 0 0 1.1em; }
 .svc-list a[aria-current="page"]::before { content: "▸ "; }
 
 /* ---------- Team ---------- */
-.team { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
-.member { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 30px; }
+.team { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; align-items: start; }
+.member { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+.member__photo { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center top; }
+.member__body { padding: 24px 28px 28px; }
+.member h3 { margin-bottom: 4px; }
 .member__role { color: var(--teal); font-weight: 700; font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 12px; }
 .member__since { display: inline-block; margin-bottom: 12px; padding: 2px 12px; border-radius: 999px; background: var(--mist); font-size: .8rem; font-weight: 600; color: var(--ink); }
 .affil { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; padding: 0; margin: 0; }
