@@ -157,6 +157,9 @@ WEBSITE = {
     "inLanguage": "en-US",
 }
 
+# Google "Preferred sources" button library; only loaded on pages that show the button.
+PREFERRED_SOURCE_SCRIPT = '<script async src="https://news.google.com/swg/js/v1/publisher.js"></script>\n'
+
 SITEMAP = []  # (filename, priority) of every indexable page, filled by page()
 
 
@@ -295,7 +298,7 @@ def page(filename, title, description, body, crumbs=(), page_type="WebPage", nod
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Vollkorn:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/styles.css">
-<script type="application/ld+json">
+{PREFERRED_SOURCE_SCRIPT if "google-add-preferred-source-btn" in body else ""}<script type="application/ld+json">
 {ld}
 </script>
 </head>
@@ -326,6 +329,7 @@ def visit_section():
       <div class="visit__map">
         <iframe class="map" title="Google Map: Zachary S Holcombe DMD, {ADDR1}, {ADDR2}" src="{MAP_EMBED}" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
         <p class="map__link"><a href="{MAPS}" target="_blank" rel="noopener">View on Google Maps &amp; read our reviews &rarr;</a></p>
+        <div class="preferred-source"><div google-add-preferred-source-btn data-theme="dark"></div></div>
       </div>
     </div>
   </div>
