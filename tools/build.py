@@ -37,10 +37,12 @@ ICON_PIN = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0
 ICON_CAL = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14zm0-12H5V6h14z"/></svg>'
 ICON_FB = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8V6.2c0-.8.2-1.2 1.4-1.2H17V2h-2.6C11.3 2 10 3.4 10 6v2H8v3h2v11h4V11h2.7l.3-3z"/></svg>'
 ICON_DOC = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zm-1 7V3.5L18.5 9zM8 13h8v2H8zm0 4h8v2H8z"/></svg>'
-# Two-peak mountain mark echoing the practice logo.
-MARK = ('<svg viewBox="0 0 120 50" aria-hidden="true"><path d="M2 46 L40 10 L58 28 L78 4 L118 46 Z" fill="#12a39a" opacity=".9"/>'
-        '<path d="M2 46 L40 10 L70 46 Z" fill="#2f8fd8"/></svg>')
-SUNBURST = ('<svg class="review__mark" viewBox="0 0 120 50" aria-hidden="true"><path d="M10 46 L46 18 L62 32 L80 12 L110 46 Z" fill="#c99a3d"/></svg>')
+# Three-peak mountain mark from the practice logo (logo blue #00AEEF, logo green #00AD8E).
+MOUNTAINS = ('<path fill="#00AEEF" d="M0.8 28 Q20 18.5 37.5 12 L50.8 30.3 Q30.2 16.9 0.8 28Z"/>'
+             '<path fill="#00AD8E" d="M41.7 16.7 Q52 10.5 63.3 7 L76.7 25 Q64.2 11.75 41.7 16.7Z"/>'
+             '<path fill="#00AEEF" d="M67.5 10 Q78 4.5 88.3 1.3 L101.7 19.7 Q88.8 11.15 67.5 10Z"/>')
+MARK = f'<svg viewBox="-1 0 104 32" aria-hidden="true">{MOUNTAINS}</svg>'
+SUNBURST = f'<svg class="review__mark" viewBox="-1 0 104 32" aria-hidden="true">{MOUNTAINS}</svg>'
 
 # (page slug, name, photo or None, one-line summary used on cards and in meta descriptions)
 SERVICES = [

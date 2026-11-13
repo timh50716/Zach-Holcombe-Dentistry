@@ -249,7 +249,7 @@ p { margin: 0 0 1.1em; }
   display: none;
 }
 .review.is-active { display: block; animation: fade .4s ease; }
-.review__mark { width: 70px; margin: 0 auto 18px; }
+.review__mark { width: 96px; margin: 0 auto 20px; }
 .review blockquote { margin: 0 0 22px; font-size: 1.05rem; }
 .review cite { font-style: normal; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; font-size: .85rem; color: var(--ink); }
 .reviews__nav { display: flex; justify-content: center; gap: 12px; margin-top: -22px; position: relative; }
