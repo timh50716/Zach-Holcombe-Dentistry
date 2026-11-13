@@ -53,6 +53,14 @@ in `tools/build.py`), so the Netlify preview address won't compete with the real
 domain points at Netlify, submit `https://dentalasheville.com/sitemap.xml` in Google Search
 Console. When content changes, update `UPDATED_ISO` / `UPDATED_TEXT` in `tools/build.py`.
 
+## Home page video
+
+The home hero plays `assets/video/hero.mp4` (1080p, desktop) or `assets/video/hero-mobile.mp4`
+(720p, screens up to 860px wide), muted and looping, with `assets/video/hero-poster.jpg` shown
+while it loads. Both files have no audio track. A pause button sits in the bottom-right corner,
+and the video stays paused for visitors who have "reduce motion" turned on. To swap the video,
+replace those files with the same names, keeping them small (under about 2 MB).
+
 ## Editing
 
 The pages are plain static HTML, with no build step needed to host them. Shared pieces

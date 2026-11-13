@@ -13,11 +13,11 @@
 <meta property="og:title" content="Asheville Dentist | Zachary Holcombe D.M.D. General Dentistry">
 <meta property="og:description" content="Family dentist in Asheville, NC. Dr. Zachary Holcombe offers cleanings, crowns, cosmetic and emergency dentistry and children’s care. New patients welcome.">
 <meta property="og:url" content="https://dentalasheville.com/">
-<meta property="og:image" content="https://dentalasheville.com/assets/img/hero.jpg">
+<meta property="og:image" content="https://dentalasheville.com/assets/video/hero-poster.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Asheville Dentist | Zachary Holcombe D.M.D. General Dentistry">
 <meta name="twitter:description" content="Family dentist in Asheville, NC. Dr. Zachary Holcombe offers cleanings, crowns, cosmetic and emergency dentistry and children’s care. New patients welcome.">
-<meta name="twitter:image" content="https://dentalasheville.com/assets/img/hero.jpg">
+<meta name="twitter:image" content="https://dentalasheville.com/assets/video/hero-poster.jpg">
 <meta name="theme-color" content="#0f2e40">
 <link rel="icon" href="assets/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,7 +34,7 @@
    "name": "Zachary Holcombe D.M.D. General Dentistry",
    "url": "https://dentalasheville.com/",
    "logo": "https://dentalasheville.com/assets/img/logo.png",
-   "image": "https://dentalasheville.com/assets/img/hero.jpg",
+   "image": "https://dentalasheville.com/assets/video/hero-poster.jpg",
    "alternateName": "Dental Asheville",
    "telephone": "+1-828-684-3839",
    "email": "office@dentalasheville.com",
@@ -209,6 +209,14 @@
 </header>
 <main id="main">
 <section class="hero">
+  <video class="hero__video" autoplay muted loop playsinline preload="auto" poster="assets/video/hero-poster.jpg" aria-hidden="true">
+    <source src="assets/video/hero-mobile.mp4" type="video/mp4" media="(max-width: 860px)">
+    <source src="assets/video/hero.mp4" type="video/mp4">
+  </video>
+  <button class="hero__toggle" type="button" aria-label="Pause background video">
+    <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zm8 0h4v16h-4z"/></svg>
+    <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>
+  </button>
   <div class="container">
     <h1 class="hero__kicker">Your Trusted Dentist in Asheville, NC</h1>
     <p class="hero__title">Quality, Patient-Centered Dental Care</p>

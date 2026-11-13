@@ -89,7 +89,7 @@ DENTIST = {
     "name": PRACTICE,
     "url": f"{SITE}/",
     "logo": f"{SITE}/assets/img/logo.png",
-    "image": f"{SITE}/assets/img/hero.jpg",
+    "image": f"{SITE}/assets/video/hero-poster.jpg",
     "alternateName": "Dental Asheville",
     "telephone": "+1-828-684-3839",
     "email": EMAIL,
@@ -273,11 +273,11 @@ def page(filename, title, description, body, crumbs=(), page_type="WebPage", nod
 <meta property="og:title" content="{t}">
 <meta property="og:description" content="{d}">
 <meta property="og:url" content="{url}">
-<meta property="og:image" content="{SITE}/assets/img/hero.jpg">
+<meta property="og:image" content="{SITE}/assets/video/hero-poster.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{t}">
 <meta name="twitter:description" content="{d}">
-<meta name="twitter:image" content="{SITE}/assets/img/hero.jpg">"""
+<meta name="twitter:image" content="{SITE}/assets/video/hero-poster.jpg">"""
     html = f"""<!doctype html>
 <html lang="en">
 <head>
@@ -375,6 +375,14 @@ def cta_band(title, text):
 
 # ---------------- Home ----------------
 home = f"""<section class="hero">
+  <video class="hero__video" autoplay muted loop playsinline preload="auto" poster="assets/video/hero-poster.jpg" aria-hidden="true">
+    <source src="assets/video/hero-mobile.mp4" type="video/mp4" media="(max-width: 860px)">
+    <source src="assets/video/hero.mp4" type="video/mp4">
+  </video>
+  <button class="hero__toggle" type="button" aria-label="Pause background video">
+    <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zm8 0h4v16h-4z"/></svg>
+    <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>
+  </button>
   <div class="container">
     <h1 class="hero__kicker">Your Trusted Dentist in Asheville, NC</h1>
     <p class="hero__title">Quality, Patient-Centered Dental Care</p>

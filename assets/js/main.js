@@ -29,6 +29,19 @@
     restart();
   }
 
+  // Hero background video: pause/play button, and stay still for reduced-motion users.
+  var video = document.querySelector('.hero__video');
+  var vToggle = document.querySelector('.hero__toggle');
+  if (video && vToggle) {
+    var setPaused = function (paused) {
+      if (paused) { video.pause(); } else { var p = video.play(); if (p && p.catch) p.catch(function () {}); }
+      vToggle.classList.toggle('is-paused', paused);
+      vToggle.setAttribute('aria-label', paused ? 'Play background video' : 'Pause background video');
+    };
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) setPaused(true);
+    vToggle.addEventListener('click', function () { setPaused(!video.paused); });
+  }
+
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
 })();
