@@ -26,8 +26,11 @@ TEL = "tel:+18286843839"
 ADDR1 = "1944 Hendersonville Rd., Suite B-2"
 ADDR2 = "Asheville, NC 28803"
 FB = "https://www.facebook.com/dentalasheville/"
-MAPS = "https://www.google.com/maps/search/?api=1&query=1944+Hendersonville+Rd+Suite+B-2+Asheville+NC+28803"
-MAP_EMBED = "https://www.google.com/maps?q=1944+Hendersonville+Rd+Suite+B-2+Asheville+NC+28803&output=embed"
+# Google Business Profile listing "Zachary S Holcombe DMD" (cid = the listing's feature id 0xb579f41cce6c68a4).
+MAPS = "https://maps.google.com/?cid=13076751397606418596"
+MAP_EMBED = ("https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3248.489115711149!2d-82.52212327633855"
+             "!3d35.49218211385563!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8859ed743cb64ebb%3A0xb579f41cce6c68a4"
+             "!2sZachary%20S%20Holcombe%20DMD!5e0!3m2!1sen!2sus!4v1794536978702!5m2!1sen!2sus")
 
 ICON_PHONE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>'
 ICON_PIN = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>'
@@ -114,7 +117,7 @@ DENTIST = {
     "isAcceptingNewPatients": True,
     "employee": {"@id": DOCTOR_ID},
     "knowsAbout": [plain(name) for _, name, _, _ in SERVICES],
-    "sameAs": [FB],
+    "sameAs": [FB, MAPS],
 }
 
 DOCTOR = {
@@ -321,7 +324,8 @@ def visit_section():
         {hours_list()}
       </div>
       <div class="visit__map">
-        <iframe class="map" title="Map to Zachary Holcombe D.M.D." src="{MAP_EMBED}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe class="map" title="Google Map: Zachary S Holcombe DMD, {ADDR1}, {ADDR2}" src="{MAP_EMBED}" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <p class="map__link"><a href="{MAPS}" target="_blank" rel="noopener">View on Google Maps &amp; read our reviews &rarr;</a></p>
       </div>
     </div>
   </div>

@@ -261,12 +261,13 @@ p { margin: 0 0 1.1em; }
 @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 
 /* ---------- Visit us ---------- */
-.visit { display: grid; grid-template-columns: 1fr 1fr 1.4fr; gap: 40px; align-items: start; }
+.visit { display: grid; grid-template-columns: 1fr 1fr 1.7fr; gap: 40px; align-items: start; }
 .visit__col + .visit__col { border-left: 3px solid var(--gold-2); padding-left: 40px; }
 .visit h3 { font-family: var(--sans); font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
 .hours { list-style: none; margin: 0; padding: 0; }
 .hours li { display: flex; justify-content: space-between; gap: 16px; max-width: 280px; }
-.map { width: 100%; height: 300px; border: 0; border-radius: var(--radius); box-shadow: var(--shadow); }
+.map { display: block; width: 100%; height: 380px; border: 0; border-radius: var(--radius); box-shadow: var(--shadow); }
+.map__link { margin: 12px 0 0; font-size: .92rem; }
 
 /* ---------- Services overview + service pages ---------- */
 .checklist { list-style: none; padding: 0; margin: 0 0 1em; columns: 2; column-gap: 32px; }
@@ -379,6 +380,7 @@ p { margin: 0 0 1.1em; }
   .tile--lg { grid-column: span 2; grid-row: span 1; }
   .visit { grid-template-columns: 1fr 1fr; }
   .visit__map { grid-column: 1 / -1; }
+  .map { height: 340px; }
   .team, .svc-grid { grid-template-columns: 1fr 1fr; }
   .svc-layout { grid-template-columns: 1fr; }
   .svc-aside { position: static; }
