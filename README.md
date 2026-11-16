@@ -121,8 +121,6 @@ For GitHub Pages: Settings → Pages → deploy from this branch, root folder.
 
 - **"Since 1981" stat**: based on the old site saying a former hygienist joined the practice in
   April 1981. Confirm the practice's actual founding year.
-- **Kelly and Tonia**: photos are on the About page; add their last names, job titles and short
-  bios to the `TEAM` list in `tools/build.py` when available.
 - **Insurance**: the target site shows carrier logos. The current site lists no accepted
   plans, so this site only promises help with insurance information. Send the list of plans
   and logos can be added.

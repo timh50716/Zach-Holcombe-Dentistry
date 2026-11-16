@@ -17,9 +17,9 @@
     <priority>0.8</priority>
     <image:image><image:loc>https://zacharysholcombe.com/assets/img/logo.png</image:loc></image:image>
     <image:image><image:loc>https://zacharysholcombe.com/assets/img/dr-holcombe.jpg</image:loc></image:image>
-    <image:image><image:loc>https://zacharysholcombe.com/assets/img/team-marija.jpg</image:loc></image:image>
-    <image:image><image:loc>https://zacharysholcombe.com/assets/img/team-kelly.jpg</image:loc></image:image>
     <image:image><image:loc>https://zacharysholcombe.com/assets/img/team-tonia.jpg</image:loc></image:image>
+    <image:image><image:loc>https://zacharysholcombe.com/assets/img/team-kelli.jpg</image:loc></image:image>
+    <image:image><image:loc>https://zacharysholcombe.com/assets/img/team-marija.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://zacharysholcombe.com/preventive-care.html</loc>

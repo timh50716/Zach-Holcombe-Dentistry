@@ -572,10 +572,17 @@ page("index.html", "Asheville Dentist | Zachary Holcombe D.M.D. General Dentistr
 # ---------------- About ----------------
 # (first name shown, photo file in assets/img, role or "" if not known yet, bio html or "")
 TEAM = [
+    ("Tonia Breedlove", "team-tonia.jpg", "Office Manager",
+     "<p>With 24 years of experience in dentistry, Tonia brings extensive knowledge and a passion for creating a welcoming experience for every patient. As Office Manager, she helps keep the practice running smoothly while ensuring patients feel comfortable, heard, and cared for. She began her career as a Dental Assistant before transitioning into scheduling, treatment coordination, and practice management.</p>"
+     "<p>Having spent much of her childhood in dental offices, Tonia understands the importance of compassionate care. She strives to make every patient feel welcomed and treated like family.</p>"
+     "<p>Outside the office, Tonia enjoys spending time outdoors with her husband, gardening, reading, and photography. She also loves supporting her children’s activities and traveling to visit family.</p>"),
+    ("Kelli", "team-kelli.jpg", "Registered Dental Hygienist",
+     "<p>Kelli is a registered dental hygienist with 31 years of experience in dentistry and a passion for helping patients achieve and maintain healthy smiles. She enjoys educating patients about oral health and helping them understand the importance of maintaining good dental habits. With extensive periodontal experience and certification in dental anesthesia, Kelli strives to make every patient feel comfortable, connected, and well cared for. She loves the welcoming office environment, working alongside a skilled team, and being part of a practice where patients feel genuinely cared about.</p>"
+     "<p>Outside the office, Kelli enjoys fitness, HYROX, bowling, sports, gardening, and farming.</p>"),
     ("Marija Mintz", "team-marija.jpg", "Dental Assistant",
-     "<p>Marija joined our practice in 2016. She was born and raised in Macedonia where she attended dental school. She graduated from AB-Tech’s Dental Assisting program in 2006 and has been a dental assistant ever since. Being able to interact, educate, and comfort patients is the most rewarding experience to her. Marija has two boys and enjoys spending time with family and friends, cooking, traveling and outdoor activities — especially when it is warm!</p>"),
-    ("Kelly", "team-kelly.jpg", "", ""),
-    ("Tonia", "team-tonia.jpg", "", ""),
+     "<p>With more than 20 years of experience in dental assisting and patient care, Marija is dedicated to making every dental visit a comfortable, positive experience. Her background includes chairside assistance, radiography, and clinical support, with training in infection control and nitrous oxide.</p>"
+     "<p>Marija enjoys building relationships with patients and making sure everyone feels cared for through patience, empathy, and compassion.</p>"
+     "<p>Outside the office, she enjoys spending time with family and friends, traveling, cooking and baking, and relaxing with a good book or movie.</p>"),
 ]
 
 
@@ -632,7 +639,7 @@ about = f"""<section class="page-hero">
 <section class="section" id="team" style="scroll-margin-top:110px">
   <div class="container">
     <h2 class="center">Our Team</h2>
-    <p class="section__intro">Friendly, experienced and dedicated to making you feel at home.</p>
+    <p class="section__intro">Together, our team brings more than 75 years of dental experience — and a commitment to making every patient feel welcomed, heard and cared for.</p>
     <div class="team">{team_cards()}</div>
   </div>
 </section>
