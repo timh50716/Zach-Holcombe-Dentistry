@@ -33,7 +33,7 @@ dentalasheville.com site. Service pages add general patient-education content (i
   helps, a numbered "what to expect" process, aftercare, a "Why patients choose Dr. Holcombe" box,
   an FAQ, and related services. Each page is about 1,100–1,300 words, with about 20 internal links
   using descriptive anchor text.
-- **E-E-A-T**: Dr. Holcombe's degree, schools and four professional memberships appear on every
+- **E-E-A-T**: Dr. Holcombe's degree and schools appear on every
   service page and in `Person` schema. The team's long service, real patient reviews, a visible
   "last updated" date, a general-information disclaimer, and the practice name, address and phone
   on every page.

@@ -159,12 +159,6 @@ DOCTOR = {
         "name": "Doctor of Dental Medicine (DMD)",
         "recognizedBy": {"@type": "CollegeOrUniversity", "name": "East Carolina University"},
     },
-    "memberOf": [
-        {"@type": "Organization", "name": "American Dental Association"},
-        {"@type": "Organization", "name": "Academy of General Dentistry"},
-        {"@type": "Organization", "name": "North Carolina Dental Society"},
-        {"@type": "Organization", "name": "Buncombe County Dental Society"},
-    ],
 }
 
 WEBSITE = {
@@ -193,7 +187,7 @@ GENERAL_FAQS = [
     ("Is Dr. Holcombe accepting new patients?",
      "Yes. New patients of all ages are always welcome. <a href=\"contact.html#request\">Request an appointment online</a> or call 828-684-3839."),
     ("What happens at my first visit?",
-     "Your first visit includes a comprehensive exam, X-rays and a cleaning, so Dr. Holcombe can get a complete picture of your dental health. For new adult patients, the comprehensive exam is $225. See our <a href=\"new-patients.html\">new patient information</a>."),
+     "Your first visit includes a comprehensive exam and X-rays, so Dr. Holcombe can get a complete picture of your dental health. For new adult patients, the comprehensive exam is $225. See our <a href=\"new-patients.html\">new patient information</a>."),
     ("Do you accept dental insurance?",
      "We file all dental insurance claims for you. We are an out-of-network provider for every insurance plan, and many patients with dental benefits still choose to see us. Call our office with your plan information and we’ll help you understand your coverage. <a href=\"new-patients.html#insurance\">Learn more about insurance</a>."),
     ("Do you offer financing or payment plans?",
@@ -412,34 +406,29 @@ def visit_section():
 </section>"""
 
 
+# Recent 5-star Google reviews (from the practice's Google Business Profile, November 2026).
 REVIEWS = [
-    ("I met Dr. Zack, What a nice guy! He made me feel very comfortable – thank you.", "Robin O."),
-    ("This is the best possible dentist office in Asheville, in North Carolina, or anywhere else you want to go. Everyone is kind and as gentle as possible. I always feel that I have a clear understanding of what is going on and why. I feel both welcomed and respected as an active decision maker in my dental health.", "Michelle R."),
-    ("Very friendly and helpful staff, got an appointment tremendously quick. Helped me acquire insurance info needed and were very on top of everything. Zach Holcombe along with reception staff are clearly very patient centered. Highly recommend.", "Andy B."),
-    ("Met Dr. Holcombe, the new dentist…He did excellent work and was very friendly and personable", "Bill C."),
-    ("Thankful to meet Dr. Zach and grateful that Glenn and Nancy have found someone to continue the legacy that they and their staff have built over the years.", "Cecelia C."),
-    ("I have been a patient of Dr. Miller for 38 years and have had excellent care on each visit. I have really enjoyed Betty my hygienist. After that many years you feel like family here.", "Jo Wolfe"),
-    ("I have always had a pleasant experience with Dr. Miller and his staff. Dr. Miller and Dr. Holcombe are very competent dentists and take great care in their work. I’m always treated well when I go in for an appointment.", "Max M."),
-    ("Liked the new dentist and his assistant. Glad to see he gives the same friendly service.", "Jerry M."),
-    ("Always a pleasure to visit your office-friendly staff and excellent care", "Dan M."),
-    ("Always good to see you and your team… thanks for everything", "Brewster W."),
+    ("Dr Holcombe is a very good and knowledgeable dentist, and the staff is very accommodating. Office is very patient friendly ☺️", "Susan D."),
+    ("Couldn't recommend enough. So friendly and helpful. Highly recommend.", "Dustin W."),
+    ("Dr. Holcombe is the best! He is so caring, personable and professional. The staff with him are the very same. Best of the Best all around! Thank you for all you do.", "Pat J."),
 ]
 
 
 def reviews_section():
     items = "".join(
-        f'<figure class="review{" is-active" if i == 0 else ""}">{SUNBURST}<blockquote>“{q}”</blockquote><figcaption><cite>{who}</cite></figcaption></figure>'
+        f'<figure class="review{" is-active" if i == 0 else ""}">{SUNBURST}<p class="review__stars" role="img" aria-label="5 out of 5 stars">★★★★★</p><blockquote>“{q}”</blockquote><figcaption><cite>{who}</cite><span class="review__source">Google review</span></figcaption></figure>'
         for i, (q, who) in enumerate(REVIEWS))
     return f"""<section class="section section--mist" aria-labelledby="reviews-title">
   <div class="container">
     <h2 id="reviews-title" class="center">Patient Testimonials</h2>
-    <p class="section__intro">What others are saying about Dr. Holcombe and our team.</p>
+    <p class="section__intro">What our patients are saying on Google.</p>
     <div class="reviews" aria-live="polite">{items}
       <div class="reviews__nav">
         <button type="button" data-review="prev" aria-label="Previous testimonial">&#10094;</button>
         <button type="button" data-review="next" aria-label="Next testimonial">&#10095;</button>
       </div>
     </div>
+    <p class="center reviews__more"><a href="{MAPS}" target="_blank" rel="noopener">Read more reviews on Google &rarr;</a></p>
   </div>
 </section>"""
 
@@ -515,7 +504,7 @@ home = f"""<section class="hero">
 <section class="section">
   <div class="container">
     <h2 class="center">New Patients Welcome</h2>
-    <p class="section__intro"><strong>New to our practice? We’d love to meet you.</strong><br>Your first visit includes an exam, X-rays and a cleaning, so we can get a complete picture of your dental health.</p>
+    <p class="section__intro"><strong>New to our practice? We’d love to meet you.</strong><br>Your first visit includes a comprehensive exam and X-rays, so we can get a complete picture of your dental health.</p>
     <div class="cards">
       <div class="card"><div class="card__head">New Patient Special</div><p class="card__price">$225</p><p>Adult comprehensive exam for new patients.</p><a class="btn" href="{REQUEST}">Request an Appointment</a></div>
       <div class="card"><div class="card__head">Dental Emergency?</div><p>Toothache, broken tooth or lost crown? New and current patients are welcome — call and we’ll see you as quickly as possible.</p><a class="btn" href="emergency-dentistry.html">Emergency Care</a></div>
@@ -576,7 +565,7 @@ TEAM = [
      "<p>With 24 years of experience in dentistry, Tonia brings extensive knowledge and a passion for creating a welcoming experience for every patient. As Office Manager, she helps keep the practice running smoothly while ensuring patients feel comfortable, heard, and cared for. She began her career as a Dental Assistant before transitioning into scheduling, treatment coordination, and practice management.</p>"
      "<p>Having spent much of her childhood in dental offices, Tonia understands the importance of compassionate care. She strives to make every patient feel welcomed and treated like family.</p>"
      "<p>Outside the office, Tonia enjoys spending time outdoors with her husband, gardening, reading, and photography. She also loves supporting her children’s activities and traveling to visit family.</p>"),
-    ("Kelli", "team-kelli.jpg", "Registered Dental Hygienist",
+    ("Kelli Barber", "team-kelli.jpg", "Registered Dental Hygienist",
      "<p>Kelli is a registered dental hygienist with 31 years of experience in dentistry and a passion for helping patients achieve and maintain healthy smiles. She enjoys educating patients about oral health and helping them understand the importance of maintaining good dental habits. With extensive periodontal experience and certification in dental anesthesia, Kelli strives to make every patient feel comfortable, connected, and well cared for. She loves the welcoming office environment, working alongside a skilled team, and being part of a practice where patients feel genuinely cared about.</p>"
      "<p>Outside the office, Kelli enjoys fitness, HYROX, bowling, sports, gardening, and farming.</p>"),
     ("Marija Mintz", "team-marija.jpg", "Dental Assistant",
@@ -625,13 +614,6 @@ about = f"""<section class="page-hero">
       <p>Dr. Holcombe is a Greenville, North Carolina, native who earned his undergraduate degree from North Carolina State University before receiving his Doctor of Dental Medicine degree from East Carolina University.</p>
       <p>He has been serving patients in his practice since taking ownership in 2018 and is grateful for the opportunity to build lasting relationships with his patients and their families. He enjoys getting to know each patient and helping them feel comfortable and confident in their dental care.</p>
       <p>Outside of the office, Dr. Holcombe enjoys spending time with his wife, Amy, and their three sons, Griffin, Turner and Hayes. When he’s not at the practice, you can find him gardening, woodworking, coaching his sons’ sports teams, or enjoying time with friends and family.</p>
-      <p>Dr. Holcombe is an active member of:</p>
-      <ul class="affil">
-        <li>American Dental Association</li>
-        <li>Academy of General Dentistry</li>
-        <li>North Carolina Dental Society</li>
-        <li>Buncombe County Dental Society</li>
-      </ul>
     </div>
   </div>
 </section>
@@ -686,7 +668,7 @@ def doctor_box(name):
     <h2 id="why-title">Why Patients Choose Dr. Holcombe for {name}</h2>
     <ul class="checklist checklist--single">
       <li>Doctor of Dental Medicine (DMD) from East Carolina University; undergraduate studies at North Carolina State University</li>
-      <li>Active member of the American Dental Association, Academy of General Dentistry, North Carolina Dental Society and Buncombe County Dental Society</li>
+      <li>Supported by an experienced team with more than 75 years of combined dental experience</li>
       <li>A small, family-owned practice where you see the same dentist every visit, led by Dr. Holcombe since 2018</li>
       <li>Personal care and long-term relationships: we take the time to listen, answer questions and explain your options</li>
     </ul>
@@ -839,7 +821,7 @@ new_patients = f"""<section class="page-hero">
 <section class="section">
   <div class="container">
     <h2 class="center">Your First Visit</h2>
-    <p class="section__intro">Your first visit includes a comprehensive <a href="preventive-care.html">exam, X-rays and a cleaning</a>. We’ll get to know you, review your health history and answer your questions. Explore all of our <a href="services.html">dental services</a>.</p>
+    <p class="section__intro">Your first visit includes a comprehensive <a href="preventive-care.html">exam and X-rays</a>. We’ll get to know you, review your health history and answer your questions. Explore all of our <a href="services.html">dental services</a>.</p>
     <div class="special">
       <p class="special__label">New Patient Special</p>
       <p class="special__price">$225</p>
@@ -1055,7 +1037,6 @@ def md(fragment):
 
 FACTS = f"""- Practice: {PRACTICE}
 - Dentist: Dr. Zachary S. Holcombe, DMD (East Carolina University; undergraduate at North Carolina State University). Took over the practice in 2018.
-- Memberships: American Dental Association, Academy of General Dentistry, North Carolina Dental Society, Buncombe County Dental Society
 - Address: {ADDR1}, {ADDR2}
 - Previous dentist: Dr. Glenn Miller, DDS (Dr. Holcombe took ownership in 2018)
 - Phone: {PHONE}
@@ -1063,7 +1044,7 @@ FACTS = f"""- Practice: {PRACTICE}
 - Hours: Monday–Thursday 8:00am–5:00pm; Friday–Sunday closed
 - Patients: families, children to senior adults; new patients and emergency patients welcome
 - Scheduling: call the office or request an appointment online at {abs_url('contact.html')}
-- New patient special: $225 adult comprehensive exam; the first visit includes an exam, X-rays and a cleaning
+- New patient special: $225 adult comprehensive exam; the first visit includes a comprehensive exam and X-rays
 - Insurance: files all dental insurance; out-of-network with all plans
 - Financing: CareCredit and Cherry
 - What sets the practice apart: small, private, family-owned; same dentist every visit; long-term patient relationships; comfortable atmosphere
