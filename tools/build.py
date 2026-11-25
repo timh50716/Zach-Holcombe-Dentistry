@@ -273,6 +273,119 @@ def header(page):
 """
 
 
+# GA4 lead events, inlined so a rebuild keeps them on every page. Clicks are delegated
+# and never call preventDefault, so tel:, mailto:, and maps links still navigate.
+# generate_lead fires once on thank-you.html only after this tab submitted the Netlify form.
+ANALYTICS_JS = r"""<script>
+(function () {
+  if (window.__ga4Leads) return;
+  window.__ga4Leads = true;
+  var LEAD_KEY = "ga4_lead";
+  var LEAD_TTL = 15 * 60 * 1000;
+
+  function send(name, params) {
+    if (typeof window.gtag !== "function") return;
+    params.transport_type = "beacon";
+    window.gtag("event", name, params);
+  }
+
+  function textOf(el) {
+    var text = (el && (el.getAttribute("aria-label") || el.textContent)) || "";
+    return text.replace(/\s+/g, " ").trim().slice(0, 100);
+  }
+
+  function eventForLink(a) {
+    var href = a.getAttribute("href");
+    if (!href) return null;
+    var url;
+    try { url = new URL(href, window.location.href); } catch (e) { return null; }
+    var text = textOf(a);
+    if (url.protocol === "tel:") return "phone_call_click";
+    if (url.protocol === "mailto:") return "email_click";
+    var host = url.hostname.replace(/^www\./, "");
+    var maps = host === "maps.google.com" || (host === "google.com" && url.pathname.indexOf("/maps") === 0);
+    if (maps) {
+      if (/review/i.test(text) && !/direction|map|find us|hendersonville/i.test(text)) return null;
+      return "directions_click";
+    }
+    if (/\/contact\.html$/i.test(url.pathname)) {
+      if (url.hash === "#request" || /request an appointment|appointment request/i.test(text)) return "booking_click";
+      if (url.hash === "#visit") return "directions_click";
+    }
+    return null;
+  }
+
+  function onActivate(e) {
+    if (typeof e.button === "number" && e.button > 1) return;
+    var node = e.target;
+    var a = node && node.closest ? node.closest("a[href]") : null;
+    if (!a) return;
+    var name = eventForLink(a);
+    if (!name) return;
+    var url;
+    try { url = new URL(a.getAttribute("href"), window.location.href); } catch (err) { return; }
+    send(name, {
+      link_url: url.href,
+      page_location: window.location.href,
+      link_text: textOf(a)
+    });
+  }
+  document.addEventListener("click", onActivate, true);
+  document.addEventListener("auxclick", onActivate, true);
+
+  document.addEventListener("submit", function (e) {
+    var form = e.target;
+    if (!form || !form.getAttribute) return;
+    var netlify = form.getAttribute("data-netlify") !== null;
+    var requestForm = /(^|\s)request-form(\s|$)/.test(form.className || "");
+    if (!netlify && !requestForm) return;
+    var honey = form.querySelector('input[name="company"]');
+    if (honey && honey.value) return;
+    var button = form.querySelector('[type="submit"]');
+    try {
+      sessionStorage.setItem(LEAD_KEY, JSON.stringify({
+        form_name: form.getAttribute("name") || "appointment-request",
+        form_destination: form.getAttribute("action") || "/thank-you.html",
+        form_page: window.location.href,
+        form_submit_text: textOf(button),
+        ts: Date.now()
+      }));
+    } catch (err) {}
+  }, true);
+
+  var leadSent = false;
+  function isThankYou() {
+    var path = window.location.pathname.replace(/\/+$/, "");
+    return path === "/thank-you" || path === "/thank-you.html";
+  }
+  function fireLead() {
+    if (!isThankYou() || leadSent) return;
+    var raw;
+    try { raw = sessionStorage.getItem(LEAD_KEY); } catch (err) { return; }
+    if (!raw) return;
+    var data;
+    try { data = JSON.parse(raw); } catch (err) { return; }
+    if (!data || !data.ts || (Date.now() - data.ts) > LEAD_TTL) {
+      try { sessionStorage.removeItem(LEAD_KEY); } catch (err2) {}
+      return;
+    }
+    leadSent = true;
+    try { sessionStorage.removeItem(LEAD_KEY); } catch (err3) {}
+    send("generate_lead", {
+      form_name: data.form_name || "appointment-request",
+      form_destination: data.form_destination || "/thank-you.html",
+      form_page: data.form_page || "",
+      form_submit_text: data.form_submit_text || "",
+      page_location: window.location.href
+    });
+  }
+  window.addEventListener("pageshow", fireLead);
+  window.addEventListener("pagehide", function () { leadSent = false; });
+})();
+</script>
+"""
+
+
 def footer():
     return f"""<footer class="site-footer">
   <div class="container">
@@ -299,7 +412,7 @@ def footer():
   <a href="{MAPS}" target="_blank" rel="noopener">{ICON_PIN}Find Us</a>
 </nav>
 <script src="assets/js/main.js?v={asset_version('assets/js/main.js')}"></script>
-"""
+{ANALYTICS_JS}"""
 
 
 def page(filename, title, description, body, crumbs=(), page_type="WebPage", nodes=(), webpage_extra=None,
